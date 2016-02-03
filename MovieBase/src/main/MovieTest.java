@@ -1,15 +1,5 @@
 package main;
-
-import movieControl.Movie;
-import movieControl.MovieBase;
-import parsers.LocalParser;
-import resources.ImageSaver;
-import parsers.WebParser;
-import processManagers.ImportMovies;
-import inputOutput.DirectoryReader;
-
-
-
+//java imports
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,8 +7,18 @@ import java.util.ArrayList;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+
+//local imports
+import movieControl.Movie;
+import movieControl.MovieBase;
+import parsers.LocalParser;
+import resources.ImageSaver;
+import parsers.WebParser;
+import processManagers.ImportMovies;
+import inputOutput.DirectoryReader;
 import gui.MainWindow;
 import inputOutput.XMLWriter;
+import resources.StaticTestObjects;
 
 public class MovieTest
 {
@@ -27,7 +27,7 @@ public class MovieTest
 	{
 		//testInputReader();
 		//testWebParserByTitle();
-		//guiTest();
+		guiTest();
 		//testDirectoryReader();
 		//xmlWriterTest();
 		
@@ -120,7 +120,32 @@ public class MovieTest
 
 	public void guiTest()
 	{
-		new MainWindow();
+		MainWindow mainWindow = new MainWindow();
+		//LocalParser lParser = new LocalParser("C:\\Program Files\\Sinnerman Software\\Movie Base\\movieData.xml");
+		//MovieBase base = new MovieBase();
+		//base.addMovies(lParser.getMovies());
+		//base.printMovies();
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		mainWindow.setSidePanel(StaticTestObjects.getTestMovie1());
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		mainWindow.setSidePanel(StaticTestObjects.getTestMovie2());
+		
+		//mainWindow.setSidePanel(base.getMovie(1));
+		//mainWindow.setSidePanel(base.getMovie(2));
 	}
 	
 	public void xmlWriterTest()
