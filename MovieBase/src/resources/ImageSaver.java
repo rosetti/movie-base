@@ -15,8 +15,15 @@ public class ImageSaver
 	
 	public static String getImage(String imageLink, String title, String imdbId)
 	{
+		title = title.replace(":",  "-");
+		
+		if (imageLink.equals("N/A"))
+		{
+			return imageLink;
+		}
+		
 		String extension = imageLink.substring(imageLink.lastIndexOf("."), imageLink.length());
-		String outputPath = SinSoftMovieAppMain.pwd + "\\images\\" + title + " " + imdbId + extension;
+		String outputPath = (SinSoftMovieAppMain.pwd + "\\images\\" + title + " " + imdbId + extension);
 		
 		
 		
