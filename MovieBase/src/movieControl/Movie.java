@@ -83,6 +83,18 @@ public class Movie
 		}
 	}
 
+	public String getListAsString(ArrayList<String> list)
+	{
+		String returnString = "";
+		
+		for (String i: list)
+		{
+			returnString += i + ", ";
+		}
+		
+		return returnString.substring(0, returnString.length()-2);
+	}
+	
 	
 	/* getters and setters
 	 * setters probably aren't that important, but are here for use anyway. 
