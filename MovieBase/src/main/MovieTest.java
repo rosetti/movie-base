@@ -33,7 +33,7 @@ public class MovieTest
 		
 		//ImportMovies importMovieProcess = new ImportMovies("K:\\Films");
 		//importMovieProcess.importMovies();
-		new ImportMovies("K:\\films").importMovies();
+		//new ImportMovies("K:\\films").importMovies();
 		//testImageDownloader();
 		
 	}
