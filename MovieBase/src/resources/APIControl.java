@@ -1,5 +1,5 @@
 package resources;
-
+//Test Comment to check Synchonising.
 //This class will create a string URL that will retrieve the necessary information
 //The String URL will be read in by the XMLparser class
 
