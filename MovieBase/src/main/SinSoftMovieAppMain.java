@@ -1,5 +1,8 @@
 package main;
 
+//java imports
+import java.io.*;
+
 public class SinSoftMovieAppMain {
 
 	public static String pwd;
@@ -8,20 +11,25 @@ public class SinSoftMovieAppMain {
 	{
 		if (args.length==0)
 		{
-			setPwd(System.getProperty("user.dir"));
+			pwd = System.getProperty("user.dir");
 		}
 		
 		else
 			
 		{
-			setPwd(args[0]);
+			pwd = args[0];
 		}
-		
+		initialise();
 		new MovieTest();
 	}
 
-	public static void setPwd(String ppwd)
+	private static void initialise()
 	{
-		pwd = ppwd;
+		File imagesDirectory = new File(pwd + "\\images");
+		
+		if (!imagesDirectory.exists())
+		{
+			imagesDirectory.mkdir();
+		}
 	}
 }
