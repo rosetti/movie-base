@@ -1,5 +1,6 @@
 package gui;
 
+//java imports
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -11,6 +12,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+//local imports
+import movieControl.Movie;
+import resources.StaticTestObjects;
+
 public class MainWindow
 {
   private JFrame frame;
@@ -20,18 +25,29 @@ public class MainWindow
   private JPanel mainBox;
   private JMenuItem addMovies;
   
+  private SidePanel sidePanel;
+  
   public MainWindow()
   {
     makeFrame();
     addMenuBar();
-    this.frame.setJMenuBar(this.menuBar);
-    this.frame.add(new TopPanel().getPanel(), "North");
-    this.frame.add(new SidePanel().getPanel(), "West");
-    this.frame.add(new MoviePanel().getPanel(), "Center");
+    frame.setJMenuBar(this.menuBar);
+    frame.add(new TopPanel().getPanel(), "North");
+    sidePanel = new SidePanel(StaticTestObjects.getTestMovie2());
+    frame.add(sidePanel.getPanel(), "West");
+    frame.add(new MoviePanel().getPanel(), "Center");
     addMenuItem();
-    this.frame.setVisible(true);
+    frame.setVisible(true);
   }
   
+  public void setSidePanel(Movie movie)
+  {
+	  sidePanel = new SidePanel(movie);
+	  frame.add(sidePanel.getPanel(), "West");
+	  frame.revalidate();
+	  System.out.println("Side Panel Method finished");
+  }
+  //
   private void makeFrame()
   {
     this.frame = new JFrame("Vin's Movie Base");
