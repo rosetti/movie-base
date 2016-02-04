@@ -27,10 +27,12 @@ public class MoviePanel
   JPanel moviePanel = new JPanel();
   JLabel image = new JLabel(new ImageIcon("H:\\Movie Posters\\Avengers.jpg"));
   SidePanel sPanel;
+  MainWindow window;
   
-  public MoviePanel(SidePanel panel)
+  public MoviePanel(MainWindow mainWindow)
   {
-	  sPanel = panel;
+	  //mainWindow.paramTest();
+	  this.window = mainWindow;
 	  this.moviePanel.setBackground(Color.DARK_GRAY);
 	  this.moviePanel.setLayout(new ModifiedFlowLayout());
 	  this.moviePane = new JScrollPane(this.moviePanel);
@@ -68,7 +70,7 @@ public class MoviePanel
     	@Override
     	public void mouseClicked(MouseEvent e) 
     	{
-    		System.out.println("CLICKED!!!" + movie.getTitle());
+    		window.setSidePanel(movie);
     	}
     });
     
