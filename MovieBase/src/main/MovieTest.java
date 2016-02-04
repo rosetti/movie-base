@@ -16,7 +16,7 @@ import resources.ImageSaver;
 import parsers.WebParser;
 import processManagers.ImportMovies;
 import inputOutput.DirectoryReader;
-import gui.MainWindow;
+import gui.*;
 import inputOutput.XMLWriter;
 import resources.StaticTestObjects;
 
@@ -27,7 +27,8 @@ public class MovieTest
 	{
 		//testInputReader();
 		//testWebParserByTitle();
-		guiTest();
+		//sidePanelTest();
+		moviePanelTest();
 		//testDirectoryReader();
 		//xmlWriterTest();
 		
@@ -118,7 +119,7 @@ public class MovieTest
 		*/
 	}
 
-	public void guiTest()
+	public void sidePanelTest()
 	{
 		MainWindow mainWindow = new MainWindow();
 		//LocalParser lParser = new LocalParser("C:\\Program Files\\Sinnerman Software\\Movie Base\\movieData.xml");
@@ -162,4 +163,14 @@ public class MovieTest
 		//System.out.println(ImageDownloader.getImage("http://i.stack.imgur.com/ILTQq.png", "Boogie Nights", 1986));
 	}
 	
+	public void moviePanelTest()
+	{
+		ArrayList<Movie> movieList = new ArrayList<>();
+		
+		movieList.add(StaticTestObjects.getTestMovie1());
+		movieList.add(StaticTestObjects.getTestMovie2());
+		
+		MainWindow mainWindow = new MainWindow();
+		mainWindow.addMoviesToPanel(movieList);
+	}
 }
