@@ -28,7 +28,10 @@ public class MovieTest
 		//testInputReader();
 		//testWebParserByTitle();
 		//sidePanelTest();
-		moviePanelTest();
+		//moviePanelTest();
+		
+		moviePanelTestFromLocal();
+		
 		//testDirectoryReader();
 		//xmlWriterTest();
 		
@@ -73,9 +76,9 @@ public class MovieTest
 	
 	private void testIsMovieInXML()
 	{
-		LocalParser parser = new LocalParser("Y:\\Development\\SinSoftMovieApplication\\bin\\main\\movieData.xml");
-		Boolean isIn = parser.isAlreadyInFileByTitle("The Italkian Job");
-		System.out.println(isIn);
+		//LocalParser parser = new LocalParser("Y:\\Development\\SinSoftMovieApplication\\bin\\main\\movieData.xml");
+		//Boolean isIn = parser.isAlreadyInFileByTitle("The Italkian Job");
+		//System.out.println(isIn);
 	}
 
 	public void testDirectoryReader()
@@ -152,7 +155,16 @@ public class MovieTest
 	public void xmlWriterTest()
 	{
 		XMLWriter writer = new XMLWriter();
-		LocalParser lParser = new LocalParser("Y:\\Development\\SinSoftMovieApplication\\bin\\main\\movieData.xml");
+		LocalParser lParser = new LocalParser();
+		try {
+			lParser.getParsedDoc("Y:\\Development\\SinSoftMovieApplication\\bin\\main\\movieData.xml");
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Movie movie = lParser.getMovies().get(0);
 		Document doc = lParser.getXMLDoc();
 		writer.addMovie(doc,movie);
@@ -172,5 +184,16 @@ public class MovieTest
 		
 		MainWindow mainWindow = new MainWindow();
 		mainWindow.addMoviesToPanel(movieList);
+	}
+	
+	public void moviePanelTestFromLocal()
+	{
+		LocalParser lParser = new LocalParser();
+		MovieBase base = new MovieBase();
+		base = lParser.readMovies(base);
+		
+		MainWindow mainWindow = new MainWindow();
+		mainWindow.addMoviesToPanel(base.getMovieBase());
+		
 	}
 }
