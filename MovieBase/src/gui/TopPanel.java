@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -107,5 +109,10 @@ public class TopPanel
   public JPanel getPanel()
   {
     return this.topBar;
+  }
+  
+  public void setPanelColour(Color color)
+  {
+	  topBar.setBackground(color);
   }
 }
