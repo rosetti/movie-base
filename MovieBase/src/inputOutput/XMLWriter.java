@@ -139,7 +139,7 @@ public class XMLWriter
 		Element countryElement = doc.createElement("country");
 		movieElement.appendChild(countryElement);
 		
-		countryElement = getMultiTags(countryElement,movie.getGenre(), "subCountry", doc);
+		countryElement = getMultiTags(countryElement,movie.getCountry(), "subCountry", doc);
 		
 		Element posterElement = doc.createElement("poster");
 		movieElement.appendChild(posterElement);
