@@ -1,14 +1,24 @@
 package gui;
 
+//java imports
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+
+//local imports
 import resources.ModifiedFlowLayout;
+import resources.StaticTestObjects;
+import movieControl.Movie;
 import resources.ResizeImage;
 
 public class MoviePanel
@@ -16,37 +26,35 @@ public class MoviePanel
   JScrollPane moviePane;
   JPanel moviePanel = new JPanel();
   JLabel image = new JLabel(new ImageIcon("H:\\Movie Posters\\Avengers.jpg"));
+  SidePanel sPanel;
   
-  public MoviePanel()
+  public MoviePanel(SidePanel panel)
   {
-    this.moviePanel.setBackground(Color.DARK_GRAY);
-    this.moviePanel.setLayout(new ModifiedFlowLayout());
-    this.moviePane = new JScrollPane(this.moviePanel);
-    makeMoviePanel();
-    addMovies();
+	  sPanel = panel;
+	  this.moviePanel.setBackground(Color.DARK_GRAY);
+	  this.moviePanel.setLayout(new ModifiedFlowLayout());
+	  this.moviePane = new JScrollPane(this.moviePanel);
+	  makeMoviePanel();
   }
   
-  public void addMovies()
+  public void addMovies(ArrayList<Movie> movieList)
   {
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\Ali.jpg", "Ali"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\Dredd.jpg", "Dredd"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\Inside Out.jpg", "Inside Out"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\Leon.jpg", "Leon"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\Michael Jackson - MoonWalker.jpg", "MJ - MoonWalker"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\The Dark Knight.jpg", "The Dark Knight"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\The Martian.jpg", "The Martian"));
-    this.moviePanel.add(getMovieIcon("C:\\Users\\Vin\\Documents\\temp\\Tron Legacy.jpg", "Tron Legacy"));
+	  for (Movie i: movieList)
+	  {
+		  moviePanel.add(getMovieIcon(i.getPoster(), i.getTitle(), i));
+	  }
+	  
   }
   
-  public JPanel getMovieIcon(String image, String title)
+  public JPanel getMovieIcon(String image, String title, Movie movie)
   {
     JPanel movieIcon = new JPanel();
     
-    ImageIcon imageIcon = new ImageIcon(image);
+    ImageIcon imageIcon = new ImageIcon(movie.getPoster());
     imageIcon = ResizeImage.resizeImage(imageIcon);
     
     JLabel imageLabel = new JLabel(imageIcon);
-    JLabel titleLabel = new JLabel(title, 0);
+    JLabel titleLabel = new JLabel(movie.getTitle(), 0);
     titleLabel.setOpaque(true);
     titleLabel.setBackground(Color.lightGray);
     titleLabel.setMinimumSize(new Dimension(20, 298));
@@ -55,7 +63,14 @@ public class MoviePanel
     movieIcon.add(imageLabel, "Center");
     movieIcon.add(titleLabel, "South");
     
-    //imageLabel.addMouseListener(new MoviePanel.1());
+    movieIcon.addMouseListener(new MouseAdapter()
+    {
+    	@Override
+    	public void mouseClicked(MouseEvent e) 
+    	{
+    		System.out.println("CLICKED!!!" + movie.getTitle());
+    	}
+    });
     
     Dimension size = new Dimension(200, 298);
     
