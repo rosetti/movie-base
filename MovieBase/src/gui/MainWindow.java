@@ -24,15 +24,15 @@ public class MainWindow
 	public MainWindow()
 	{
 
-			makeFrame();
-			frame.setJMenuBar(new MenuBar().getMenuBar());
-			frame.add(topPanel.getPanel(), "North");
-			sidePanel = new SidePanel(StaticTestObjects.getTestMovie2());
-			moviePanel = new MoviePanel(sidePanel);
-			frame.add(sidePanel.getPanel(), "West");
-			frame.add(moviePanel.getPanel(), "Center");
-			frame.setVisible(true);
-
+		makeFrame();
+		frame.setJMenuBar(new MenuBar().getMenuBar());
+		frame.add(topPanel.getPanel(), "North");
+		sidePanel = new SidePanel(StaticTestObjects.getTestMovie2());
+		moviePanel = new MoviePanel(this);
+		frame.add(sidePanel.getPanel(), "West");
+		frame.add(moviePanel.getPanel(), "Center");
+		frame.setVisible(true);
+		frame.setSize(900, 650);
 	}
   
 	public void setSidePanel(Movie movie)
@@ -40,8 +40,6 @@ public class MainWindow
 		sidePanel = new SidePanel(movie);
 		frame.add(sidePanel.getPanel(), "West");
 		frame.revalidate();
-		frame.repaint();
-		System.out.println("Side Panel Method finished");
 	}
   
 	private void makeFrame()
@@ -51,7 +49,7 @@ public class MainWindow
 		frame.setBackground(Color.black);
 		logo = new ImageIcon("Y:\\Development\\SinSoftMovieApplication\\src\\resources\\MovieBase Logo.png");
 		frame.setIconImage(logo.getImage());
-		frame.setSize(900, 650);
+
     
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new BorderLayout());
@@ -62,8 +60,4 @@ public class MainWindow
 		moviePanel.addMovies(movieList);
 	}
 
-	public void getMovieIcon()
-	{
-		
-	}
 }
