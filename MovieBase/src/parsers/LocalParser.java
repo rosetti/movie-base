@@ -10,9 +10,9 @@ import org.w3c.dom.Document;
 
 public class LocalParser extends XMLparser
 {
-	public LocalParser(String url)
+	public LocalParser()
 	{
-		super(url);
+		super(SinSoftMovieAppMain.pwd + "\\movieData.xml");
 	}
 	
 	private Movie getLocalMovie(Document xmlDoc, int id)
@@ -82,8 +82,7 @@ public class LocalParser extends XMLparser
 
 	public MovieBase readMovies(MovieBase base)
 	{
-		LocalParser parser = new LocalParser(SinSoftMovieAppMain.pwd + "\\movieData.xml");
-		base.addMovies(parser.getMovies());
+		base.addMovies(getMovies());
 		return base;
 	}
 
