@@ -46,9 +46,15 @@ public class ReadMediaInfo
 		
 		String output = buffer.toString();
 		
+		if (!output.contains("Duration"))
+		{
+			return -1;
+		}
+		
 		int dIndex = output.indexOf("Duration");
 		
 		String duration = output.substring(dIndex, output.length());
+		
 		
 		int mnIndex = duration.indexOf("mn") + 2;
 		duration = duration.substring(0, mnIndex);
