@@ -1,9 +1,13 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+
 import movieControl.MovieBase;
 
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import parsers.LocalParser;
 
@@ -13,7 +17,16 @@ public class PopulateMovieBaseFromLocal {
 	public void test() 
 	{
 		MovieBase base = new MovieBase();
-		LocalParser parser = new LocalParser("C:\\Program Files\\Sinnerman Software\\Movie Base"+  "\\movieData.xml");
+		LocalParser parser = new LocalParser();
+		try {
+			parser.getParsedDoc("C:\\Program Files\\Sinnerman Software\\Movie Base"+  "\\movieData.xml");
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		base.addMovies(parser.getMovies());
 		
 		String movieOne = base.getMovie(0).getTitle();
