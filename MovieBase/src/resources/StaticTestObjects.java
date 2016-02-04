@@ -102,4 +102,52 @@ public class StaticTestObjects
 		return movie;
 	}
 	
+	public static Movie getTestMovie3()
+	{
+		Movie movie = new Movie();
+		
+		movie.setTitle("21 Jump Street");
+		movie.setYear(2012);
+		movie.setRating("R");
+		movie.setRuntime(109);
+		
+		ArrayList<String> genre = new ArrayList<>();
+		genre.add("Action");
+		genre.add("Comedy");
+		genre.add("Crime");
+		movie.setGenre(genre);
+		
+		ArrayList<String> director = new ArrayList<>();
+		director.add("Phil Lord");
+		movie.setDirector(director);
+		
+		ArrayList<String> writer = new ArrayList<>();
+		writer.add("Michael Bacall (screenplay)");
+		writer.add("Jonah Hill ");
+		movie.setWriter(writer);
+		
+		ArrayList<String> actor = new ArrayList<>();
+		actor.add("Jonah Hill");
+		actor.add("Channing Tatum");
+		actor.add("Brie Larson");
+		actor.add("Dave Franco");
+		movie.setActor(actor);
+		
+		movie.setPlot("A pair of underachieving cops are sent back to a local high school to blend in and bring down a synthetic drug ring.");
+		
+		ArrayList<String> country = new ArrayList<>();
+		country.add("USA");
+		movie.setCountry(country);
+		
+		movie.setPoster("C:\\Program Files\\Sinnerman Software\\Movie Base\\images\\21 Jump Street tt1232829.jpg");
+		movie.setMetaScore(69);
+		movie.setImdbScore((float) 7.2);
+		movie.setImdbId("tt1232829");
+		movie.setWatched(true);
+		movie.setFileType(".avi");
+		movie.setFileLocation("K:\films\21 Jump Street.avi");
+		
+		return movie;
+	}
+	
 }
