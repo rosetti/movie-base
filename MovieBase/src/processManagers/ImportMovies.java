@@ -27,7 +27,7 @@ public class ImportMovies
 		outputPath = SinSoftMovieAppMain.pwd + "\\movieData.xml";
 	}
 	
-	public void importMovies()
+	public void importMoviesFromWeb()
 	{
 		DirectoryReader directoryReader = new DirectoryReader(inputPath);
 		directoryReader.readDirectory();
@@ -35,12 +35,14 @@ public class ImportMovies
 		WebParser wParser = null;
 
 		MovieBase base = new MovieBase();
-		int count = 0;
+		int goodCount = 0;
+		int badCount = 0;
+		ArrayList<Movie> moviesNotFound = new ArrayList<>();
+		
 		for (File i: directoryReader.getFileList())
 		{
 			String searchUrl = APIControl.getSearchTitle(directoryReader.cleanMovieName(i).getTitle());
 			wParser = new WebParser(searchUrl);
-			ArrayList<Movie> moviesNotFound = new ArrayList<>();
 			Movie retrievedMovie = directoryReader.cleanMovieName(i);
 			
 
@@ -51,13 +53,16 @@ public class ImportMovies
 			
 			else 
 			{
-				System.out.println("Could not get info for " + retrievedMovie.getTitle());
+				//System.out.println("Could not get info for " + retrievedMovie.getTitle());
 				moviesNotFound.add(retrievedMovie);
+				badCount++;
 			}
 			
-			count++;
+			System.out.println(goodCount + ". " + "Successfully Read: " + retrievedMovie.getTitle());
+			goodCount++;
 			
-			if (count ==10)
+			
+			if (goodCount + badCount ==200)
 			{
 				break;
 			}
@@ -74,7 +79,7 @@ public class ImportMovies
 			writer.makeBlankXMLFile(outputPath);
 		}
 		
-		LocalParser lParser = new LocalParser(outputPath);
+		LocalParser lParser = new LocalParser();
 		Document xmlImportDoc = lParser.getXMLDoc();
 		
 		for (Movie i: base.getMovieBase())
@@ -88,6 +93,18 @@ public class ImportMovies
 		}
 		
 		writer.outputXML(xmlImportDoc, outputPath);
+		
+		System.out.println("--------------------------------------------------");
+		
+		System.out.println("Import process Completed");
+		System.out.println(goodCount + " Movies imported");
+		System.out.println(badCount + " Movies failed");
+		
+		for (Movie i: moviesNotFound)
+		{
+			System.out.println(i.getTitle());
+		}
+		
 	}
 	
 	
