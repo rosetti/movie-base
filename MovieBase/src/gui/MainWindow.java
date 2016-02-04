@@ -4,13 +4,9 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.io.PrintStream;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import java.util.ArrayList;
 
 //local imports
 import movieControl.Movie;
@@ -22,16 +18,21 @@ public class MainWindow
 	private Container contentPane;
 	private SidePanel sidePanel;
 	private ImageIcon logo;
-  
+	private TopPanel topPanel = new TopPanel();
+	private MoviePanel moviePanel; // = new MoviePanel();
+	
 	public MainWindow()
 	{
-		makeFrame();
-		frame.setJMenuBar(new MenuBar().getMenuBar());
-		frame.add(new TopPanel().getPanel(), "North");
-		sidePanel = new SidePanel(StaticTestObjects.getTestMovie2());
-		frame.add(sidePanel.getPanel(), "West");
-		frame.add(new MoviePanel().getPanel(), "Center");
-		frame.setVisible(true);
+
+			makeFrame();
+			frame.setJMenuBar(new MenuBar().getMenuBar());
+			frame.add(topPanel.getPanel(), "North");
+			sidePanel = new SidePanel(StaticTestObjects.getTestMovie2());
+			moviePanel = new MoviePanel(sidePanel);
+			frame.add(sidePanel.getPanel(), "West");
+			frame.add(moviePanel.getPanel(), "Center");
+			frame.setVisible(true);
+
 	}
   
 	public void setSidePanel(Movie movie)
@@ -39,6 +40,7 @@ public class MainWindow
 		sidePanel = new SidePanel(movie);
 		frame.add(sidePanel.getPanel(), "West");
 		frame.revalidate();
+		frame.repaint();
 		System.out.println("Side Panel Method finished");
 	}
   
@@ -55,4 +57,13 @@ public class MainWindow
 		contentPane.setLayout(new BorderLayout());
 	}
   
+	public void addMoviesToPanel(ArrayList<Movie> movieList)
+	{
+		moviePanel.addMovies(movieList);
+	}
+
+	public void getMovieIcon()
+	{
+		
+	}
 }
