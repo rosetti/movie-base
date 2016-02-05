@@ -12,7 +12,12 @@ public class LocalParser extends XMLparser
 {
 	public LocalParser()
 	{
-		super(SinSoftMovieAppMain.pwd + "\\movieData.xml");
+		super(SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "movieData.xml");
+	}
+	
+	public LocalParser(String uri)
+	{
+		super(uri);
 	}
 	
 	private Movie getLocalMovie(Document xmlDoc, int id)
