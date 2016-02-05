@@ -3,6 +3,7 @@ package gui;
 //java imports
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -39,7 +40,26 @@ public class MainWindow
 	{
 		sidePanel = new SidePanel(movie);
 		//I need to remove the old panel.
-		frame.remove(sidePanel.getPanel());
+		//frame.remove(sidePanel.getPanel());
+		//System.out.println("sleeping now");
+		Component[] components = frame.getRootPane().getComponents();
+		int index = 0;
+		Component gotComponent=null;
+		for (Component i: components)
+		{
+			if (index==1)
+			{
+				gotComponent = i;
+				System.out.println(i.getName());
+			}
+			//System.out.println(i.toString());
+			//System.out.println(i.getName());
+			index++;
+		}
+		
+		//System.out.println("and we're back");
+		frame.remove(gotComponent);
+		sidePanel = new SidePanel(movie);
 		frame.add(sidePanel.getPanel(), "West");
 		frame.revalidate();
 	}
