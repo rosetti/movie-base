@@ -194,6 +194,7 @@ public class MovieTest
 		
 		MainWindow mainWindow = new MainWindow();
 		mainWindow.addMoviesToPanel(base.getMovieBase());
+		mainWindow.refreshByResize();
 		
 	}
 }
