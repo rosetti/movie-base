@@ -24,7 +24,7 @@ public class ImportMovies
 	public ImportMovies(String inputPath)
 	{
 		this.inputPath = inputPath;
-		outputPath = SinSoftMovieAppMain.pwd + "\\movieData.xml";
+		outputPath = SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "movieData.xml";
 	}
 	
 	public void importMoviesFromWeb()
