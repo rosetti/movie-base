@@ -27,7 +27,7 @@ public class MainWindow
 		makeFrame();
 		frame.setJMenuBar(new MenuBar().getMenuBar());
 		frame.add(topPanel.getPanel(), "North");
-		sidePanel = new SidePanel(StaticTestObjects.getTestMovie2());
+		sidePanel = new SidePanel(new Movie());
 		moviePanel = new MoviePanel(this);
 		frame.add(sidePanel.getPanel(), "West");
 		frame.add(moviePanel.getPanel(), "Center");
@@ -58,6 +58,11 @@ public class MainWindow
 	public void addMoviesToPanel(ArrayList<Movie> movieList)
 	{
 		moviePanel.addMovies(movieList);
+	}
+	
+	public void refreshByResize()
+	{
+		frame.setSize(900, 650);
 	}
 
 }
