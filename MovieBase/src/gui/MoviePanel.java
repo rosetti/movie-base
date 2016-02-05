@@ -48,7 +48,7 @@ public class MoviePanel
 	  
   }
   
-  public JPanel getMovieIcon(String image, String title, Movie movie)
+  public JPanel getMovieIcon(String image, String title, final Movie movie)
   {
     JPanel movieIcon = new JPanel();
     
