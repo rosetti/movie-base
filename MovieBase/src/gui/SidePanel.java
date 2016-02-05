@@ -2,12 +2,15 @@ package gui;
 
 //java imports
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 
 //local imports
@@ -20,7 +23,7 @@ public class SidePanel
   private JPanel sidePanel;
   private JPanel posterPanel = new JPanel();
   private JPanel detailContentPanel = new JPanel();
-  private JScrollPane detailPanel = new JScrollPane(this.detailContentPanel);
+  private JScrollPane detailPanel = new JScrollPane(this.detailContentPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
   private JLabel imageLabel;
   
   public SidePanel(Movie movie)
@@ -29,12 +32,19 @@ public class SidePanel
     sidePanel.setBackground(Theme.mainBackground);
     sidePanel.setPreferredSize(new Dimension(300, 200));
     sidePanel.setLayout(new BorderLayout());
-    //Movie film = StaticTestObjects.getTestMovie1();
     populateSidePanelContents();
-    addMovieDetail(movie);
+    
+    if (movie.getTitle().isEmpty())
+    {
+    	sidePanel.setVisible(false);
+    }
+    
+    else
+    {
+    	addMovieDetail(movie);	
+    }
+    
   }
-  
-  public SidePanel(){}
   
   public JPanel getPanel()
   {
@@ -60,31 +70,54 @@ public class SidePanel
   
   void addMovieDetail(Movie movie)
   {
-    detailContentPanel.add(new JLabel("Title: " + movie.getTitle()));
-    detailContentPanel.add(new JLabel("Year: " + movie.getYear()));
-    detailContentPanel.add(new JLabel("Rating: " + movie.getTitle()));
-    detailContentPanel.add(new JLabel("Runtime: " + movie.getTitle()));
-    detailContentPanel.add(new JLabel("Genre: " + movie.getListAsString(movie.getGenre())));
-    detailContentPanel.add(new JLabel("Director: " + movie.getListAsString(movie.getDirector())));
-    detailContentPanel.add(new JLabel("Writer: " + movie.getListAsString(movie.getWriter())));
-    detailContentPanel.add(new JLabel("Genre: " + movie.getListAsString(movie.getGenre())));
-    detailContentPanel.add(new JLabel("Cast: " + movie.getListAsString(movie.getActor())));
-    detailContentPanel.add(new JLabel("Plot: " + movie.getPlot()));
-    detailContentPanel.add(new JLabel("Country: " + movie.getListAsString(movie.getCountry())));
+	  detailContentPanel.add(getJTextArea("Title: " + movie.getTitle()));
+	  detailContentPanel.add(getJTextArea("Year: " + movie.getYear()));
+	  detailContentPanel.add(getJTextArea("Rating: " + movie.getTitle()));
+	  detailContentPanel.add(getJTextArea("Runtime: " + movie.getTitle()));
+	  detailContentPanel.add(getJTextArea("Genre: " + movie.getListAsString(movie.getGenre())));
+	  detailContentPanel.add(getJTextArea("Director: " + movie.getListAsString(movie.getDirector())));
+	  detailContentPanel.add(getJTextArea("Writer: " + movie.getListAsString(movie.getWriter())));
+	  detailContentPanel.add(getJTextArea("Genre: " + movie.getListAsString(movie.getGenre())));
+	  detailContentPanel.add(getJTextArea("Cast: " + movie.getListAsString(movie.getActor())));
+	  detailContentPanel.add(getJTextArea("Plot: " + movie.getPlot()));
+	  detailContentPanel.add(getJTextArea("Country: " + movie.getListAsString(movie.getCountry())));
     
-    ImageIcon poster = new ImageIcon(movie.getPoster());
-    poster = ResizeImage.resizeImage(poster);
-    JLabel posterLabel = new JLabel(poster);
-    posterPanel.add(posterLabel);
+	  ImageIcon poster = new ImageIcon(movie.getPoster());
+	  poster = ResizeImage.resizeImage(poster);
+	  JLabel posterLabel = new JLabel(poster);
+	  posterPanel.add(posterLabel);
     
-    detailContentPanel.add(new JLabel("Meta Score: " + movie.getMetaScore()));
-    detailContentPanel.add(new JLabel("IMDb Score: " + movie.getImdbScore()));
-    detailContentPanel.add(new JLabel("Watched: " + movie.isWatched()));
-    detailContentPanel.add(new JLabel("Meta Score: " + movie.getMetaScore()));
-    detailContentPanel.add(new JLabel("File Type: " + movie.getFileType()));
-    detailContentPanel.add(new JLabel("File Path: " + movie.getFileLocation()));
-    sidePanel.add(this.posterPanel, "North");
-    sidePanel.add(this.detailPanel, "Center");
+	  detailContentPanel.add(getJTextArea("Meta Score: " + movie.getMetaScore()));
+	  detailContentPanel.add(getJTextArea("IMDb Score: " + movie.getImdbScore()));
+	  detailContentPanel.add(getJTextArea("Watched: " + movie.isWatched()));
+	  detailContentPanel.add(getJTextArea("Meta Score: " + movie.getMetaScore()));
+	  detailContentPanel.add(getJTextArea("File Type: " + movie.getFileType()));
+	  detailContentPanel.add(getJTextArea("File Path: " + movie.getFileLocation()));
+	  sidePanel.add(this.posterPanel, "North");
+	  sidePanel.add(this.detailPanel, "Center");
+  }
+  
+  private JTextArea getJTextArea(String text)
+  {
+	  JTextArea tBox1 = new JTextArea();
+	  tBox1.setEditable(false);
+	  tBox1.setText(text);
+	  tBox1.setLineWrap(true);
+	  tBox1.setWrapStyleWord(true);
+	  tBox1.setBackground(Color.LIGHT_GRAY);
+	  
+	  int height = 17; 
+	  int charCount = text.length();
+	  
+	  if (charCount>=45)
+	  {
+		  height = (charCount/45) * 17;
+	  }
+	  
+	  tBox1.setPreferredSize(new Dimension(200, height));
+
+	  
+	  return tBox1;
   }
   
   public JLabel getImageLabel()
