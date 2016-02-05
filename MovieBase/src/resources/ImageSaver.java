@@ -23,7 +23,7 @@ public class ImageSaver
 		}
 		
 		String extension = imageLink.substring(imageLink.lastIndexOf("."), imageLink.length());
-		String outputPath = (SinSoftMovieAppMain.pwd + "\\images\\" + title + " " + imdbId + extension);
+		String outputPath = (SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "images" + SinSoftMovieAppMain.slash + title + " " + imdbId + extension);
 		
 		
 		
