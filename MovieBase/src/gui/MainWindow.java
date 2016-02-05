@@ -38,6 +38,8 @@ public class MainWindow
 	public void setSidePanel(Movie movie)
 	{
 		sidePanel = new SidePanel(movie);
+		//I need to remove the old panel.
+		frame.remove(sidePanel.getPanel());
 		frame.add(sidePanel.getPanel(), "West");
 		frame.revalidate();
 	}
