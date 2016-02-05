@@ -112,6 +112,11 @@ public class SidePanel
 	  if (charCount>=45)
 	  {
 		  height = (charCount/45) * 17;
+		  
+		  if (charCount%45>=1)
+		  {
+			  height += 17;
+		  }
 	  }
 	  
 	  tBox1.setPreferredSize(new Dimension(200, height));
