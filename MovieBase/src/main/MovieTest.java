@@ -35,8 +35,8 @@ public class MovieTest
 		//testDirectoryReader();
 		//xmlWriterTest();
 		
-		//ImportMovies importMovieProcess = new ImportMovies("K:\\Films");
-		//importMovieProcess.importMovies();
+		//ImportMovies importMovieProcess = new ImportMovies("/home/vin/Documents/movies");
+		//importMovieProcess.importMoviesFromWeb();
 		//new ImportMovies("K:\\films").importMovies();
 		//testImageDownloader();
 		
