@@ -4,14 +4,15 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
+import javax.swing.JCheckBox;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
+import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 //local imports
 import movieControl.Movie;
@@ -24,13 +25,13 @@ public class SidePanel
   private JPanel posterPanel = new JPanel();
   private JPanel detailContentPanel = new JPanel();
   private JScrollPane detailPanel = new JScrollPane(this.detailContentPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-  private JLabel imageLabel;
   
   public SidePanel(Movie movie)
   {
     sidePanel = new JPanel();
+    sidePanel.setBorder(Theme.standardBorder);
     sidePanel.setBackground(Theme.mainBackground);
-    sidePanel.setPreferredSize(new Dimension(300, 200));
+    sidePanel.setPreferredSize(new Dimension(400, 200));
     sidePanel.setLayout(new BorderLayout());
     populateSidePanelContents();
     
@@ -56,12 +57,15 @@ public class SidePanel
     posterPanel.setPreferredSize(new Dimension(400, 320));
     posterPanel.setMaximumSize(new Dimension(400, 320));
     posterPanel.setMinimumSize(new Dimension(400, 320));
+    posterPanel.setBorder(Theme.internalBorder);
     
     detailPanel.setPreferredSize(new Dimension(400, 200));
     detailPanel.setMaximumSize(new Dimension(400, 200));
     detailPanel.setMinimumSize(new Dimension(100, 200));
+    detailPanel.setBorder(Theme.internalBorder);
     
     detailContentPanel.setLayout(new BoxLayout(detailContentPanel, 1));
+    //detailContentPanel.setLayout(new GridLayout(0,2));
     
     //addMovieDetail(movie);
     posterPanel.setBackground(Theme.mainBackground);
@@ -70,65 +74,88 @@ public class SidePanel
   
   void addMovieDetail(Movie movie)
   {
-	  detailContentPanel.add(new JLabel("Title: " + movie.getTitle()));
-	  detailContentPanel.add(new JLabel("Year: " + movie.getYear()));
-	  detailContentPanel.add(new JLabel("Rating: " + movie.getTitle()));
-	  detailContentPanel.add(new JLabel("Runtime: " + movie.getTitle()));
-	  detailContentPanel.add(new JLabel("Genre: " + movie.getListAsString(movie.getGenre())));
-	  detailContentPanel.add(new JLabel("Director: " + movie.getListAsString(movie.getDirector())));
-	  detailContentPanel.add(new JLabel("Writer: " + movie.getListAsString(movie.getWriter())));
-	  detailContentPanel.add(new JLabel("Genre: " + movie.getListAsString(movie.getGenre())));
-	  detailContentPanel.add(new JLabel("Cast: " + movie.getListAsString(movie.getActor())));
-	  detailContentPanel.add(new JLabel("Plot: " + movie.getPlot()));
-	  detailContentPanel.add(new JLabel("Country: " + movie.getListAsString(movie.getCountry())));
+	  detailContentPanel.add(getItemPanel("Title:", movie.getTitle()));
+	  detailContentPanel.add(getItemPanel("Year: ", String.valueOf(movie.getYear())));
+	  detailContentPanel.add(getItemPanel("Rating: ", movie.getRating()));
+	  detailContentPanel.add(getItemPanel("Runtime: ", String.valueOf(movie.getRuntime())));
+	  detailContentPanel.add(getItemPanel("Genre: ", movie.getListAsString(movie.getGenre())));
+	  detailContentPanel.add(getItemPanel("Director: ", movie.getListAsString(movie.getDirector())));
+	  detailContentPanel.add(getItemPanel("Writer: ", movie.getListAsString(movie.getWriter())));
+	  detailContentPanel.add(getItemPanel("Genre: ", movie.getListAsString(movie.getGenre())));
+	  detailContentPanel.add(getItemPanel("Cast: ", movie.getListAsString(movie.getActor())));
+	  detailContentPanel.add(getItemPanel("Plot: ", movie.getPlot()));
+	  detailContentPanel.add(getItemPanel("Country: ", movie.getListAsString(movie.getCountry())));
     
+	  JCheckBox watchedBox = new JCheckBox();
+	  watchedBox.setSelected(movie.isWatched());
 	  ImageIcon poster = new ImageIcon(movie.getPoster());
 	  poster = ResizeImage.resizeImage(poster);
 	  JLabel posterLabel = new JLabel(poster);
 	  posterPanel.add(posterLabel);
     
-	  detailContentPanel.add(new JLabel("Meta Score: " + movie.getMetaScore()));
-	  detailContentPanel.add(new JLabel("IMDb Score: " + movie.getImdbScore()));
-	  detailContentPanel.add(new JLabel("Watched: " + movie.isWatched()));
-	  detailContentPanel.add(new JLabel("Meta Score: " + movie.getMetaScore()));
-	  detailContentPanel.add(new JLabel("File Type: " + movie.getFileType()));
-	  detailContentPanel.add(new JLabel("File Path: " + movie.getFileLocation()));
+	  detailContentPanel.add(getItemPanel("Meta Score: ", String.valueOf(movie.getMetaScore())));
+	  detailContentPanel.add(getItemPanel("IMDb Score: ", String.valueOf(movie.getImdbScore())));
+	  detailContentPanel.add(getItemPanel("Watched: ", String.valueOf(movie.isWatched())));
+	  //detailContentPanel.add(watchedBox);
+	  detailContentPanel.add(getItemPanel("Meta Score: ", String.valueOf(movie.getMetaScore())));
+	  detailContentPanel.add(getItemPanel("File Type: ", String.valueOf(movie.getFileType())));
+	  detailContentPanel.add(getItemPanel("File Path: ", String.valueOf(movie.getFileLocation())));
+	  detailPanel.getVerticalScrollBar().setValue(15);
 	  sidePanel.add(this.posterPanel, "North");
 	  sidePanel.add(this.detailPanel, "Center");
   }
   
-  private JTextArea getJTextArea(String text)
+  private JTextPane getJTextArea(String text)
   {
-	  JTextArea tBox1 = new JTextArea();
+	  JTextPane tBox1 = new JTextPane();
 	  tBox1.setEditable(false);
+	  tBox1.setContentType("text/html");
 	  tBox1.setText(text);
-	  tBox1.setLineWrap(true);
-	  tBox1.setWrapStyleWord(true);
 	  tBox1.setBackground(Color.LIGHT_GRAY);
 	  
-	  int height = 17; 
+	  int lineHeight = 20;
+	  int height = lineHeight; 
+	  int lineRunOff = 38;
 	  int charCount = text.length();
 	  
-	  if (charCount>=45)
+	  if (charCount>=lineRunOff)
 	  {
-		  height = (charCount/45) * 17;
+		  height = (charCount/lineRunOff) * lineHeight;
 		  
-		  if (charCount%45>=1)
+		  if (charCount%lineRunOff>=1)
 		  {
-			  height += 17;
+			  height += lineHeight;
 		  }
 	  }
 	  
-	  tBox1.setPreferredSize(new Dimension(200, height));
-
+	  Dimension tBoxSize = new Dimension(200,height);
+	  
+	  tBox1.setPreferredSize(tBoxSize);
+	  tBox1.setMinimumSize(tBoxSize);
 	  
 	  return tBox1;
   }
   
-  public JLabel getImageLabel()
+  private JPanel getItemPanel(String label, String content)
   {
-    this.imageLabel = new JLabel();
-    
-    return this.imageLabel;
+	  Dimension labelDim = new Dimension(80,5);
+	  JPanel itemContainer = new JPanel();
+	  itemContainer.setBackground(Color.CYAN);
+	  
+	  JTextPane itemLabelPane = getJTextArea("<html><b>" + label + "</b></html>");
+	  
+	  SimpleAttributeSet attribs = new SimpleAttributeSet();
+	  StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_RIGHT);
+	  itemLabelPane.setParagraphAttributes(attribs, true);
+	  
+	  itemLabelPane.setMinimumSize(labelDim);
+	  itemLabelPane.setMaximumSize(new Dimension(70, 500));
+	  itemLabelPane.setPreferredSize(labelDim);
+	  
+	  itemContainer.setLayout(new BoxLayout(itemContainer, BoxLayout.X_AXIS));
+	  itemContainer.add(itemLabelPane);
+	  itemContainer.add(getJTextArea(content));
+	  
+	  return itemContainer;
   }
 }
