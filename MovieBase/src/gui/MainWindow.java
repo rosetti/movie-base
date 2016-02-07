@@ -25,7 +25,7 @@ public class MainWindow
 	private JPanel jSidePanel;
 	private ImageIcon logo;
 	private TopPanel topPanel = new TopPanel();
-	private MoviePanel moviePanel; // = new MoviePanel();
+	private MoviePanel moviePanel;
 	
 	public MainWindow()
 	{
@@ -37,8 +37,6 @@ public class MainWindow
 		sidePanel = new SidePanel(new Movie());
 		jSidePanel = sidePanel.getPanel(); 
 		
-		//setSidePanel(StaticTestObjects.getTestMovie1());
-		
 		moviePanel = new MoviePanel(this);
 		frame.add(jSidePanel, "West");
 		frame.add(moviePanel.getPanel(), "Center");
@@ -48,31 +46,7 @@ public class MainWindow
   
 	public void setSidePanel(Movie movie)
 	{
-		//I need to remove the old panel.
-		//frame.remove(sidePanel.getPanel());
-		//System.out.println("sleeping now");
-		/*
-		Component[] components = frame.getRootPane().getComponents();
-		int index = 0;
-		Component gotComponent=null;
-		
-		for (Component i: components)
-		{
-			if (index==0)
-			{
-				gotComponent = i;
-				System.out.println(i.getName());
-			}
-			//System.out.println(i.toString());
-			//System.out.println(i.getName());
-			index++;
-		}
-		*/
-		
-		//System.out.println("and we're back");
 		frame.remove(jSidePanel);
-		//frame.revalidate();
-		
 		sidePanel = new SidePanel(movie);
 		jSidePanel = sidePanel.getPanel();
 		frame.add(jSidePanel, "West");
