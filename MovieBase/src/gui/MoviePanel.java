@@ -31,11 +31,11 @@ public class MoviePanel
   
   public MoviePanel(MainWindow mainWindow)
   {
-	  //mainWindow.paramTest();
 	  this.window = mainWindow;
-	  this.moviePanel.setBackground(Color.DARK_GRAY);
+	  this.moviePanel.setBackground(Theme.mainBackground);
 	  this.moviePanel.setLayout(new ModifiedFlowLayout());
 	  this.moviePane = new JScrollPane(this.moviePanel);
+	  moviePane.setBorder(Theme.standardBorder);
 	  makeMoviePanel();
   }
   
@@ -87,8 +87,6 @@ public class MoviePanel
   {
     this.moviePane.setBackground(Color.blue);
   }
-  
-  private void addImage(ArrayList<JLabel> imageList) {}
   
   public JScrollPane getPanel()
   {
