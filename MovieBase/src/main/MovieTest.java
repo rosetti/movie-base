@@ -29,8 +29,8 @@ public class MovieTest
 		//testWebParserByTitle();
 		//sidePanelTest();
 		//moviePanelTest();
-		
-		moviePanelTestFromLocal();
+		new ImportWindow();
+		//moviePanelTestFromLocal();
 		
 		//testDirectoryReader();
 		//xmlWriterTest();
