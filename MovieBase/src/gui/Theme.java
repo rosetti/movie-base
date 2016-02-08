@@ -10,4 +10,5 @@ public class Theme
   static Border standardBorder = new LineBorder(Color.DARK_GRAY,4);
   static Border frameBorder = new LineBorder(Color.BLUE, 3);
   static Border internalBorder = new LineBorder(Color.darkGray,1);
+  static Border singleBlackBorder = new LineBorder(Color.black, 1);
 }
