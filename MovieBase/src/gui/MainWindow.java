@@ -74,6 +74,7 @@ public class MainWindow
 	public void refreshByResize()
 	{
 		frame.setSize(900, 650);
+		frame.revalidate();
 	}
 
 }
