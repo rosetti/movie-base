@@ -16,7 +16,7 @@ import javax.swing.*;
 
 public class ImportWindow 
 {
-	private JFrame importWindow;
+	private JFrame window;
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel bottomPanel;
@@ -34,26 +34,26 @@ public class ImportWindow
 		makeMiddlePanel();
 		makeBottomPanel();
 		
-		importWindow.add(topPanel);
-		importWindow.add(middlePanel);
-		importWindow.add(bottomPanel);
+		window.add(topPanel);
+		window.add(middlePanel);
+		window.add(bottomPanel);
 		
-		importWindow.setVisible(true);
-		importWindow.revalidate();
+		window.setVisible(true);
+		window.revalidate();
 	}
 	
 	private void makeFrame()
 	{
 		Dimension size = new Dimension(500,200);
 		
-		importWindow = new JFrame("Import Movies");
-		Container contentPane = importWindow.getContentPane();
+		window = new JFrame("Import Movies");
+		Container contentPane = window.getContentPane();
 		
-		importWindow.setMinimumSize(size);
-		importWindow.setMaximumSize(size);
-		importWindow.setPreferredSize(size);
-		importWindow.setResizable(false);
-		importWindow.setDefaultCloseOperation(3);
+		window.setMinimumSize(size);
+		window.setMaximumSize(size);
+		window.setPreferredSize(size);
+		window.setResizable(false);
+		window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 	}
@@ -119,7 +119,9 @@ public class ImportWindow
 		
 		scanAllCheck = new JCheckBox("Scan all movies?");
 		scanAllCheck.setOpaque(false);
-		postReviewCheck = new JCheckBox("Check each movie after import?");
+		scanAllCheck.setToolTipText("This will rescan and overwrite movies previously scanned into the MovieBase Library");
+		
+		postReviewCheck = new JCheckBox("Review each movie after import?");
 		postReviewCheck.setOpaque(false);
 		
 		middlePanel.add(scanAllCheck);
@@ -137,6 +139,15 @@ public class ImportWindow
 		cancelBtn.setMaximumSize(buttonSize);
 		cancelBtn.setMinimumSize(buttonSize);
 		cancelBtn.setPreferredSize(buttonSize);
+		
+		cancelBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				window.dispose();
+			}
+		});
 		
 		okBtn.setMaximumSize(buttonSize);
 		okBtn.setMinimumSize(buttonSize);
