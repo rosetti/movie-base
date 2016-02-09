@@ -29,7 +29,12 @@ public class MovieTest
 		//testWebParserByTitle();
 		//sidePanelTest();
 		//moviePanelTest();
-		new ImportWindow();
+		
+		//new ImportWindow();
+		//new ImportProgress("K:\\Films");
+		//new ImportResults(20,1);
+		new FetchResults();
+		
 		//moviePanelTestFromLocal();
 		
 		//testDirectoryReader();
