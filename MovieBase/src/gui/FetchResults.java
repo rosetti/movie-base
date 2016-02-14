@@ -2,6 +2,7 @@ package gui;
 
 //java imports
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -46,11 +47,26 @@ public class FetchResults extends DialogTemplate
 
 	private void makeTable()
 	{
-		Dimension resultsPaneSize = new Dimension(450,300);
+		Dimension resultsPaneSize = new Dimension(600,300);
 		
 		String[] columnNames = {"Title", "Year", "IMDb", "Poster"};
-		resultsTable = new JTable(getData(), columnNames);
+		
+		DefaultTableModel model = new DefaultTableModel(getData(), columnNames);
+		resultsTable = new JTable(model)
+		{
+			public Class getColumnClass(int column)
+			{
+				return getValueAt(0, column).getClass();
+			}
+		};
+		
+		
+		
 		resultsTable.setFillsViewportHeight(true);
+		resultsTable.setRowHeight(300);
+
+		resultsTable.getColumnModel().getColumn(3).setWidth(100);
+		resultsTable.getColumnModel().getColumn(3).setMinWidth(300);
 		
 		resultsPane = new JScrollPane(resultsTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		resultsPane.setPreferredSize(resultsPaneSize);
@@ -62,7 +78,7 @@ public class FetchResults extends DialogTemplate
 	
 	private Object[][] getData()
 	{
-		ImageIcon image = new ImageIcon();
+		ImageIcon image = new ImageIcon("/home/vin/development/images/Brave tt1217209.jpg");
 		Object[][] data = 
 			{
 					{"The Martian", "2015", "oinoin", image}
