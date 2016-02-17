@@ -30,10 +30,12 @@ public class MovieTest
 		//sidePanelTest();
 		//moviePanelTest();
 		
-		//new ImportWindow();
+		new ImportWindow();
 		//new ImportProgress("K:\\Films");
 		//new ImportResults(20,1);
-		new FetchResults();
+		//new FetchResults();
+		
+		//ImageSaver.getImage("http://www.sonypictures.com/movies/thisistheend/assets/images/onesheet.jpg", "This is the End", "imdbId");
 		
 		//moviePanelTestFromLocal();
 		
