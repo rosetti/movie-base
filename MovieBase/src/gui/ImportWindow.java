@@ -25,6 +25,7 @@ public class ImportWindow
 	private JCheckBox postReviewCheck;
 	private JButton okBtn;
 	private JButton cancelBtn;
+	private JTextArea pathBox;
 	
 	public ImportWindow()
 	{
@@ -76,7 +77,8 @@ public class ImportWindow
 		pathPanel.setMinimumSize(new Dimension(480, 50));
 		pathPanel.setPreferredSize(new Dimension(480, 50));
 		
-		final JTextArea pathBox = new JTextArea();
+		pathBox = new JTextArea();
+		pathBox.setFont(Theme.largeJTextAreaFont);
 		pathBox.setPreferredSize(new Dimension(400, 30));
 		pathBox.setMinimumSize(new Dimension(400, 30));
 		pathBox.setMaximumSize(new Dimension(400, 30));
@@ -105,7 +107,6 @@ public class ImportWindow
 		pathPanel.add(fileChooserBtn);
 		pathPanel.add(pathBox);
 		topPanel.add(pathPanel);
-		//pathPanel.setAlignmentX(SwingConstants.BOTTOM);
 	}
 	
 	private void makeMiddlePanel()
@@ -152,6 +153,17 @@ public class ImportWindow
 		okBtn.setMaximumSize(buttonSize);
 		okBtn.setMinimumSize(buttonSize);
 		okBtn.setPreferredSize(buttonSize);
+		
+		okBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				//TODO: Need to validate given directory
+				new ImportProgress(pathBox.getText());
+				window.dispose();
+			}
+		});
 		
 		bottomPanel.add(okBtn);
 		bottomPanel.add(cancelBtn);

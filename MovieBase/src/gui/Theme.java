@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 import javax.swing.border.*;
 import java.awt.Dimension;
+import java.awt.Font;
 
 public class Theme
 {
@@ -19,4 +20,10 @@ public class Theme
   
 	//Dimensions
 	static Dimension buttonSize = new Dimension(100,30);
+	static Dimension posterSizeSmall = new Dimension (100, 149);
+	static Dimension posterSizeMedium = new Dimension (200, 298);
+	static Dimension posterSizeLarge = new Dimension (250, 373);
+	
+	//Fonts
+	static Font largeJTextAreaFont = new Font(Font.SANS_SERIF, Font.PLAIN, 21);
 }

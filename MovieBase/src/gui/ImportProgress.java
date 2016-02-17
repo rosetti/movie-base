@@ -34,8 +34,13 @@ public class ImportProgress
 		mainPanel.add(progressLabel);
 		mainPanel.add(progressBar);
 		mainPanel.add(buttonPanel);
-		
 		window.setVisible(true);
+		
+	}
+	
+	private void runImportProcess()
+	{
+		
 	}
 	
 	private void makeFrame()
@@ -81,9 +86,7 @@ public class ImportProgress
 		progressBar.setMaximumSize(pBarSize);
 		progressBar.setMinimumSize(pBarSize);
 		progressBar.setPreferredSize(pBarSize);
-		
 		progressBar.setMaximum(max);
-		progressBar.setValue(50);
 	}
 	
 	private void makeButtons()
@@ -110,7 +113,7 @@ public class ImportProgress
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				//To Do
+				//TODO: Write some sort of cancel method
 			}
 		});
 	}

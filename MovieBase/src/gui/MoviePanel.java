@@ -53,7 +53,7 @@ public class MoviePanel
     JPanel movieIcon = new JPanel();
     
     ImageIcon imageIcon = new ImageIcon(movie.getPoster());
-    imageIcon = ResizeImage.resizeImage(imageIcon);
+    imageIcon = ResizeImage.resizeImage(imageIcon, Theme.posterSizeMedium);
     
     JLabel imageLabel = new JLabel(imageIcon);
     JLabel titleLabel = new JLabel(movie.getTitle(), 0);

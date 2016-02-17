@@ -4,6 +4,9 @@ package gui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import resources.ImageSaver;
+import resources.ResizeImage;
+
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -63,10 +66,10 @@ public class FetchResults extends DialogTemplate
 		
 		
 		resultsTable.setFillsViewportHeight(true);
-		resultsTable.setRowHeight(300);
+		resultsTable.setRowHeight(150);
 
 		resultsTable.getColumnModel().getColumn(3).setWidth(100);
-		resultsTable.getColumnModel().getColumn(3).setMinWidth(300);
+		resultsTable.getColumnModel().getColumn(3).setMinWidth(100);
 		
 		resultsPane = new JScrollPane(resultsTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		resultsPane.setPreferredSize(resultsPaneSize);
@@ -78,10 +81,15 @@ public class FetchResults extends DialogTemplate
 	
 	private Object[][] getData()
 	{
-		ImageIcon image = new ImageIcon("/home/vin/development/images/Brave tt1217209.jpg");
+		ImageIcon imageOne = new ImageIcon("/home/vin/development/images/Brave tt1217209.jpg");
+		ImageIcon imageTwo = ImageSaver.getImageIcon("http://www.sonypictures.com/movies/thisistheend/assets/images/onesheet.jpg");
+		
+		imageTwo = ResizeImage.resizeImage(imageTwo, Theme.posterSizeSmall);
+		imageOne = ResizeImage.resizeImage(imageOne, Theme.posterSizeSmall);
 		Object[][] data = 
 			{
-					{"The Martian", "2015", "oinoin", image}
+					{"Brave", "2015", "oin765oin", imageOne},
+					{"The Martian", "2015", "oinoin", imageTwo}
 			};
 		
 		return data;
