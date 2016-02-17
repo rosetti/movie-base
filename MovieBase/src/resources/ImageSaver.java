@@ -1,10 +1,11 @@
 package resources;
 
 //java imports
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.*;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 //local imports
@@ -26,31 +27,7 @@ public class ImageSaver
 		String outputPath = (SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "images" + SinSoftMovieAppMain.slash + title + " " + imdbId + extension);
 		
 		
-		
-		URL url = null;
-		try 
-		{
-			url = new URL(imageLink);
-		} 
-		
-		catch (MalformedURLException e) 
-		{
-			System.out.println("Incorrectly Formed URL");
-			return imageLink;
-		}
-		
-		
-		InputStream in = null;
-		try 
-		{
-			in = new BufferedInputStream(url.openStream());
-		} 
-		
-		catch (IOException e) 
-		{
-			System.out.println("Unable to connect to Online Image Source");
-			return imageLink;
-		}
+		BufferedImage downloadedImage = downloadBufferedImage(imageLink);
 		
 		OutputStream out = null;
 		
@@ -62,35 +39,61 @@ public class ImageSaver
 		catch(Exception e)
 		{
 			System.out.println("Unable to connect to external image location");
-			return imageLink;
+			outputPath = imageLink;
 		}
 		
 		try 
 		{
-			for(int i; (i = in.read()) != -1;)
-			{
-				out.write(i);
-			}
+			ImageIO.write(downloadedImage, "jpeg", new File(outputPath));
 		} 
-		
-		catch (IOException e) 
+		catch (IOException e1) 
 		{
-			System.out.println("Unable to output image to folder");
-			return imageLink;
+			System.out.println("Unable to output image to file");
 		}
 		
 		try 
 		{
-			in.close();
 			out.close();
 		} 
 		
 		catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Unable to close input/output streams.");
+			System.out.println("God only knows why...");
 		}
 		
 		return outputPath;
+	}
+	
+	private static BufferedImage downloadBufferedImage(String imageLink)
+	{
+		URL url = null;
+		BufferedImage bufferedImage = null;
+		try 
+		{
+			url = new URL(imageLink);
+		} 
+		
+		catch (MalformedURLException e) 
+		{
+			System.out.println("Incorrectly Formed URL");
+		}
+		
+		try 
+		{
+			bufferedImage = ImageIO.read(url.openStream());
+		}
+		
+		catch (IOException e)
+		{
+			System.out.println("unable to write to img");
+		}
+		
+		return bufferedImage;
+	}
+
+	public static ImageIcon getImageIcon(String imageLink)
+	{
+		return new ImageIcon(downloadBufferedImage(imageLink));
 	}
 }
