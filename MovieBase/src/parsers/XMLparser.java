@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 //this class will read the xml file of movies, create movie objects
-public class XMLparser 
+public abstract class XMLparser 
 {
 	//Document to hold parsed xmlDocument
 	Document xmlDoc = null;
