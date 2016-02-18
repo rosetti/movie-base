@@ -2,7 +2,7 @@ package inputOutput;
 
 import java.io.*;
 
-import main.SinSoftMovieAppMain;
+import main.ApplicationMain;
 import resources.ReadMediaInfo;
 import movieControl.Movie;
 
@@ -74,7 +74,7 @@ public class DirectoryReader
 			title = title.substring(0,  twPosition);
 		}
 		
-		if (!file.isDirectory() && SinSoftMovieAppMain.mediaInfoAvailable)
+		if (!file.isDirectory() && ApplicationMain.mediaInfoAvailable)
 		{
 			runtime = ReadMediaInfo.getRuntimeFromFile(fileLocation); 
 		}

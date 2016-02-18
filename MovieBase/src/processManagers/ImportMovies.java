@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 //local imports
 import parsers.LocalParser;
 import parsers.WebParser;
-import main.SinSoftMovieAppMain;
+import main.ApplicationMain;
 import inputOutput.DirectoryReader;
 import inputOutput.XMLWriter;
 import movieControl.MovieBase;
@@ -28,7 +28,7 @@ public class ImportMovies
 	public ImportMovies(String inputPath)
 	{
 		this.inputPath = inputPath;
-		outputPath = SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "movieData.xml";
+		outputPath = ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml";
 		
 		base = new MovieBase();
 		goodCount = 0;

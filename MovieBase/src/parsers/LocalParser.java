@@ -2,7 +2,7 @@ package parsers;
 
 import java.util.ArrayList;
 
-import main.SinSoftMovieAppMain;
+import main.ApplicationMain;
 import movieControl.Movie;
 import movieControl.MovieBase;
 
@@ -12,7 +12,7 @@ public class LocalParser extends XMLparser
 {
 	public LocalParser()
 	{
-		super(SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "movieData.xml");
+		super(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
 	}
 	
 	public LocalParser(String uri)

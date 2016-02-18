@@ -3,7 +3,7 @@ package main;
 //java imports
 import java.io.*;
 
-public class SinSoftMovieAppMain {
+public class ApplicationMain {
 
 	public static String pwd;
 	public static String slash;

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 //local imports
-import main.SinSoftMovieAppMain;
+import main.ApplicationMain;
 
 public class ImageSaver 
 {
@@ -24,7 +24,7 @@ public class ImageSaver
 		}
 		
 		String extension = imageLink.substring(imageLink.lastIndexOf("."), imageLink.length());
-		String outputPath = (SinSoftMovieAppMain.pwd + SinSoftMovieAppMain.slash + "images" + SinSoftMovieAppMain.slash + title + " " + imdbId + extension);
+		String outputPath = (ApplicationMain.pwd + ApplicationMain.slash + "images" + ApplicationMain.slash + title + " " + imdbId + extension);
 		
 		
 		BufferedImage downloadedImage = downloadBufferedImage(imageLink);

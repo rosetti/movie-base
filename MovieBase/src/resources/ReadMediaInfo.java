@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import main.SinSoftMovieAppMain;
+import main.ApplicationMain;
 
 public class ReadMediaInfo 
 {
-	static String exePath = SinSoftMovieAppMain.pwd + "\\MediaInfo.exe";
+	static String exePath = ApplicationMain.pwd + "\\MediaInfo.exe";
 	
 	public static int getRuntimeFromFile(String mediaPath)
 	{
