@@ -1,16 +1,13 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+//java imports
+import javax.swing.*;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-//java imports
-import javax.swing.*;
 
 //local imports
 
@@ -26,6 +23,8 @@ public class ImportWindow
 	private JButton okBtn;
 	private JButton cancelBtn;
 	private JTextArea pathBox;
+	private ImportProgress importProgress;
+	private Thread importProcess;
 	
 	public ImportWindow()
 	{
@@ -41,6 +40,10 @@ public class ImportWindow
 		
 		window.setVisible(true);
 		window.revalidate();
+		
+		importProgress = new ImportProgress();
+		importProcess = new Thread(importProgress);
+		//importProcess.start();
 	}
 	
 	private void makeFrame()
@@ -97,7 +100,6 @@ public class ImportWindow
 				fileBrowser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				fileBrowser.showOpenDialog(topPanel);
 				String uri = fileBrowser.getSelectedFile().getPath();
-				System.out.println(uri);
 				pathBox.setText(uri);
 			}
 		});
@@ -146,6 +148,7 @@ public class ImportWindow
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				importProgress.setRunLoop(false);
 				window.dispose();
 			}
 		});
@@ -160,8 +163,11 @@ public class ImportWindow
 			public void actionPerformed(ActionEvent e)
 			{
 				//TODO: Need to validate given directory
-				new ImportProgress(pathBox.getText());
 				window.dispose();
+				String directoryPath = pathBox.getText();
+				importProcess.start();
+				importProgress.setExecute(true, directoryPath);
+				//importProgress.runImportProcess(directoryPath);
 			}
 		});
 		
