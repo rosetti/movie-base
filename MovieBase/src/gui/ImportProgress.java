@@ -2,45 +2,82 @@ package gui;
 
 //java imports
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//local imports
+import processManagers.ImportMovies;
 
-public class ImportProgress 
+public class ImportProgress implements Runnable
 {
 	private JFrame window;
-	private JLabel title;
+	private JLabel titleLabel;
 	private JScrollPane progressPane;
 	private JTextArea progressBox;
 	private JLabel progressLabel;
 	private JProgressBar progressBar;
 	private JButton cancelBtn;
-	private JButton okBtn;
 	private JPanel mainPanel;
 	private JPanel buttonPanel;
-
+	private ImportMovies importMovieProcess;
+	private String importPath;
+	private volatile boolean runLoop;
+	private volatile boolean execute;
 	
-	public ImportProgress(String importPath)
-	{
+	
+	public ImportProgress()
+	{	
+		runLoop = true;
+		execute = false;
+		progressLabel = new JLabel();
+		titleLabel = new JLabel();
+		
 		makeFrame();
 		makeProgressPane();
-		makeProgressLabel(1, 100);
-		makeProgressBar(100);
+		makeProgressBar();
 		makeButtons();
 		
-		mainPanel.add(new JLabel("Currently Scanning: " + importPath));
+		mainPanel.add(titleLabel);
 		mainPanel.add(progressPane);
 		mainPanel.add(progressLabel);
 		mainPanel.add(progressBar);
 		mainPanel.add(buttonPanel);
-		window.setVisible(true);
 		
 	}
 	
-	private void runImportProcess()
+	public void run()
 	{
-		
+		while(runLoop)
+		{
+			if (execute)
+			{
+				runImportProcess(importPath);
+				runLoop = false;
+			}
+		}
+	}
+	
+	public void setRunLoop(boolean value)
+	{
+		runLoop = value;
+	}
+	
+	public void setExecute(boolean value, String importPath)
+	{
+		this.execute = value;
+		this.importPath = importPath;
+	}
+	
+	public void runImportProcess(String importPath)
+	{
+		titleLabel.setText("Currently Scanning: " + importPath);
+		window.setVisible(true);
+		window.revalidate();
+		importMovieProcess = new ImportMovies(importPath, progressBox, progressBar, progressLabel);
+		importMovieProcess.readMoviesFromOmdb();
 	}
 	
 	private void makeFrame()
@@ -63,49 +100,34 @@ public class ImportProgress
 		Dimension pBoxSize = new Dimension(450, 150);
 		progressBox = new JTextArea();
 		progressBox.setEditable(false);
+		DefaultCaret caret =  (DefaultCaret) progressBox.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 			
 		progressPane = new JScrollPane(progressBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		progressPane.setMaximumSize(pBoxSize);
 		progressPane.setMinimumSize(pBoxSize);
 		progressPane.setPreferredSize(pBoxSize);
-		
-		progressBox.setText("Helloooooooo world");
-		progressBox.setText("Added String");
+
 	}
 	
-	private void makeProgressLabel(int position, int total)
-	{
-		progressLabel = new JLabel();
-		progressLabel.setText(position + " of " + total);	
-	}
-	
-	private void makeProgressBar(int max)
+	private void makeProgressBar()
 	{
 		Dimension pBarSize = new Dimension(450, 30);
 		progressBar = new JProgressBar();
 		progressBar.setMaximumSize(pBarSize);
 		progressBar.setMinimumSize(pBarSize);
 		progressBar.setPreferredSize(pBarSize);
-		progressBar.setMaximum(max);
 	}
 	
 	private void makeButtons()
 	{
 		buttonPanel = new JPanel();
-	
 		
-		
-		okBtn = new JButton("Ok");
-		okBtn.setPreferredSize(Theme.buttonSize);
-		okBtn.setMaximumSize(Theme.buttonSize);
-		okBtn.setMinimumSize(Theme.buttonSize);
-		
-		cancelBtn = new JButton("Cancel");
+		cancelBtn = new JButton("Abort");
 		cancelBtn.setPreferredSize(Theme.buttonSize);
 		cancelBtn.setMaximumSize(Theme.buttonSize);
 		cancelBtn.setMinimumSize(Theme.buttonSize);
-		
-		buttonPanel.add(okBtn);
+	
 		buttonPanel.add(cancelBtn);
 		
 		cancelBtn.addActionListener(new ActionListener()
@@ -113,7 +135,7 @@ public class ImportProgress
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				//TODO: Write some sort of cancel method
+				importMovieProcess.stop();
 			}
 		});
 	}
