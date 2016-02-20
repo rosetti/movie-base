@@ -25,13 +25,15 @@ public class MovieTest
 
 	public MovieTest()
 	{
+		new ProgramLaunch();
 		//testInputReader();
 		//testWebParserByTitle();
 		//sidePanelTest();
 		//moviePanelTest();
 		
-		new ImportWindow();
-		//new ImportProgress("K:\\Films");
+		//new ImportWindow();
+		
+		//new ImportProgress("/home/vin/Documents/movies");
 		//new ImportResults(20,1);
 		//new FetchResults();
 		
