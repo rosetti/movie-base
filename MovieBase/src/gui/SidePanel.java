@@ -11,13 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 //local imports
 import movieControl.Movie;
 import resources.ResizeImage;
-import resources.StaticTestObjects;
 
 public class SidePanel
 {
@@ -54,9 +54,9 @@ public class SidePanel
   
   public void populateSidePanelContents()
   { 
-    posterPanel.setPreferredSize(new Dimension(400, 320));
-    posterPanel.setMaximumSize(new Dimension(400, 320));
-    posterPanel.setMinimumSize(new Dimension(400, 320));
+    posterPanel.setPreferredSize(new Dimension(400, 350));
+    posterPanel.setMaximumSize(new Dimension(400, 350));
+    posterPanel.setMinimumSize(new Dimension(400, 350));
     posterPanel.setBorder(Theme.internalBorder);
     
     detailPanel.setPreferredSize(new Dimension(400, 200));
@@ -65,9 +65,7 @@ public class SidePanel
     detailPanel.setBorder(Theme.internalBorder);
     
     detailContentPanel.setLayout(new BoxLayout(detailContentPanel, 1));
-    //detailContentPanel.setLayout(new GridLayout(0,2));
-    
-    //addMovieDetail(movie);
+
     posterPanel.setBackground(Theme.mainBackground);
     
   }
@@ -96,13 +94,13 @@ public class SidePanel
 	  detailContentPanel.add(getItemPanel("Meta Score: ", String.valueOf(movie.getMetaScore())));
 	  detailContentPanel.add(getItemPanel("IMDb Score: ", String.valueOf(movie.getImdbScore())));
 	  detailContentPanel.add(getItemPanel("Watched: ", String.valueOf(movie.isWatched())));
-	  //detailContentPanel.add(watchedBox);
 	  detailContentPanel.add(getItemPanel("Meta Score: ", String.valueOf(movie.getMetaScore())));
 	  detailContentPanel.add(getItemPanel("File Type: ", String.valueOf(movie.getFileType())));
 	  detailContentPanel.add(getItemPanel("File Path: ", String.valueOf(movie.getFileLocation())));
 	  detailPanel.getVerticalScrollBar().setValue(15);
 	  sidePanel.add(this.posterPanel, "North");
 	  sidePanel.add(this.detailPanel, "Center");
+	  
   }
   
   private JTextPane getJTextArea(String text)
@@ -143,6 +141,8 @@ public class SidePanel
 	  itemContainer.setBackground(Color.CYAN);
 	  
 	  JTextPane itemLabelPane = getJTextArea("<html><b>" + label + "</b></html>");
+	  DefaultCaret caret = (DefaultCaret) itemLabelPane.getCaret();
+	  caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 	  
 	  SimpleAttributeSet attribs = new SimpleAttributeSet();
 	  StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_RIGHT);
