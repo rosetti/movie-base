@@ -3,19 +3,14 @@ package gui;
 //java imports
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import java.util.ArrayList;
-
 
 //local imports
 import movieControl.Movie;
-import resources.StaticTestObjects;
 
 public class MainWindow
 { 
@@ -52,6 +47,13 @@ public class MainWindow
 		frame.add(jSidePanel, "West");
 		frame.revalidate();
 	}
+	
+	public void clearSidePanel()
+	{
+		frame.remove(jSidePanel);
+		sidePanel = null;
+		frame.revalidate();
+	}
   
 	private void makeFrame()
 	{
@@ -73,7 +75,7 @@ public class MainWindow
 	
 	public void refreshByResize()
 	{
-		frame.setSize(900, 650);
+		//frame.setSize(900, 650);
 		frame.revalidate();
 	}
 
