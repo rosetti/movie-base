@@ -65,12 +65,6 @@ public class ReadMediaInfo
 		int hours = Integer.valueOf(duration.substring(0, hoursIndex));
 		int minutes = Integer.valueOf(duration.substring(hoursIndex + 2, mnIndex));
 		
-		//System.out.println(duration);
-		
-		//System.out.println("Hours: " + hours);
-		//System.out.println("Minutes: " + minutes);
-		//System.out.println((hours*60) + minutes);
-		
 		return (hours*60) + minutes;
 	}
 }
