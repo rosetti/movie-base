@@ -78,6 +78,7 @@ public class ImportProgress implements Runnable
 		window.revalidate();
 		importMovieProcess = new ImportMovies(importPath, progressBox, progressBar, progressLabel);
 		importMovieProcess.readMoviesFromOmdb();
+		importMovieProcess.writeResultsToXml();
 	}
 	
 	private void makeFrame()
@@ -107,7 +108,6 @@ public class ImportProgress implements Runnable
 		progressPane.setMaximumSize(pBoxSize);
 		progressPane.setMinimumSize(pBoxSize);
 		progressPane.setPreferredSize(pBoxSize);
-
 	}
 	
 	private void makeProgressBar()
