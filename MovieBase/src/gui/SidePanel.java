@@ -11,9 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.text.DefaultCaret;
+import javax.swing.SwingUtilities;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import java.awt.event.*;
 
 //local imports
 import movieControl.Movie;
@@ -28,12 +29,13 @@ public class SidePanel
   
   public SidePanel(Movie movie)
   {
-    sidePanel = new JPanel();
+	sidePanel = new JPanel();
     sidePanel.setBorder(Theme.standardBorder);
     sidePanel.setBackground(Theme.mainBackground);
     sidePanel.setPreferredSize(new Dimension(400, 200));
     sidePanel.setLayout(new BorderLayout());
     populateSidePanelContents();
+    addButtonControl(movie);
     
     if (movie.getTitle().isEmpty())
     {
@@ -54,15 +56,15 @@ public class SidePanel
   
   public void populateSidePanelContents()
   { 
-    posterPanel.setPreferredSize(new Dimension(400, 350));
-    posterPanel.setMaximumSize(new Dimension(400, 350));
-    posterPanel.setMinimumSize(new Dimension(400, 350));
+    //posterPanel.setPreferredSize(new Dimension(400, 350));
+    //posterPanel.setMaximumSize(new Dimension(400, 350));
+    //posterPanel.setMinimumSize(new Dimension(400, 350));
     posterPanel.setBorder(Theme.internalBorder);
     
     detailPanel.setPreferredSize(new Dimension(400, 200));
     detailPanel.setMaximumSize(new Dimension(400, 200));
     detailPanel.setMinimumSize(new Dimension(100, 200));
-    detailPanel.setBorder(Theme.internalBorder);
+    //detailPanel.setBorder(Theme.internalBorder);
     
     detailContentPanel.setLayout(new BoxLayout(detailContentPanel, 1));
 
@@ -70,8 +72,26 @@ public class SidePanel
     
   }
   
-  void addMovieDetail(Movie movie)
+  private void addButtonControl(final Movie movie)
   {
+	  
+	  posterPanel.addMouseListener(new MouseAdapter()  
+	  {
+		  public void mouseClicked(MouseEvent e)
+		  {
+			  if (SwingUtilities.isRightMouseButton(e))
+			  {
+				  MovieContextMenu rightClickMenu = new MovieContextMenu(movie);
+				  rightClickMenu.showMenu(posterPanel, e.getX(), e.getY());
+			  }
+			  
+		  }
+	  });
+
+  }
+  
+  void addMovieDetail(Movie movie)
+  {  
 	  detailContentPanel.add(getItemPanel("Title:", movie.getTitle()));
 	  detailContentPanel.add(getItemPanel("Year: ", String.valueOf(movie.getYear())));
 	  detailContentPanel.add(getItemPanel("Rating: ", movie.getRating()));
@@ -97,7 +117,13 @@ public class SidePanel
 	  detailContentPanel.add(getItemPanel("Meta Score: ", String.valueOf(movie.getMetaScore())));
 	  detailContentPanel.add(getItemPanel("File Type: ", String.valueOf(movie.getFileType())));
 	  detailContentPanel.add(getItemPanel("File Path: ", String.valueOf(movie.getFileLocation())));
-	  detailPanel.getVerticalScrollBar().setValue(15);
+	  
+	  javax.swing.SwingUtilities.invokeLater(new Runnable() {
+	   	   public void run() { 
+	   	       detailPanel.getVerticalScrollBar().setValue(0);
+	   	   }
+	   	});
+	  
 	  sidePanel.add(this.posterPanel, "North");
 	  sidePanel.add(this.detailPanel, "Center");
 	  
@@ -141,15 +167,13 @@ public class SidePanel
 	  itemContainer.setBackground(Color.CYAN);
 	  
 	  JTextPane itemLabelPane = getJTextArea("<html><b>" + label + "</b></html>");
-	  DefaultCaret caret = (DefaultCaret) itemLabelPane.getCaret();
-	  caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 	  
 	  SimpleAttributeSet attribs = new SimpleAttributeSet();
 	  StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_RIGHT);
 	  itemLabelPane.setParagraphAttributes(attribs, true);
 	  
 	  itemLabelPane.setMinimumSize(labelDim);
-	  itemLabelPane.setMaximumSize(new Dimension(70, 500));
+	  itemLabelPane.setMaximumSize(new Dimension(70, 400));
 	  itemLabelPane.setPreferredSize(labelDim);
 	  
 	  itemContainer.setLayout(new BoxLayout(itemContainer, BoxLayout.X_AXIS));
