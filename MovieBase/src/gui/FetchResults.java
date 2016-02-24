@@ -3,12 +3,12 @@ package gui;
 //java imports
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import resources.ImageSaver;
-import resources.ResizeImage;
-
 import java.awt.Component;
 import java.awt.Dimension;
+
+//local imports
+import resources.ImageSaver;
+import resources.ResizeImage;
 
 public class FetchResults extends DialogTemplate
 {
