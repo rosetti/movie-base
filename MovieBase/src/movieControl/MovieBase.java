@@ -8,7 +8,8 @@ public class MovieBase
 {
 	ArrayList<Movie> movieBase = new ArrayList<>();
 	
-	public ArrayList<Movie> getMovieBase() {
+	public ArrayList<Movie> getMovieBase() 
+	{
 		return movieBase;
 	}
 
@@ -44,5 +45,20 @@ public class MovieBase
 		return movieBase.get(i);
 	}
 	
+	public ArrayList<Movie> searchBase(String searchTerm)
+	{
+		ArrayList<Movie> searchResults = new ArrayList<>();
+		searchTerm = searchTerm.toUpperCase();
+		
+		for (Movie i: movieBase)
+		{
+			if (i.getTitle().toUpperCase().contains(searchTerm))
+			{
+				searchResults.add(i);
+			}
+		}
+		
+		return searchResults;
+	}
 	
 }
