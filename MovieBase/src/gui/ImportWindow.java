@@ -22,7 +22,7 @@ public class ImportWindow
 	private JCheckBox postReviewCheck;
 	private JButton okBtn;
 	private JButton cancelBtn;
-	private JTextArea pathBox;
+	private JTextField pathBox;
 	private ImportProgress importProgress;
 	private Thread importProcess;
 	
@@ -43,7 +43,6 @@ public class ImportWindow
 		
 		importProgress = new ImportProgress();
 		importProcess = new Thread(importProgress);
-		//importProcess.start();
 	}
 	
 	private void makeFrame()
@@ -80,8 +79,8 @@ public class ImportWindow
 		pathPanel.setMinimumSize(new Dimension(480, 50));
 		pathPanel.setPreferredSize(new Dimension(480, 50));
 		
-		pathBox = new JTextArea();
-		pathBox.setFont(Theme.largeJTextAreaFont);
+		pathBox = new JTextField();
+		//pathBox.setFont(Theme.largeJTextAreaFont);
 		pathBox.setPreferredSize(new Dimension(400, 30));
 		pathBox.setMinimumSize(new Dimension(400, 30));
 		pathBox.setMaximumSize(new Dimension(400, 30));
