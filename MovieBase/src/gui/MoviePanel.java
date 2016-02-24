@@ -6,37 +6,34 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
+import javax.swing.SwingUtilities;
 
 //local imports
 import resources.ModifiedFlowLayout;
-import resources.StaticTestObjects;
 import movieControl.Movie;
 import resources.ResizeImage;
 
 public class MoviePanel
 {
   JScrollPane moviePane;
-  JPanel moviePanel = new JPanel();
+  JPanel moviePanel;
   JLabel image = new JLabel(new ImageIcon("H:\\Movie Posters\\Avengers.jpg"));
   SidePanel sPanel;
   MainWindow window;
   
   public MoviePanel(MainWindow mainWindow)
   {
+	  makeMoviePanel();
 	  this.window = mainWindow;
-	  this.moviePanel.setBackground(Theme.mainBackground);
-	  this.moviePanel.setLayout(new ModifiedFlowLayout());
 	  this.moviePane = new JScrollPane(this.moviePanel);
 	  moviePane.setBorder(Theme.standardBorder);
-	  makeMoviePanel();
+	  
   }
   
   public void addMovies(ArrayList<Movie> movieList)
@@ -50,7 +47,9 @@ public class MoviePanel
   
   public JPanel getMovieIcon(String image, String title, final Movie movie)
   {
-    JPanel movieIcon = new JPanel();
+    final JPanel movieIcon = new JPanel();
+    
+    final MovieContextMenu rightClickMenu = new MovieContextMenu(movie);
     
     ImageIcon imageIcon = new ImageIcon(movie.getPoster());
     imageIcon = ResizeImage.resizeImage(imageIcon, Theme.posterSizeMedium);
@@ -70,7 +69,16 @@ public class MoviePanel
     	@Override
     	public void mouseClicked(MouseEvent e) 
     	{
-    		window.setSidePanel(movie);
+    		if (SwingUtilities.isLeftMouseButton(e))
+    		{
+    			window.setSidePanel(movie);
+    		}
+    		
+    		if (SwingUtilities.isRightMouseButton(e))
+    		{
+    			rightClickMenu.showMenu(movieIcon, e.getX(), e.getY());
+    		}
+    		
     	}
     });
     
@@ -85,7 +93,17 @@ public class MoviePanel
   
   private void makeMoviePanel()
   {
-    this.moviePane.setBackground(Color.blue);
+	  moviePanel = new JPanel();
+	  moviePanel.setBackground(Theme.mainBackground);
+	  moviePanel.setLayout(new ModifiedFlowLayout());
+	  moviePanel.addMouseListener(new MouseAdapter() 
+	  {
+		  @Override
+		  public void mouseClicked(MouseEvent e)
+		  {
+			  window.clearSidePanel();
+		  }
+	  });
   }
   
   public JScrollPane getPanel()
