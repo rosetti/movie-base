@@ -22,6 +22,7 @@ public class ProgramLaunch
 		{
 			lParser = new LocalParser(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
 			coreBase = lParser.readMovies(coreBase);
+			lParser = null;
 		}
 		
 		initialiseMainWindow();
