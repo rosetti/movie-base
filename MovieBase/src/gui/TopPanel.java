@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
@@ -17,12 +16,14 @@ public class TopPanel
   private JTextField searchField;
   private JLabel watchedLabel;
   private JCheckBox watchedBox;
-  private JComboBox genre1;
-  private JComboBox genre2;
+  private JComboBox<String> genre1;
+  private JComboBox<String> genre2;
   
   public TopPanel()
   {
     makeTopBar();
+    makeGenre1();
+    makeGenre2();
     addComponents();
   }
   
@@ -40,15 +41,15 @@ public class TopPanel
     this.topBar.add(getSearchField());
     this.topBar.add(getWatchedLabel());
     this.topBar.add(getWatchedBox());
-    this.topBar.add(getGenre1());
-    this.topBar.add(getGenre2());
+    this.topBar.add(genre1);
+    this.topBar.add(genre2);
   }
   
   private JLabel getSearchLabel()
   {
     this.searchLabel = new JLabel("Search: ");
     
-    Dimension size = new Dimension(50, 40);
+    Dimension size = new Dimension(100, 40);
     this.searchLabel.setSize(size);
     this.searchLabel.setMaximumSize(size);
     this.searchLabel.setMinimumSize(size);
@@ -82,28 +83,27 @@ public class TopPanel
     return this.watchedBox;
   }
   
-  private JComboBox getGenre1()
+  private void makeGenre1()
   {
-    this.genre1 = new JComboBox();
+    genre1 = new JComboBox<>();
     
-    Dimension size = new Dimension(100, 30);
-    this.genre1.setSize(size);
-    this.genre1.setMaximumSize(size);
-    this.genre1.setMinimumSize(size);
-    this.genre1.setPreferredSize(size);
-    return this.genre1;
+    Dimension size = new Dimension(150, 30);
+    genre1.setSize(size);
+    genre1.setMaximumSize(size);
+    genre1.setMinimumSize(size);
+    genre1.setPreferredSize(size);
   }
   
-  private JComboBox getGenre2()
+  private void makeGenre2()
   {
-    this.genre2 = new JComboBox();
-    Dimension size = new Dimension(100, 30);
-    this.genre2.setSize(size);
-    this.genre2.setMaximumSize(size);
-    this.genre2.setMinimumSize(size);
-    this.genre2.setPreferredSize(size);
+	Dimension size = new Dimension(150, 30);
+	genre2 = new JComboBox<>();
     
-    return this.genre2;
+    genre2.setSize(size);
+    genre2.setMaximumSize(size);
+    genre2.setMinimumSize(size);
+    genre2.setPreferredSize(size);
+    
   }
   
   public JPanel getPanel()
@@ -111,8 +111,4 @@ public class TopPanel
     return this.topBar;
   }
   
-  public void setPanelColour(Color color)
-  {
-	  topBar.setBackground(color);
-  }
 }
