@@ -94,11 +94,9 @@ public class Movie
 		
 		return returnString.substring(0, returnString.length()-2);
 	}
+
 	
-	
-	/* getters and setters
-	 * setters probably aren't that important, but are here for use anyway. 
-	 */
+	/* getters and setters */
 	
 	public String getFileLocation() {
 		return fileLocation;
@@ -264,5 +262,4 @@ public class Movie
 		this.imdbId = imdbId;
 	}
 
-	
 }
