@@ -9,14 +9,14 @@ public class Theme
 {
   
 	//Colors
-	static Color topBackground = Color.LIGHT_GRAY;
-	static Color mainBackground = Color.LIGHT_GRAY;
+	static Color topBackground = Color.decode("#A2A4A5");
+	static Color mainBackground = Color.decode("#86AFB1");
   
 	//Borders
-	static Border standardBorder = new LineBorder(Color.DARK_GRAY,4);
-	static Border frameBorder = new LineBorder(Color.BLUE, 3);
-	static Border internalBorder = new LineBorder(Color.darkGray,1);
-	static Border singleBlackBorder = new LineBorder(Color.black, 1);
+	static Border standardBorder = new LineBorder(Color.WHITE,1);
+	static Border frameBorder = new LineBorder(Color.WHITE, 1);
+	static Border internalBorder = new LineBorder(Color.WHITE,1);
+	static Border singleBlackBorder = new LineBorder(Color.WHITE, 1);
   
 	//Dimensions
 	static Dimension buttonSize = new Dimension(100,30);
