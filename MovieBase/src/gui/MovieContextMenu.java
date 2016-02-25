@@ -8,6 +8,7 @@ import java.awt.Desktop;
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.JOptionPane;
+import java.awt.Component;
 
 //local imports
 import movieControl.Movie;
@@ -31,10 +32,10 @@ public class MovieContextMenu
 		desktop = Desktop.getDesktop();
 	}
 	
-	public void showMenu(JPanel panel, int x, int y)
+	public void showMenu(Component component, int x, int y)
 	{
 
-		rightClickMenu.show(panel, x, y); 
+		rightClickMenu.show(component, x, y);
 	}
 	
 	private void makeMenuItems()
