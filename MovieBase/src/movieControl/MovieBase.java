@@ -52,7 +52,18 @@ public class MovieBase
 		
 		for (Movie i: movieBase)
 		{
-			if (i.getTitle().toUpperCase().contains(searchTerm))
+			if
+			(
+				i.getTitle().toUpperCase().contains(searchTerm) ||
+				String.valueOf(i.getYear()).contains(searchTerm) ||
+				Movie.getListAsString(i.getActor()).toUpperCase().contains(searchTerm) ||
+				Movie.getListAsString(i.getDirector()).toUpperCase().contains(searchTerm) ||
+				Movie.getListAsString(i.getWriter()).toUpperCase().contains(searchTerm) ||
+				Movie.getListAsString(i.getGenre()).toUpperCase().contains(searchTerm) ||
+				i.getPlot().toUpperCase().contains(searchTerm) ||
+				Movie.getListAsString(i.getCountry()).toUpperCase().contains(searchTerm) ||
+				i.getImdbId().toUpperCase().contains(searchTerm)
+			)
 			{
 				searchResults.add(i);
 			}
