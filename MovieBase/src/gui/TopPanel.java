@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.Dimension;
-
+import java.awt.event.*;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -66,6 +66,28 @@ public class TopPanel
     this.searchField.setMaximumSize(size);
     this.searchField.setMinimumSize(size);
     this.searchField.setPreferredSize(size);
+    
+    searchField.addKeyListener(new KeyListener() 
+    {
+    	public void keyPressed(KeyEvent e)
+    	{
+    		if (e.getKeyCode() == 10)
+    		{
+    			//TODO: enter was pressed - execute method
+    			System.out.println("You pressed enter!");
+    		}
+    	}
+    	
+    	public void keyTyped(KeyEvent e)
+    	{
+    		//
+    	}
+    	
+    	public void keyReleased(KeyEvent e)
+    	{
+    		//after each key is typed, shall we search?
+    	}
+    });
     
     return this.searchField;
   }
