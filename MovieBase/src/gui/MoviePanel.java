@@ -1,8 +1,6 @@
 package gui;
 
 //java imports
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,31 +38,24 @@ public class MoviePanel
   {
 	  for (Movie i: movieList)
 	  {
-		  moviePanel.add(getMovieIcon(i.getPoster(), i.getTitle(), i));
+		  moviePanel.add(getMovieIcon(i));
 	  }
 	  
   }
   
-  public JPanel getMovieIcon(String image, String title, final Movie movie)
-  {
-    final JPanel movieIcon = new JPanel();
-    
+  public JLabel getMovieIcon(final Movie movie)
+  { 
     final MovieContextMenu rightClickMenu = new MovieContextMenu(movie);
     
     ImageIcon imageIcon = new ImageIcon(movie.getPoster());
     imageIcon = ResizeImage.resizeImage(imageIcon, Theme.posterSizeMedium);
     
-    JLabel imageLabel = new JLabel(imageIcon);
-    JLabel titleLabel = new JLabel(movie.getTitle(), 0);
-    titleLabel.setOpaque(true);
-    titleLabel.setBackground(Color.lightGray);
-    titleLabel.setMinimumSize(new Dimension(20, 298));
+    final JLabel imageLabel = new JLabel(imageIcon);
+    imageLabel.setText(movie.getTitle());
+    imageLabel.setVerticalTextPosition(JLabel.BOTTOM);
+    imageLabel.setHorizontalTextPosition(JLabel.CENTER);
     
-    movieIcon.setLayout(new BorderLayout());
-    movieIcon.add(imageLabel, "Center");
-    movieIcon.add(titleLabel, "South");
-    
-    movieIcon.addMouseListener(new MouseAdapter()
+    imageLabel.addMouseListener(new MouseAdapter()
     {
     	@Override
     	public void mouseClicked(MouseEvent e) 
@@ -76,19 +67,19 @@ public class MoviePanel
     		
     		if (SwingUtilities.isRightMouseButton(e))
     		{
-    			rightClickMenu.showMenu(movieIcon, e.getX(), e.getY());
+    			rightClickMenu.showMenu(imageLabel, e.getX(), e.getY());
     		}
     		
     	}
     });
     
-    Dimension size = new Dimension(200, 298);
+    Dimension size = new Dimension(200, 320);
     
-    movieIcon.setSize(size);
-    movieIcon.setPreferredSize(size);
-    movieIcon.setMaximumSize(size);
+    imageLabel.setSize(size);
+    imageLabel.setPreferredSize(size);
+    imageLabel.setMaximumSize(size);
     
-    return movieIcon;
+    return imageLabel;
   }
   
   private void makeMoviePanel()
