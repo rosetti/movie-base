@@ -83,7 +83,7 @@ public class Movie
 		}
 	}
 
-	public String getListAsString(ArrayList<String> list)
+	public static String getListAsString(ArrayList<String> list)
 	{
 		String returnString = "";
 		
