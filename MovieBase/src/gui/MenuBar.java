@@ -16,22 +16,26 @@ public class MenuBar
 	private JMenu fileMenu;
 	private JMenu aboutMenu;
 	private JMenu libraryMenu;
+	private JMenu viewMenu;
 	
 	public MenuBar()
 	{
 		fileMenu = new JMenu("File");
 		aboutMenu = new JMenu("About");
 		libraryMenu = new JMenu("Library");
+		viewMenu = new JMenu("View");
 		
 		menuBar = new JMenuBar();
 	    menuBar.setBackground(Theme.topBackground);
 	    menuBar.add(fileMenu);
-	    menuBar.add(aboutMenu);
 	    menuBar.add(libraryMenu);
+	    menuBar.add(viewMenu);
+	    menuBar.add(aboutMenu);
 	    
 	    addFileMenuItems();
 	    addAboutMenuItems();
 	    addLibraryMenuItems();
+	    addViewMenuItems();
 	}
 	
 	public JMenuBar getMenuBar()
@@ -95,5 +99,14 @@ public class MenuBar
 		 JMenuItem refreshLibraryItem = new JMenuItem("Refresh Library");
 		 
 		 libraryMenu.add(refreshLibraryItem);
+	 }
+
+	 private void addViewMenuItems()
+	 {
+		 JMenuItem iconViewItem = new JMenuItem("Icon View");
+		 JMenuItem listViewItem = new JMenuItem("List View");
+		 
+		 viewMenu.add(iconViewItem);
+		 viewMenu.add(listViewItem);
 	 }
 }
