@@ -3,14 +3,18 @@ package gui;
 //java imports
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import main.ProgramLaunch;
+import movieControl.MovieBase;
 //local imports
 import processManagers.clearMovieBaseManager;
 
-public class MenuBar 
+public class MenuBar extends Observable
 {
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -37,6 +41,7 @@ public class MenuBar
 	    addLibraryMenuItems();
 	    addViewMenuItems();
 	}
+	
 	
 	public JMenuBar getMenuBar()
 	{
@@ -99,6 +104,18 @@ public class MenuBar
 		 JMenuItem refreshLibraryItem = new JMenuItem("Refresh Library");
 		 
 		 libraryMenu.add(refreshLibraryItem);
+		 
+		 refreshLibraryItem.addActionListener(new ActionListener() 
+		 {
+			 public void actionPerformed(ActionEvent e)
+			 {
+				 //TODO: Refresh library
+				 //ProgramLaunch.setCoreBase(new MovieBase());
+				 //ProgramLaunch.getCoreBase().printMovies();
+				 setChanged();
+				 notifyObservers("Refresh");
+			 }
+		 });
 	 }
 
 	 private void addViewMenuItems()
