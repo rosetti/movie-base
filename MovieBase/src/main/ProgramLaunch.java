@@ -11,7 +11,7 @@ import gui.*;
 public class ProgramLaunch 
 {
 	LocalParser lParser;
-	MovieBase coreBase;
+	static MovieBase coreBase;
 	
 	public ProgramLaunch()
 	{
@@ -33,6 +33,16 @@ public class ProgramLaunch
 		MainWindow mainWindow = new MainWindow();
 		mainWindow.addMoviesToPanel(coreBase.getMovieBase());
 		mainWindow.refreshByResize();
+	}
+	
+	public static MovieBase getCoreBase()
+	{
+		return coreBase;
+	}
+	
+	public static void setCoreBase(MovieBase base)
+	{
+		coreBase = base;
 	}
 	
 	private boolean isExistingLibrary()
