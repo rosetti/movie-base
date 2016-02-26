@@ -8,11 +8,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 //local imports
 import movieControl.Movie;
 
-public class MainWindow
+public class MainWindow implements Observer
 { 
 	private JFrame frame;
 	private Container contentPane;
@@ -21,12 +23,13 @@ public class MainWindow
 	private ImageIcon logo;
 	private TopPanel topPanel = new TopPanel();
 	private MoviePanel moviePanel;
+	private MenuBar menuBar;
 	
 	public MainWindow()
 	{
-
+		menuBar = new MenuBar();
 		makeFrame();
-		frame.setJMenuBar(new MenuBar().getMenuBar());
+		frame.setJMenuBar(menuBar.getMenuBar());
 		frame.add(topPanel.getPanel(), "North");
 		
 		sidePanel = new SidePanel(new Movie());
@@ -37,6 +40,7 @@ public class MainWindow
 		frame.add(moviePanel.getPanel(), "Center");
 		frame.setVisible(true);
 		frame.setSize(900, 650);
+		addObservees();
 	}
   
 	public void setSidePanel(Movie movie)
@@ -46,6 +50,11 @@ public class MainWindow
 		jSidePanel = sidePanel.getPanel();
 		frame.add(jSidePanel, "West");
 		frame.revalidate();
+	}
+	
+	private void addObservees()
+	{
+		menuBar.addObserver(this);
 	}
 	
 	public void clearSidePanel()
@@ -77,6 +86,14 @@ public class MainWindow
 	{
 		//frame.setSize(900, 650);
 		frame.revalidate();
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) 
+	{
+		//moviePanel = new MoviePanel(this);
+		System.out.println("Observed " + arg1);
+		
 	}
 
 }
