@@ -109,11 +109,8 @@ public class MenuBar extends Observable
 		 {
 			 public void actionPerformed(ActionEvent e)
 			 {
-				 //TODO: Refresh library
-				 //ProgramLaunch.setCoreBase(new MovieBase());
-				 //ProgramLaunch.getCoreBase().printMovies();
 				 setChanged();
-				 notifyObservers("Refresh");
+				 notifyObservers("refresh");
 			 }
 		 });
 	 }
