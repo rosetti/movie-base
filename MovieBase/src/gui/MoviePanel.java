@@ -43,6 +43,11 @@ public class MoviePanel
 	  
   }
   
+  public void clearMovies()
+  {
+	  moviePanel.removeAll();
+  }
+  
   public JLabel getMovieIcon(final Movie movie)
   { 
     final MovieContextMenu rightClickMenu = new MovieContextMenu(movie);
