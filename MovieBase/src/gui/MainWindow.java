@@ -7,6 +7,10 @@ import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import main.ProgramLaunch;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,6 +27,7 @@ public class MainWindow implements Observer
 	private ImageIcon logo;
 	private TopPanel topPanel = new TopPanel();
 	private MoviePanel moviePanel;
+	private JScrollPane movieScrollPane;
 	private MenuBar menuBar;
 	
 	public MainWindow()
@@ -36,8 +41,14 @@ public class MainWindow implements Observer
 		jSidePanel = sidePanel.getPanel(); 
 		
 		moviePanel = new MoviePanel(this);
+		
+		
+		
+		movieScrollPane = moviePanel.getPanel();
+		
 		frame.add(jSidePanel, "West");
-		frame.add(moviePanel.getPanel(), "Center");
+		frame.add(movieScrollPane, "Center");
+		
 		frame.setVisible(true);
 		frame.setSize(900, 650);
 		addObservees();
@@ -55,6 +66,7 @@ public class MainWindow implements Observer
 	private void addObservees()
 	{
 		menuBar.addObserver(this);
+		topPanel.addObserver(this);
 	}
 	
 	public void clearSidePanel()
@@ -79,7 +91,9 @@ public class MainWindow implements Observer
   
 	public void addMoviesToPanel(ArrayList<Movie> movieList)
 	{
+		moviePanel.clearMovies();
 		moviePanel.addMovies(movieList);
+		frame.revalidate();
 	}
 	
 	public void refreshByResize()
@@ -91,9 +105,19 @@ public class MainWindow implements Observer
 	@Override
 	public void update(Observable arg0, Object arg1) 
 	{
-		//moviePanel = new MoviePanel(this);
-		System.out.println("Observed " + arg1);
+		if (arg1.equals("refresh"))
+		{
+			ProgramLaunch.loadLibrary();
+			addMoviesToPanel(ProgramLaunch.getCoreBase().getMovieBase());
+			frame.revalidate();
+		}
 		
+		if (arg1.toString().startsWith("search:"));
+		{
+			String searchTerm = arg1.toString().replace("search:", "");
+			addMoviesToPanel(ProgramLaunch.getCoreBase().searchBase(searchTerm));
+		}
+			
 	}
 
 }
