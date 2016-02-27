@@ -10,7 +10,7 @@ import gui.*;
 
 public class ProgramLaunch 
 {
-	LocalParser lParser;
+	static LocalParser lParser;
 	static MovieBase coreBase;
 	
 	public ProgramLaunch()
@@ -20,9 +20,7 @@ public class ProgramLaunch
 		
 		if (isExistingLibrary())
 		{
-			lParser = new LocalParser(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
-			coreBase = lParser.readMovies(coreBase);
-			lParser = null;
+			loadLibrary();
 		}
 		
 		initialiseMainWindow();
@@ -43,6 +41,13 @@ public class ProgramLaunch
 	public static void setCoreBase(MovieBase base)
 	{
 		coreBase = base;
+	}
+	
+	public static void loadLibrary()
+	{
+		lParser = new LocalParser(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
+		coreBase = lParser.readMovies(coreBase);
+		lParser = null;
 	}
 	
 	private boolean isExistingLibrary()
