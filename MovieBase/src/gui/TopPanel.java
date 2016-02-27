@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.util.Observable;
+
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -9,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TopPanel
+public class TopPanel extends Observable
 {
   private JPanel topBar;
   private JLabel searchLabel;
@@ -73,8 +75,8 @@ public class TopPanel
     	{
     		if (e.getKeyCode() == 10)
     		{
-    			//TODO: enter was pressed - execute method
-    			System.out.println("You pressed enter!");
+    			setChanged();
+    			notifyObservers("search:" + searchField.getText());
     		}
     	}
     	
