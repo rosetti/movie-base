@@ -31,6 +31,8 @@ public class clearMovieBaseManager
 			xmlFile.delete();
 			JOptionPane.showMessageDialog(new JPanel(), "Successfully deleted Movie Base data. MovieBase will now exit");
 		}
+		
+		System.exit(0);
 	}
 	
 	public void deleteImages()
