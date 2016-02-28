@@ -4,15 +4,20 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JCheckBoxMenuItem;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 
-import main.ProgramLaunch;
-import movieControl.MovieBase;
 //local imports
 import processManagers.clearMovieBaseManager;
+import main.ApplicationMain;
+import main.ProgramLaunch;
+import movieControl.MovieBase;
 
 public class MenuBar extends Observable
 {
@@ -21,7 +26,7 @@ public class MenuBar extends Observable
 	private JMenu aboutMenu;
 	private JMenu libraryMenu;
 	private JMenu viewMenu;
-	
+
 	public MenuBar()
 	{
 		fileMenu = new JMenu("File");
@@ -101,10 +106,9 @@ public class MenuBar extends Observable
 	 
 	 private void addLibraryMenuItems()
 	 {
+		 //Refresh Library
 		 JMenuItem refreshLibraryItem = new JMenuItem("Refresh Library");
-		 
 		 libraryMenu.add(refreshLibraryItem);
-		 
 		 refreshLibraryItem.addActionListener(new ActionListener() 
 		 {
 			 public void actionPerformed(ActionEvent e)
@@ -113,13 +117,41 @@ public class MenuBar extends Observable
 				 notifyObservers("refresh");
 			 }
 		 });
+		 
+		 //View Library XML File
+		 JMenuItem viewAsXMLItem = new JMenuItem("Open XML Library File");
+		 libraryMenu.add(viewAsXMLItem);
+		 viewAsXMLItem.addActionListener(new ActionListener()
+		 {
+			 public void actionPerformed(ActionEvent e)
+			 {
+				 Desktop desktop = Desktop.getDesktop();
+				 File xmlFile = new File(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
+				 if (xmlFile.exists())
+				 {
+					 try 
+					 {
+						desktop.open(new File(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml"));
+					 } 
+					 catch (IOException e1) 
+					 {
+						JOptionPane.showMessageDialog(menuBar, "Unable to open XML file");
+					}	 
+				 }
+				 
+				 else
+				 {
+					 JOptionPane.showMessageDialog(menuBar.getParent(), "There is currently no xml library data");
+				 }
+				 
+			 }
+		 });
 	 }
 
 	 private void addViewMenuItems()
 	 {
-		 JMenuItem iconViewItem = new JMenuItem("Icon View");
-		 JMenuItem listViewItem = new JMenuItem("List View");
-		 
+		 JMenuItem iconViewItem = new JCheckBoxMenuItem("Icon View");
+		 JMenuItem listViewItem = new JCheckBoxMenuItem("List View");
 		 viewMenu.add(iconViewItem);
 		 viewMenu.add(listViewItem);
 	 }
