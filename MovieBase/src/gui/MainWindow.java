@@ -3,6 +3,7 @@ package gui;
 //java imports
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -37,16 +38,10 @@ public class MainWindow implements Observer
 		frame.setJMenuBar(menuBar.getMenuBar());
 		frame.add(topPanel.getPanel(), "North");
 		
-		sidePanel = new SidePanel(new Movie());
-		jSidePanel = sidePanel.getPanel(); 
-		
 		moviePanel = new MoviePanel(this);
-		
-		
 		
 		movieScrollPane = moviePanel.getPanel();
 		
-		frame.add(jSidePanel, "West");
 		frame.add(movieScrollPane, "Center");
 		
 		frame.setVisible(true);
@@ -56,11 +51,18 @@ public class MainWindow implements Observer
   
 	public void setSidePanel(Movie movie)
 	{
-		frame.remove(jSidePanel);
+		if (!(jSidePanel == null))
+		{
+			frame.remove(jSidePanel);
+		}
+		
+		sidePanel = null;
 		sidePanel = new SidePanel(movie);
+		jSidePanel= null;
 		jSidePanel = sidePanel.getPanel();
 		frame.add(jSidePanel, "West");
 		frame.revalidate();
+		System.gc();
 	}
 	
 	private void addObservees()
@@ -71,19 +73,21 @@ public class MainWindow implements Observer
 	
 	public void clearSidePanel()
 	{
-		frame.remove(jSidePanel);
+		if (!(jSidePanel == null))
+		{
+			frame.remove(jSidePanel);
+		}
+		
 		sidePanel = null;
+		jSidePanel = null;
 		frame.revalidate();
+		System.gc();
 	}
   
 	private void makeFrame()
 	{
 		frame = new JFrame("Vin's Movie Base");
 		frame.setDefaultCloseOperation(3);
-		frame.setBackground(Color.black);
-		logo = new ImageIcon("Y:\\Development\\SinSoftMovieApplication\\src\\resources\\MovieBase Logo.png");
-		frame.setIconImage(logo.getImage());
-
     
 		contentPane = frame.getContentPane();
 		contentPane.setLayout(new BorderLayout());
@@ -98,7 +102,6 @@ public class MainWindow implements Observer
 	
 	public void refreshByResize()
 	{
-		//frame.setSize(900, 650);
 		frame.revalidate();
 	}
 
@@ -115,6 +118,7 @@ public class MainWindow implements Observer
 		if (arg1.toString().startsWith("search:"));
 		{
 			String searchTerm = arg1.toString().replace("search:", "");
+			moviePanel.clearMovies();
 			addMoviesToPanel(ProgramLaunch.getCoreBase().searchBase(searchTerm));
 		}
 			
