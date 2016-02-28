@@ -21,7 +21,6 @@ public class MoviePanel
 {
   JScrollPane moviePane;
   JPanel moviePanel;
-  JLabel image = new JLabel(new ImageIcon("H:\\Movie Posters\\Avengers.jpg"));
   SidePanel sPanel;
   MainWindow window;
   
@@ -36,9 +35,16 @@ public class MoviePanel
   
   public void addMovies(ArrayList<Movie> movieList)
   {
+	  int count = 0;
 	  for (Movie i: movieList)
 	  {
 		  moviePanel.add(getMovieIcon(i));
+		  count++;
+		  
+		  if (count==300)
+		  {
+			  break;
+		  }
 	  }
 	  
   }
@@ -46,6 +52,7 @@ public class MoviePanel
   public void clearMovies()
   {
 	  moviePanel.removeAll();
+	  System.out.println("break point");
   }
   
   public JLabel getMovieIcon(final Movie movie)
@@ -54,7 +61,7 @@ public class MoviePanel
     
     ImageIcon imageIcon = new ImageIcon(movie.getPoster());
     imageIcon = ResizeImage.resizeImage(imageIcon, Theme.posterSizeMedium);
-    
+    imageIcon.getImage().flush();
     final JLabel imageLabel = new JLabel(imageIcon);
     imageLabel.setText(movie.getTitle());
     imageLabel.setVerticalTextPosition(JLabel.BOTTOM);
@@ -92,6 +99,7 @@ public class MoviePanel
 	  moviePanel = new JPanel();
 	  moviePanel.setBackground(Theme.mainBackground);
 	  moviePanel.setLayout(new ModifiedFlowLayout());
+	  
 	  moviePanel.addMouseListener(new MouseAdapter() 
 	  {
 		  @Override
@@ -100,6 +108,7 @@ public class MoviePanel
 			  window.clearSidePanel();
 		  }
 	  });
+	  
   }
   
   public JScrollPane getPanel()
