@@ -2,6 +2,8 @@ package main;
 
 //java imports
 import java.io.File;
+import java.lang.instrument.*;
+import java.util.ArrayList;
 
 //local imports
 import movieControl.*;
@@ -29,8 +31,10 @@ public class ProgramLaunch
 	private void initialiseMainWindow()
 	{
 		MainWindow mainWindow = new MainWindow();
-		mainWindow.addMoviesToPanel(coreBase.getMovieBase());
+		ArrayList<Movie> movieList = coreBase.getMovieBase();
+		mainWindow.addMoviesToPanel(movieList);
 		mainWindow.refreshByResize();
+
 	}
 	
 	public static MovieBase getCoreBase()
