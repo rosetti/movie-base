@@ -108,6 +108,7 @@ public class SidePanel
 	  watchedBox.setSelected(movie.isWatched());
 	  ImageIcon poster = new ImageIcon(movie.getPoster());
 	  poster = ResizeImage.resizeImage(poster, Theme.posterSizeLarge);
+	  poster.getImage().flush();
 	  JLabel posterLabel = new JLabel(poster);
 	  posterPanel.add(posterLabel);
     
