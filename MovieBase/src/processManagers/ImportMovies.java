@@ -86,11 +86,13 @@ public class ImportMovies
 			
 			//limit testing runs to a low amount
 			
-			if (stop)
+			if (stop || (goodCount + badCount == 100))
 			{
 				break;
 			}
 		}
+		
+		System.out.println("Import finished!!");
 		
 	}
 	
