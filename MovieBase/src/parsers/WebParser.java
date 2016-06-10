@@ -78,5 +78,14 @@ public class WebParser extends XMLparser
 		return movieBlank;
 	}
 
+	public ArrayList<Movie> getSearchResults()
+	{
+		ArrayList<Movie> searchResults = new ArrayList<>();
+		
+		
+		
+		return searchResults;
+	}
+	
 	
 }

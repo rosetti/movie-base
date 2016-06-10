@@ -25,7 +25,8 @@ public class MovieTest
 
 	public MovieTest()
 	{
-		new ProgramLaunch();
+		//new ProgramLaunch();
+		new FetchResults();
 		//testInputReader();
 		//testWebParserByTitle();
 		//sidePanelTest();

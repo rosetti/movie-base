@@ -53,8 +53,18 @@ public class ImportMovies
 		directoryReader.readDirectory();
 
 		WebParser wParser = null;
+		int length = 0;
 		
-		int length = directoryReader.getFileList().length;
+		
+		if (new File(inputPath).isFile())
+		{
+			length = 1;
+		}
+		
+		else
+		{
+			length = directoryReader.getFileList().length;
+		}
 		
 		progressBar.setMaximum(length);
 		
@@ -86,7 +96,7 @@ public class ImportMovies
 			
 			//limit testing runs to a low amount
 			
-			if (stop || (goodCount + badCount == 100))
+			if (stop || (goodCount + badCount == 150))
 			{
 				break;
 			}
