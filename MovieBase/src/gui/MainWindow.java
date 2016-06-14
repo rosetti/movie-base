@@ -44,11 +44,15 @@ public class MainWindow implements Observer
 		
 		frame.add(movieScrollPane, "Center");
 		
-		frame.setVisible(true);
 		frame.setSize(900, 650);
 		addObservees();
 	}
   
+	public void showMainWindow()
+	{
+		frame.setVisible(true);
+	}
+	
 	public void setSidePanel(Movie movie)
 	{
 		if (!(jSidePanel == null))
@@ -110,9 +114,12 @@ public class MainWindow implements Observer
 	{
 		if (arg1.equals("refresh"))
 		{
+			System.out.println("Time to refresh!");
 			ProgramLaunch.loadLibrary();
+			moviePanel.clearMovies();
 			addMoviesToPanel(ProgramLaunch.getCoreBase().getMovieBase());
 			frame.revalidate();
+			System.out.println("Library Refreshed!");
 		}
 		
 		if (arg1.toString().startsWith("search:"));
