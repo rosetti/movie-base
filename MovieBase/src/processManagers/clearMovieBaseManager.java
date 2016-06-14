@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 //local imports
 import main.ApplicationMain;
+import resources.Logger;
+
 import javax.swing.JOptionPane;
 
 //class will delete XML file, and images folder - thus clearing downloaded data
@@ -49,7 +51,7 @@ public class clearMovieBaseManager
 		
 		else
 		{
-			System.out.println("Unable to delete images folder at: " + imagesDirectory.getAbsolutePath());
+			Logger.logMessage("Unable to delete images folder at: " + imagesDirectory.getAbsolutePath());
 		}
 	}
 }
