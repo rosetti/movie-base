@@ -3,6 +3,8 @@ package main;
 //java imports
 import java.io.*;
 
+import gui.InitialiseSwing;
+
 public class ApplicationMain {
 
 	public static String pwd;
@@ -23,7 +25,9 @@ public class ApplicationMain {
 		}
 		setSlash();
 		initialise();
+		InitialiseSwing.setSwingConstants();
 		setMediaInfoAvailable();
+		
 		new MovieTest();
 	}
 
