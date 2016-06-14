@@ -20,31 +20,39 @@ public class ImageSaver
 		
 		if (imageLink.equals("N/A"))
 		{
-			return imageLink;
+			return ApplicationMain.pwd + ApplicationMain.slash + "resources" + ApplicationMain.slash + "image_not_found.jpg";
 		}
 		
 		String extension = imageLink.substring(imageLink.lastIndexOf("."), imageLink.length());
-		String outputPath = (ApplicationMain.pwd + ApplicationMain.slash + "images" + ApplicationMain.slash + title + " " + imdbId + extension);
+		String outputPath = ApplicationMain.pwd + ApplicationMain.slash + "images" + ApplicationMain.slash + title + " " + imdbId + extension;
 		
 		
 		BufferedImage downloadedImage = downloadBufferedImage(imageLink);
 		
 		OutputStream out = null;
+		boolean imageIsValid;
+		
 		
 		try
 		{
 			out = new BufferedOutputStream(new FileOutputStream(outputPath));
+			imageIsValid = true;
 		}
 		
 		catch(Exception e)
 		{
 			System.out.println("Unable to connect to external image location");
-			outputPath = imageLink;
+			outputPath = ApplicationMain.pwd + ApplicationMain.slash + "resources" + ApplicationMain.slash + "image_not_found.jpg";
+			imageIsValid = false;
 		}
 		
 		try 
 		{
-			ImageIO.write(downloadedImage, "jpeg", new File(outputPath));
+			System.out.println("Output Path:" + outputPath);
+			if (imageIsValid)
+			{
+				ImageIO.write(downloadedImage, "jpeg", new File(outputPath));	
+			}
 		} 
 		catch (IOException e1) 
 		{
@@ -53,7 +61,10 @@ public class ImageSaver
 		
 		try 
 		{
-			out.close();
+			if (out != null)
+			{
+				out.close();
+			}
 		} 
 		
 		catch (IOException e) 
