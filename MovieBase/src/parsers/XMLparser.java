@@ -12,6 +12,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import resources.Logger;
+
 //import java.io.File;
 import java.io.IOException;
 
@@ -42,12 +44,12 @@ public abstract class XMLparser
 		
 		catch (SAXException e)
 		{
-			System.out.println("SAXException");
+			Logger.logMessage("SAXException: Unable to parse document!" + e.getMessage());
 		}
 		
-		catch (IOException i)
+		catch (IOException e)
 		{
-			System.out.println("IOException");
+			Logger.logMessage("IOException: Unable to parse document" + e.getMessage());
 		}
 	}
 	
@@ -61,8 +63,7 @@ public abstract class XMLparser
 		
 		catch (ParserConfigurationException e) 
 		{
-			System.out.println("Parser Configuration Exception");
-			e.printStackTrace();		
+			Logger.logMessage("Parser Configuration Exception" + e.getMessage());
 		}
 		
 		return dBuilder;
