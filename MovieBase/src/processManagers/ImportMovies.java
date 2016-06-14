@@ -4,9 +4,14 @@ package processManagers;
 import java.io.File;
 import java.util.ArrayList;
 import org.w3c.dom.Document;
+
+import gui.ImportResults;
+
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 //local imports
 import parsers.LocalParser;
@@ -17,6 +22,7 @@ import inputOutput.XMLWriter;
 import movieControl.MovieBase;
 import movieControl.Movie;
 import resources.APIControl;
+import resources.Logger;
 
 
 public class ImportMovies
@@ -30,7 +36,7 @@ public class ImportMovies
 	JTextArea progressBox;
 	JProgressBar progressBar;
 	JLabel progressLabel;
-	public volatile boolean stop;
+	public volatile boolean stop = false;
 	
 	//constructor
 	public ImportMovies(String inputPath, JTextArea progressBox, JProgressBar progressBar, JLabel progressLabel)
@@ -67,13 +73,25 @@ public class ImportMovies
 		}
 		
 		progressBar.setMaximum(length);
-		
+
+		int DEBUGCOUNT = 0;
 		for (File i: directoryReader.getFileList())
 		{
+			
+			//DEBUGGING
+			
+			//if (DEBUGCOUNT < 225)
+			//{
+			//	DEBUGCOUNT++;
+			//	continue;
+			//}
+			
+			//i = directoryReader.getFileList()[225];
+			//System.out.println("Adding: " + i);
+			//DEBUGGING
 			String searchUrl = APIControl.getSearchTitle(directoryReader.cleanMovieName(i).getTitle());
 			wParser = new WebParser(searchUrl);
 			Movie retrievedMovie = directoryReader.cleanMovieName(i);
-			stop = false;
 			
 			if(wParser.isValidFetch())
 			{
@@ -85,25 +103,35 @@ public class ImportMovies
 			
 			else 
 			{
-				String badOutput = (goodCount + badCount) + ". " + "Could not get info for " + retrievedMovie.getTitle() +"\n";
-				progressBox.append(badOutput);
 				moviesNotFound.add(retrievedMovie);
 				badCount++;
+				String badOutput = (goodCount + badCount) + ". " + "Could not get info for " + retrievedMovie.getTitle() +"\n";
+				progressBox.append(badOutput);
 			}
 			
 			progressBar.setValue(goodCount + badCount);
 			progressLabel.setText((goodCount + badCount) + " of " + length);
 			
-			//limit testing runs to a low amount
 			
-			if (stop || (goodCount + badCount == 150))
+			
+			if (stop)
+			{
+				JOptionPane.showMessageDialog(new JPanel(), "Import was Aborted!");
+				break;
+			}
+			
+			//limit testing runs to a low amount
+			//For debugging
+			if ((goodCount + badCount == -1))
 			{
 				break;
 			}
+			
 		}
 		
-		System.out.println("Import finished!!");
-		
+		Logger.logMessage("Import Finished: " + "Successfully Imported " + goodCount + " movies. \n" + "Failed to import badCount," + " movies");
+		new ImportResults(goodCount, badCount);
+
 	}
 	
 	public void writeResultsToXml()
