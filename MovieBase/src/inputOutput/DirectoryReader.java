@@ -76,7 +76,7 @@ public class DirectoryReader
 		
 		if (!file.isDirectory() && ApplicationMain.mediaInfoAvailable)
 		{
-			runtime = ReadMediaInfo.getRuntimeFromFile(fileLocation); 
+			//runtime = ReadMediaInfo.getRuntimeFromFile(fileLocation); 
 		}
 		
 		returnMovie.setRuntime(runtime);
