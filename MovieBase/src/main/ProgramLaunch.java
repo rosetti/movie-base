@@ -33,7 +33,8 @@ public class ProgramLaunch
 		MainWindow mainWindow = new MainWindow();
 		ArrayList<Movie> movieList = coreBase.getMovieBase();
 		mainWindow.addMoviesToPanel(movieList);
-		mainWindow.refreshByResize();
+		mainWindow.showMainWindow();
+		//mainWindow.refreshByResize();
 
 	}
 	
