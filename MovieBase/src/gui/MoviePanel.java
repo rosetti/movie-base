@@ -29,6 +29,7 @@ public class MoviePanel
 	  makeMoviePanel();
 	  this.window = mainWindow;
 	  this.moviePane = new JScrollPane(this.moviePanel);
+	  moviePane.getVerticalScrollBar().setUnitIncrement(50);
 	  moviePane.setBorder(Theme.standardBorder);
 	  
   }
@@ -52,7 +53,6 @@ public class MoviePanel
   public void clearMovies()
   {
 	  moviePanel.removeAll();
-	  System.out.println("break point");
   }
   
   public JLabel getMovieIcon(final Movie movie)
