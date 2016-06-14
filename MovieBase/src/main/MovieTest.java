@@ -13,6 +13,7 @@ import movieControl.Movie;
 import movieControl.MovieBase;
 import parsers.LocalParser;
 import resources.ImageSaver;
+import resources.Logger;
 import parsers.WebParser;
 import processManagers.ImportMovies;
 import inputOutput.DirectoryReader;
@@ -26,7 +27,7 @@ public class MovieTest
 	public MovieTest()
 	{
 		//new ProgramLaunch();
-		new FetchResults();
+		//new FetchResults();
 		//testInputReader();
 		//testWebParserByTitle();
 		//sidePanelTest();
@@ -45,10 +46,33 @@ public class MovieTest
 		//testDirectoryReader();
 		//xmlWriterTest();
 		
-		//ImportMovies importMovieProcess = new ImportMovies("/home/vin/Documents/movies");
+		///ImportMovies importMovieProcess = new ImportMovies("/home/vin/Documents/movies");
 		//importMovieProcess.importMoviesFromWeb();
-		//new ImportMovies("K:\\films").importMovies();
 		//testImageDownloader();
+		Logger.logMessage("Installing Moviebase");
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Logger.logMessage("Starting import");
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Logger.logBreak("Starting Movie Import");
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Logger.logMessage("Error, unable to import something");
+		
+		System.out.println("Finished!");
 		
 	}
 
