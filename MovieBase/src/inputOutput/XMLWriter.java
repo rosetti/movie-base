@@ -1,6 +1,7 @@
 package inputOutput;
 
 import movieControl.Movie;
+import resources.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,10 +40,9 @@ public class XMLWriter
 			dBuilder = dbFactory.newDocumentBuilder();
 		}
 		
-		catch (ParserConfigurationException e1) 
+		catch (ParserConfigurationException e) 
 		{
-			System.out.println("Unable to create Document Builder");
-			e1.printStackTrace();
+			Logger.logMessage("Unable to create Document Builder + \n" + e.getMessage());
 		}
 	}
 	
@@ -68,8 +68,7 @@ public class XMLWriter
 		
 		catch (TransformerConfigurationException e) 
 		{
-			System.out.println("Unable to create Transformer");
-			e.printStackTrace();
+			Logger.logMessage("Unable to create Transformer + \n" + e.getMessage());
 		}
 	}
 	
@@ -85,8 +84,7 @@ public class XMLWriter
 		
 		catch (TransformerException e) 
 		{
-			System.out.println("Unable to output XML document to file");
-			e.printStackTrace();
+			Logger.logMessage("Unable to output XML document to file + \n" + e.getMessage());
 		}
 	}
 	
