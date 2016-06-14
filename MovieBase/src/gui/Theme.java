@@ -13,10 +13,10 @@ public class Theme
 	static Color mainBackground = Color.decode("#86AFB1");
   
 	//Borders
-	static Border standardBorder = new LineBorder(Color.WHITE,1);
-	static Border frameBorder = new LineBorder(Color.WHITE, 1);
-	static Border internalBorder = new LineBorder(Color.WHITE,1);
-	static Border singleBlackBorder = new LineBorder(Color.WHITE, 1);
+	static Border standardBorder = new LineBorder(Color.WHITE,0);
+	static Border frameBorder = new LineBorder(Color.WHITE, 0);
+	static Border internalBorder = new LineBorder(Color.WHITE,0);
+	static Border singleBlackBorder = new LineBorder(Color.WHITE, 0);
   
 	//Dimensions
 	static Dimension buttonSize = new Dimension(100,30);
