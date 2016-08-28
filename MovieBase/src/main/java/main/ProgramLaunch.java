@@ -2,13 +2,13 @@ package main;
 
 //java imports
 import java.io.File;
-import java.lang.instrument.*;
-import java.util.ArrayList;
 
 //local imports
 import movieControl.*;
 import parsers.LocalParser;
 import gui.*;
+import javafx.application.Application;
+import javafxgui.MainWindowView;
 
 public class ProgramLaunch 
 {
@@ -25,17 +25,22 @@ public class ProgramLaunch
 			loadLibrary();
 		}
 		
-		initialiseMainWindow();
+		//initialiseMainWindow();
+		startJavaFXGui();
 	}
 	
 	private void initialiseMainWindow()
 	{
 		MainWindow mainWindow = new MainWindow();
-		//ArrayList<Movie> movieList = coreBase.getMovieBase();
 		mainWindow.addMoviesToPanel(coreBase.getMovieBase());
 		mainWindow.showMainWindow();
 		//mainWindow.refreshByResize();
 
+	}
+	
+	private void startJavaFXGui()
+	{
+		Application.launch(MainWindowView.class);
 	}
 	
 	public static MovieBase getCoreBase()

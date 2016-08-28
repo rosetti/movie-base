@@ -27,10 +27,9 @@ public class ApplicationMain {
 		}
 		setSlash();
 		initialise();
-		InitialiseSwing.setSwingConstants();
 		setMediaInfoAvailable();
 		
-		new MovieTest();
+		new ProgramLaunch();
 	}
 
 	private static void initialise()
@@ -41,6 +40,7 @@ public class ApplicationMain {
 		{
 			imagesDirectory.mkdir();
 		}
+		InitialiseSwing.setSwingConstants();
 	}
 	
 	private static void setSlash()

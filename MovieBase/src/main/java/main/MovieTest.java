@@ -3,7 +3,7 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javafx.application.Application;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -19,9 +19,9 @@ import processManagers.ImportMovies;
 import inputOutput.DirectoryReader;
 import gui.*;
 import javafxgui.*;
-import javafxgui.MainWindow;
+import javafxgui.MainWindowView;
 import inputOutput.XMLWriter;
-import javafxgui.MainWindow;
+import javafxgui.MainWindowView;
 import resources.StaticTestObjects;
 
 public class MovieTest
@@ -29,9 +29,9 @@ public class MovieTest
 
 	public MovieTest()
 	{
-		new ProgramLaunch();
-		//new javafxgui.MainWindow()
-		//javafxgui.MainWindow.launch(MainWindow.class, null);
+		//new ProgramLaunch();
+		Application.launch(MainWindowView.class);
+		//javafxgui.MainWindowView.launch(MainWindowView.class, null);
 		//new FetchResults();
 		//testInputReader();
 		//testWebParserByTitle();
@@ -140,7 +140,7 @@ public class MovieTest
 
 	public void sidePanelTest()
 	{
-		//gui.MainWindow mainWindow = new MainWindow();
+		//gui.MainWindowView mainWindow = new MainWindowView();
 		//LocalParser lParser = new LocalParser("C:\\Program Files\\Sinnerman Software\\Movie Base\\movieData.xml");
 		//MovieBase base = new MovieBase();
 		//base.addMovies(lParser.getMovies());
@@ -198,7 +198,7 @@ public class MovieTest
 		movieList.add(StaticTestObjects.getTestMovie1());
 		movieList.add(StaticTestObjects.getTestMovie2());
 		
-		//MainWindow mainWindow = new MainWindow();
+		//MainWindowView mainWindow = new MainWindowView();
 		//mainWindow.addMoviesToPanel(movieList);
 	}
 	
@@ -208,7 +208,7 @@ public class MovieTest
 		MovieBase base = new MovieBase();
 		base = lParser.readMovies(base);
 		
-		//MainWindow mainWindow = new MainWindow();
+		//MainWindowView mainWindow = new MainWindowView();
 		//mainWindow.addMoviesToPanel(base.getMovieBase());
 		//mainWindow.refreshByResize();
 		
