@@ -4,9 +4,6 @@ package processManagers;
 import java.io.File;
 import java.util.ArrayList;
 import org.w3c.dom.Document;
-
-import gui.ImportResults;
-
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
@@ -23,6 +20,7 @@ import movieControl.MovieBase;
 import movieControl.Movie;
 import resources.APIControl;
 import resources.Logger;
+import gui.ImportResults;
 
 
 public class ImportMovies
