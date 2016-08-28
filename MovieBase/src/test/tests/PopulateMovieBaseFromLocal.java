@@ -1,18 +1,16 @@
 package tests;
-/*
-import org.junit.Assert;
-import org.junit.Assert.*;
 
 import java.io.IOException;
 
-import movieControl.MovieBase;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import movieControl.MovieBase;
 import parsers.LocalParser;
 
-public class PopulateMovieBaseFromLocal {
+public class PopulateMovieBaseFromLocal 
+{
 
 	@Test
 	public void test() 
@@ -42,4 +40,3 @@ public class PopulateMovieBaseFromLocal {
 	}
 
 }
-*/
