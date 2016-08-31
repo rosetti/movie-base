@@ -15,15 +15,24 @@ public class ApplicationMain {
 	
 	public static void main(String[] args) 
 	{
+		
+		
 		if (args.length==0)
 		{
 			pwd = System.getProperty("user.dir");
 		}
 		
 		else
-			
 		{
-			pwd = args[0];
+			if (args.length > 1)
+			{
+				getOpts(args);
+			}
+			
+			else
+			{
+				pwd = args[0];
+			}
 		}
 		setSlash();
 		initialise();
@@ -67,5 +76,10 @@ public class ApplicationMain {
 		{
 			mediaInfoAvailable = false;
 		}
+	}
+	
+	private static void getOpts(String[] args)
+	{
+		System.out.println("Getting options...");
 	}
 }
