@@ -85,10 +85,9 @@ public class LocalParser extends XMLparser
 		return false;
 	}
 
-	public MovieBase readMovies(MovieBase base)
+	public void readMovies()
 	{
-		base.addMovies(getMovies());
-		return base;
+		MovieBase.getInstance().addMovies(getMovies());
 	}
 
 }

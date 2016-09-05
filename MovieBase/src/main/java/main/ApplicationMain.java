@@ -14,9 +14,7 @@ public class ApplicationMain {
 	public static boolean mediaInfoAvailable;
 	
 	public static void main(String[] args) 
-	{
-		
-		
+	{	
 		if (args.length==0)
 		{
 			pwd = System.getProperty("user.dir");

@@ -2,6 +2,7 @@ package processManagers;
 
 //java imports
 import java.io.File;
+import java.util.Iterator;
 import java.util.ArrayList;
 import org.w3c.dom.Document;
 import javax.swing.JProgressBar;
@@ -39,6 +40,7 @@ public class ImportMovies
 	//constructor
 	public ImportMovies(String inputPath, JTextArea progressBox, JProgressBar progressBar, JLabel progressLabel)
 	{
+		//TODO: Remove this Swing shit from this process. Decouple it you twit!
 		this.inputPath = inputPath;
 		this.progressBox = progressBox;
 		this.progressBar = progressBar;
@@ -146,12 +148,13 @@ public class ImportMovies
 		LocalParser lParser = new LocalParser();
 		Document xmlImportDoc = lParser.getXMLDoc();
 		
-		for (Movie i: base.getMovieBase())
+		Iterator<Movie> i = MovieBase.getInstance().getIterator(); 
+		
+		while (i.hasNext())
 		{
-			
-			if (!lParser.isAlreadyInFileByTitle(i.getTitle()))
+			if (!lParser.isAlreadyInFileByTitle(i.next().getTitle()))
 			{
-				writer.addMovie(xmlImportDoc, i);
+				writer.addMovie(xmlImportDoc, i.next());
 			}
 			
 		}
@@ -168,6 +171,5 @@ public class ImportMovies
 	{
 		stop = true;
 	}
-	
 	
 }

@@ -13,26 +13,23 @@ import javafxgui.MainWindowView;
 public class ProgramLaunch 
 {
 	static LocalParser lParser;
-	static MovieBase coreBase;
 	
 	public ProgramLaunch()
 	{
-	
-		coreBase = new MovieBase();
 		
 		if (isExistingLibrary())
 		{
 			loadLibrary();
 		}
 		
-		//initialiseMainWindow();
-		startJavaFXGui();
+		initialiseMainWindow();
+		//startJavaFXGui();
 	}
 	
 	private void initialiseMainWindow()
 	{
 		MainWindow mainWindow = new MainWindow();
-		mainWindow.addMoviesToPanel(coreBase.getMovieBase());
+		mainWindow.addMoviesToPanel(MovieBase.getInstance().getIterator());
 		mainWindow.showMainWindow();
 		//mainWindow.refreshByResize();
 
@@ -43,20 +40,10 @@ public class ProgramLaunch
 		Application.launch(MainWindowView.class);
 	}
 	
-	public static MovieBase getCoreBase()
-	{
-		return coreBase;
-	}
-	
-	public static void setCoreBase(MovieBase base)
-	{
-		coreBase = base;
-	}
-	
 	public static void loadLibrary()
 	{
 		lParser = new LocalParser(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
-		coreBase = lParser.readMovies(coreBase);
+		lParser.readMovies();
 		lParser = null;
 	}
 	

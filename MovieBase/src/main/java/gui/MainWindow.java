@@ -1,6 +1,10 @@
 package gui;
 
 //java imports
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -10,14 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import main.ProgramLaunch;
-
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
 //local imports
 import movieControl.Movie;
+import movieControl.MovieBase;
+import main.ProgramLaunch;
 
 public class MainWindow implements Observer
 { 
@@ -97,10 +97,10 @@ public class MainWindow implements Observer
 		contentPane.setLayout(new BorderLayout());
 	}
   
-	public void addMoviesToPanel(ArrayList<Movie> movieList)
+	public void addMoviesToPanel(Iterator<Movie> movieBaseIterator)
 	{
 		moviePanel.clearMovies();
-		moviePanel.addMovies(movieList);
+		moviePanel.addMovies(movieBaseIterator);
 		frame.revalidate();
 	}
 	
@@ -117,7 +117,7 @@ public class MainWindow implements Observer
 			System.out.println("Time to refresh!");
 			ProgramLaunch.loadLibrary();
 			moviePanel.clearMovies();
-			addMoviesToPanel(ProgramLaunch.getCoreBase().getMovieBase());
+			addMoviesToPanel(MovieBase.getInstance().getIterator());
 			frame.revalidate();
 			System.out.println("Library Refreshed!");
 		}
@@ -126,7 +126,8 @@ public class MainWindow implements Observer
 		{
 			String searchTerm = arg1.toString().replace("search:", "");
 			moviePanel.clearMovies();
-			addMoviesToPanel(ProgramLaunch.getCoreBase().searchBase(searchTerm));
+			//addMoviesToPanel(ProgramLaunch.getCoreBase().searchBase(searchTerm));
+			addMoviesToPanel(MovieBase.getInstance().getIterator());
 		}
 			
 	}

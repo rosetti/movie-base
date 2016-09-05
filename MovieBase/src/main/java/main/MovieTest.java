@@ -206,7 +206,7 @@ public class MovieTest
 	{
 		LocalParser lParser = new LocalParser();
 		MovieBase base = new MovieBase();
-		base = lParser.readMovies(base);
+		lParser.readMovies();
 		
 		//MainWindowView mainWindow = new MainWindowView();
 		//mainWindow.addMoviesToPanel(base.getMovieBase());

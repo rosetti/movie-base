@@ -25,7 +25,8 @@ public class Movie
 	String fileLocation = "";
 	String fileType = "";
 	
-	//constructor takes parameters for a movie, and builds the type.
+	//constructor
+	
 	public Movie(String title, int year, String rating, int runtime, ArrayList<String> genre, ArrayList<String> director, 
 				ArrayList<String> writer, ArrayList<String> actor, String plot, ArrayList<String> country, String poster,
 				int metaScore, float imdbScore, String imdbId, boolean watched, String fileLocation, String fileType)
@@ -49,10 +50,8 @@ public class Movie
 		this.fileType = fileType;
 	}
 	
-	public Movie()
-	{
-
-	}
+	//Empty constructor because it's neater to just use the setters
+	public Movie() {}
 	
 	//print to console
 	public void printMovie()

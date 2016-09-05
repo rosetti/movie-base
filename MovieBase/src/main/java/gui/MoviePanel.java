@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -34,12 +35,12 @@ public class MoviePanel
 	  
   }
   
-  public void addMovies(ArrayList<Movie> movieList)
+  public void addMovies(Iterator<Movie> movieBaseIterator)
   {
 	  int count = 0;
-	  for (Movie i: movieList)
+	  while (movieBaseIterator.hasNext())
 	  {
-		  moviePanel.add(getMovieIcon(i));
+		  moviePanel.add(getMovieIcon(movieBaseIterator.next()));
 		  count++;
 		  
 		  if (count==300)

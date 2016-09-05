@@ -1,26 +1,40 @@
 package movieControl;
 
+//java imports
 import java.util.ArrayList;
+import java.util.Iterator;
+
+//local imports
+import errorHandling.MovieNotFoundException;
 
 //this class is effectively the database of movie objects
-//this will be populated by either the XML parsser or the APIControl class
-public class MovieBase 
+//this will be populated by either the XML parser or the APIControl class
+public class MovieBase
 {
-	ArrayList<Movie> movieBase = new ArrayList<>();
+	private static MovieBase coreBase;
+	private static Iterator<Movie> iterator;
+	private ArrayList<Movie> movieBase = new ArrayList<>();
+	private int length;
 	
-	public ArrayList<Movie> getMovieBase() 
+	public static MovieBase getInstance()
 	{
-		return movieBase;
-	}
-
-	public MovieBase()
-	{
+		if (coreBase == null)
+		{
+			coreBase = new MovieBase();
+		}
 		
+		return coreBase;
 	}
 	
 	public void addMovie(Movie movie)
 	{
 		movieBase.add(movie);
+		length = movieBase.size();
+	}
+	
+	public void removeMovie(Movie movie)
+	{
+		movieBase.remove(movie);
 	}
 	
 	public void addMovies(ArrayList<Movie> movieList)
@@ -38,11 +52,6 @@ public class MovieBase
 			i.printMovie();
 			System.out.println("-------------------------------------------");
 		}
-	}
-	
-	public Movie getMovie(int i)
-	{
-		return movieBase.get(i);
 	}
 	
 	public ArrayList<Movie> searchBase(String searchTerm)
@@ -71,5 +80,23 @@ public class MovieBase
 		
 		return searchResults;
 	}
+
+	public Movie searchByTitle(String searchTitle)
+	{
+		boolean movieFound = false;
+		int baseSearchLength = length;
+		
+		
+		return null;
+	}
 	
+	public Iterator<Movie> getIterator()
+	{
+		if (iterator == null)
+		{
+			iterator = movieBase.iterator();
+		}
+		
+		return iterator;
+	}
 }
