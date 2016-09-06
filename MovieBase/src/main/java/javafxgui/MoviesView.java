@@ -1,14 +1,15 @@
 package javafxgui;
 
-import javafx.scene.control.TableColumn;
 //java imports
+import java.util.Iterator;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.TableColumn;
+
 //local imports
 import movieControl.Movie;
 import movieControl.MovieBase;
-import main.ProgramLaunch;
 
 /*
  * JavaFX pane to hold the main view, table of movies. 
@@ -34,12 +35,12 @@ public class MoviesView extends HBox
 		getChildren().add(movieTable);
 	}
 	
-	//TODO: Fix this shit
 	private void addMovies()
 	{
-		for (Movie i: ProgramLaunch.getCoreBase().getMovieBase())
+		Iterator<Movie> i = MovieBase.getInstance().getIterator(); 
+		while (i.hasNext())
 		{
-			movieTable.getItems().add(i);
+			movieTable.getItems().add(i.next());
 		}
 	}
 	
@@ -65,6 +66,5 @@ public class MoviesView extends HBox
 		
 		colFileType = new TableColumn<Movie, String>("File Type");
 		colFileType.setCellValueFactory(new PropertyValueFactory<Movie, String>("fileType"));
-		
 	}
 }
