@@ -1,8 +1,11 @@
 package gui;
 
+
 //java imports
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
+
+import interfaces.ImportProgressInterface;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -11,7 +14,7 @@ import java.awt.event.ActionListener;
 //local imports
 import processManagers.ImportMovies;
 
-public class ImportProgress implements Runnable
+public class ImportProgress implements ImportProgressInterface, Runnable //TODO:Why the fuck is this runnable?
 {
 	private JFrame window;
 	private JLabel titleLabel;
@@ -78,6 +81,7 @@ public class ImportProgress implements Runnable
 		window.revalidate();
 		importMovieProcess = new ImportMovies(importPath, progressBox, progressBar, progressLabel);
 		importMovieProcess.readMoviesFromOmdb();
+		System.out.println("Write results to XML");
 		importMovieProcess.writeResultsToXml();
 	}
 	
@@ -138,5 +142,23 @@ public class ImportProgress implements Runnable
 				importMovieProcess.stop();
 			}
 		});
+	}
+
+	@Override
+	public void setProgressBarLength(int length) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setProgressBarValue(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setProgressLabel(int count, int total) {
+		// TODO Auto-generated method stub
+		
 	}
 }
