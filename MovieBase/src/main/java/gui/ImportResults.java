@@ -3,6 +3,8 @@ package gui;
 //java imports
 import javax.swing.*;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ImportResults 
 {
@@ -94,6 +96,16 @@ public class ImportResults
 		
 		buttonPanel.add(yesBtn);
 		buttonPanel.add(noBtn);
+		
+		yesBtn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				
+			}
+			
+		});
 		
 	}
 }
