@@ -26,12 +26,10 @@ import gui.ImportResults;
 
 public class ImportMovies
 {
-	String inputPath;
-	String outputPath;
-	private int goodCount;
-	private int badCount;
+	private String inputPath, outputPath;
+	private int goodCount, badCount;
 	ArrayList<Movie> moviesNotFound;
-	MovieBase base;
+	ArrayList<Movie> base;
 	JTextArea progressBox;
 	JProgressBar progressBar;
 	JLabel progressLabel;
@@ -46,7 +44,7 @@ public class ImportMovies
 		this.progressBar = progressBar;
 		this.progressLabel = progressLabel;
 		outputPath = ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml";
-		base = new MovieBase();
+		base = new ArrayList<Movie>();;
 		goodCount = 0;
 		badCount = 0;
 		moviesNotFound = new ArrayList<>();
@@ -74,28 +72,15 @@ public class ImportMovies
 		
 		progressBar.setMaximum(length);
 
-		int DEBUGCOUNT = 0;
 		for (File i: directoryReader.getFileList())
 		{
-			
-			//DEBUGGING
-			
-			//if (DEBUGCOUNT < 225)
-			//{
-			//	DEBUGCOUNT++;
-			//	continue;
-			//}
-			
-			//i = directoryReader.getFileList()[225];
-			//System.out.println("Adding: " + i);
-			//DEBUGGING
 			String searchUrl = APIControl.getSearchTitle(directoryReader.cleanMovieName(i).getTitle());
 			wParser = new WebParser(searchUrl);
 			Movie retrievedMovie = directoryReader.cleanMovieName(i);
 			
 			if(wParser.isValidFetch())
 			{
-				base.addMovie(wParser.getWebMovieByTitle(retrievedMovie));
+				base.add(wParser.getWebMovieByTitle(retrievedMovie));
 				goodCount++;
 				String successfulOutput = (goodCount + badCount) + ". " + "Successfully Read: " + retrievedMovie.getTitle() + "\n"; 
 				progressBox.append(successfulOutput);
@@ -120,9 +105,8 @@ public class ImportMovies
 				break;
 			}
 			
-			//limit testing runs to a low amount
-			//For debugging
-			if ((goodCount + badCount == -1))
+			//limit testing runs to a low amount for debugging
+			if (goodCount + badCount == -1)
 			{
 				break;
 			}
@@ -148,15 +132,12 @@ public class ImportMovies
 		LocalParser lParser = new LocalParser();
 		Document xmlImportDoc = lParser.getXMLDoc();
 		
-		Iterator<Movie> i = MovieBase.getInstance().getIterator(); 
-		
-		while (i.hasNext())
+		for (Movie i : base)
 		{
-			if (!lParser.isAlreadyInFileByTitle(i.next().getTitle()))
+			if (!lParser.isAlreadyInFileByTitle(i.getTitle()))
 			{
-				writer.addMovie(xmlImportDoc, i.next());
+				writer.addMovie(xmlImportDoc, i);
 			}
-			
 		}
 		
 		writer.outputXML(xmlImportDoc, outputPath);
