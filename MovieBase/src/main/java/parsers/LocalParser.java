@@ -1,6 +1,7 @@
 package parsers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import main.ApplicationMain;
 import movieControl.Movie;
@@ -72,10 +73,11 @@ public class LocalParser extends XMLparser
 	public boolean isAlreadyInFileByTitle(String title)
 	{
 		ArrayList<Movie> xmlMovies = getMovies();
+		Iterator<Movie> iter = xmlMovies.iterator();
 		
-		for (Movie i :xmlMovies)
+		while (iter.hasNext())
 		{
-			if (i.getTitle().equals(title))
+			if (iter.next().getTitle().equals(title))
 			{
 				return true;
 			}
