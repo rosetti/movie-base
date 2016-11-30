@@ -7,8 +7,13 @@ import java.util.Iterator;
 //local imports
 import errorHandling.MovieNotFoundException;
 
-//this class is effectively the database of movie objects
-//this will be populated by either the XML parser or the APIControl class
+/**
+ * Class represents the collection of movies.
+ * Core of the class is an encapsulation of an ArrayList<Movie>.
+ * Uses singleton pattern 
+ * @author Vin Laxman
+ *
+ */
 public class MovieBase
 {
 	private static MovieBase coreBase;
@@ -43,6 +48,11 @@ public class MovieBase
 		{
 			movieBase.add(i);
 		}
+	}
+	
+	public Movie getMovie(int index)
+	{
+		return movieBase.get(index);
 	}
 	
 	public void printMovies()
