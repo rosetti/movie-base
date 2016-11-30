@@ -98,7 +98,11 @@ public class ImportWindow
 			{
 				fileBrowser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				fileBrowser.showOpenDialog(topPanel);
-				String uri = fileBrowser.getSelectedFile().getPath();
+				String uri = null;
+				if (fileBrowser.getSelectedFile().getPath() != null)
+				{
+					uri = fileBrowser.getSelectedFile().getPath();
+				}
 				pathBox.setText(uri);
 			}
 		});
