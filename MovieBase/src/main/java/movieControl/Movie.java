@@ -2,7 +2,13 @@ package movieControl;
 
 import java.util.ArrayList;
 
-///* This class creates a movie object. Movie objects are only created to hold movies during system runtime.
+
+/**
+ * This class defines a movie object. 
+ * Movie objects are only created to hold movies during runtime.
+ * @author vklx
+ *
+ */
 public class Movie 
 {
 	String title = "";

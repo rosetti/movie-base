@@ -36,7 +36,8 @@ public class ApplicationMain {
 		initialise();
 		setMediaInfoAvailable();
 		
-		new ProgramLaunch();
+		//new ProgramLaunch();
+		new MovieTest();
 	}
 
 	private static void initialise()
