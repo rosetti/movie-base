@@ -21,6 +21,7 @@ public class MainWindowView extends Application
 	{
 		prepScene();
 		prepMainStage(primaryStage);
+
 		mainStage.show();
 	}
 	
@@ -41,11 +42,13 @@ public class MainWindowView extends Application
 	private void prepScene()
 	{
 		mainPane = new BorderPane();
-		
+
+		MovieDetailView mDetail = new MovieDetailView();
+
 		mainPane.setTop(new MenuBarView());
-		mainPane.setLeft(new MovieDetailView());
+		mainPane.setLeft(mDetail);
 		mainPane.setCenter(new MoviesView());
-		
-		mainScene = new Scene(mainPane, 500, 500);
+		mDetail.setVisible(false);
+		mainScene = new Scene(mainPane);
 	}
 }

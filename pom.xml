@@ -48,13 +48,6 @@
 						<configuration>
 							<source>1.8</source>
 							<target>1.8</target>
-							<archive>
-								<index>true</index>
-								<manifest>
-									<addClasspath>true</addClasspath>
-									<mainClass>main.ApplicationMain</mainClass>
-								</manifest>
-							</archive>
 						</configuration>
 					</plugin>
 					<plugin>
@@ -84,13 +77,6 @@
 						<configuration>
 							<source>1.8</source>
 							<target>1.8</target>
-							<archive>
-								<index>true</index>
-								<manifest>
-									<addClasspath>true</addClasspath>
-									<mainClass>main.ApplicationMain</mainClass>
-								</manifest>
-							</archive>
 							<excludes>
 								<exclude>**gui/*</exclude>
 							</excludes>
