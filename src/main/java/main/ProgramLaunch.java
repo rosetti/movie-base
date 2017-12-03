@@ -53,4 +53,5 @@ public class ProgramLaunch {
         File library = new File(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
         return library.exists();
     }
+
 }
