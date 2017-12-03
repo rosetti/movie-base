@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -64,6 +61,8 @@ public class XMLWriter
 		try 
 		{
 			xmlTransformer = tFactory.newTransformer();
+			xmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			xmlTransformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		} 
 		
 		catch (TransformerConfigurationException e) 
