@@ -40,7 +40,7 @@ public class MovieTest
 		//sidePanelTest();
 		//moviePanelTest();
 		
-		//new ImportWindow();
+		//new ImportView();
 		
 		//new ImportProgress("/home/vin/Documents/movies");
 		//new ImportResults(20,1);
