@@ -53,10 +53,6 @@ public class ImportWindow {
 
         hPane.getChildren().addAll(btnOpenFileChooser, pathField);
 
-
-
-
-
         vPane.getChildren().addAll(label, hPane);
 
         Scene scene = new Scene(vPane);
@@ -72,7 +68,6 @@ public class ImportWindow {
     private String getFilePathFromChooser() {
         if (chooser == null) {
             chooser = new DirectoryChooser();
-
         }
 
         File file = chooser.showDialog(stage);

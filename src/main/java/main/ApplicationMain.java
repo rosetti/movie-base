@@ -3,6 +3,7 @@ package main;
 //java imports
 
 import java.io.*;
+import java.util.Properties;
 
 import gui.InitialiseSwing;
 
@@ -13,6 +14,7 @@ public class ApplicationMain {
     public static String pwd;
     public static String slash;
     public static boolean mediaInfoAvailable;
+    public static Properties properties;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -27,6 +29,7 @@ public class ApplicationMain {
         setSlash();
         initialise();
         setMediaInfoAvailable();
+        getProperties();
 
         new ProgramLaunch();
         //new MovieTest();
@@ -70,5 +73,32 @@ public class ApplicationMain {
 
     private static void getOpts(String[] args) {
         System.out.println("Getting options...");
+    }
+
+    private static void getProperties() {
+
+        String apiPropsFilePath = ApplicationMain.pwd + ApplicationMain.slash + "api-key.properties";
+        properties = new Properties();
+        File apiPropsFile = new File(apiPropsFilePath);
+
+        if (!apiPropsFile.exists()) {
+            System.out.println("No API properties!");
+        } else {
+
+            try {
+                properties.load(new FileInputStream(apiPropsFilePath));
+            }
+
+            catch (FileNotFoundException  e) {
+                e.printStackTrace();
+            }
+
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
     }
 }

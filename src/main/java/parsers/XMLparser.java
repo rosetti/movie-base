@@ -74,21 +74,22 @@ public abstract class XMLparser
 	public void getParsedDoc(String filePath) throws SAXException,IOException
 	{
 		xmlDoc = getBuilder(dbFactory).parse(filePath);
+		System.out.println("xmldoc?");
 	}
 	
 	//method to check if a valid movie was returned 
 	public boolean isValidFetch()
 	{
-		String response = xmlDoc.getElementsByTagName("root").item(0).getAttributes().getNamedItem("response").getTextContent();
+		Node response = xmlDoc.getElementsByTagName("root").item(0).getAttributes().getNamedItem("response");
+		if (response == null) {
+			response = xmlDoc.getElementsByTagName("root").item(0).getAttributes().getNamedItem("Response");
+		}
 		
-		if (response.equals("False"))
-		{
+		if (response.getTextContent().equals("False")) {
 			return false;
 		}
 		
-		else
-		
-		{
+		else {
 			return true;
 		}
 	}
