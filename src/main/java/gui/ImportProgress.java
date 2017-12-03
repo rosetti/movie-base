@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 //local imports
 import processManagers.ImportMovies;
 
-public class ImportProgress implements ImportProgressInterface, Runnable //TODO:Why the fuck is this runnable?
+public class ImportProgress implements ImportProgressInterface, Runnable//TODO:Why the fuck is this runnable?
 {
 	private JFrame window;
 	private JLabel titleLabel;
@@ -144,20 +144,15 @@ public class ImportProgress implements ImportProgressInterface, Runnable //TODO:
 		});
 	}
 
+
 	@Override
-	public void setProgressBarLength(int length) {
+	public void setProgressValues(int value, int total) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setProgressBarValue(int value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setProgressLabel(int count, int total) {
+	public void setProgressText(String text) {
 		// TODO Auto-generated method stub
 		
 	}

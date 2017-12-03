@@ -9,21 +9,15 @@ package interfaces;
 public interface ImportProgressInterface
 {
 	/**
-	 * Set the size of the progress bar
-	 * @param length
-	 */
-	public void setProgressBarLength(int length);
-	
-	/**
-	 * Set the value of the progress bar
-	 * @param value
-	 */
-	public void setProgressBarValue(int value);
-	
-	/**
 	 * Set the progress label 
 	 * e.g. "1 of 10"
 	 * @param count
 	 */
-	public void setProgressLabel(int count, int total);
+	public void setProgressValues(int count, int total);
+
+	/**
+	 *
+	 * @param text
+	 */
+	public void setProgressText(String text);
 }

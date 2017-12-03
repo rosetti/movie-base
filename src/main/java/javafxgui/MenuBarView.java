@@ -1,6 +1,5 @@
 package javafxgui;
 
-import com.sun.xml.internal.ws.wsdl.writer.document.Import;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -58,9 +57,12 @@ public class MenuBarView extends MenuBar {
     }
 
     private void showImportWindow() {
-        System.out.println("Let's see that import window");
-        ImportWindow importWindow = new ImportWindow();
-        importWindow.show();
+
+        ImportView view = new ImportView();
+        ImportModel model = new ImportModel();
+
+        ImportController controller = new ImportController(view, model);
+        controller.show();
     }
 
     private void makeAboutMenu() {

@@ -4,6 +4,8 @@ package processManagers;
 import java.io.File;
 import java.util.Iterator;
 import java.util.ArrayList;
+
+import interfaces.ImportProgressInterface;
 import org.w3c.dom.Document;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
@@ -24,35 +26,45 @@ import resources.Logger;
 import gui.ImportResults;
 
 
-public class ImportMovies
-{
+public class ImportMovies implements Runnable {
+
 	private String inputPath, outputPath;
 	private int goodCount, badCount;
 	ArrayList<Movie> moviesNotFound;
 	ArrayList<Movie> base;
-	JTextArea progressBox;
-	JProgressBar progressBar;
-	JLabel progressLabel;
+	//JTextArea progressBox;
+	//JProgressBar progressBar;
+	//JLabel progressLabel;
+	ImportProgressInterface progressView;
 	public volatile boolean stop = false;
 	
 	//constructor
-	public ImportMovies(String inputPath, JTextArea progressBox, JProgressBar progressBar, JLabel progressLabel)
-	{
-		//TODO: Remove this Swing shit from this process. Decouple it you twit!
+	public ImportMovies(String inputPath, JTextArea progressBox, JProgressBar progressBar, JLabel progressLabel) {
 		this.inputPath = inputPath;
-		this.progressBox = progressBox;
-		this.progressBar = progressBar;
-		this.progressLabel = progressLabel;
 		outputPath = ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml";
-		base = new ArrayList<Movie>();;
+		base = new ArrayList<Movie>();
 		goodCount = 0;
 		badCount = 0;
 		moviesNotFound = new ArrayList<>();
-		
 	}
-	
-	public void readMoviesFromOmdb()
-	{
+
+	public ImportMovies(ImportProgressInterface view, String inputPath) {
+		progressView = view;
+		this.inputPath = inputPath;
+		outputPath = ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml";
+		base = new ArrayList<Movie>();
+		goodCount = 0;
+		badCount = 0;
+		moviesNotFound = new ArrayList<>();
+	}
+
+	public void run() {
+		System.out.println("Run Import");
+		readMoviesFromOmdb();
+		writeResultsToXml();
+	}
+
+	public void readMoviesFromOmdb() {
 		DirectoryReader directoryReader = new DirectoryReader(inputPath);
 		directoryReader.readDirectory(); //TODO: What if the directory is empty?
 
@@ -60,82 +72,65 @@ public class ImportMovies
 		int length = 0;
 		
 		
-		if (new File(inputPath).isFile())
-		{
+		if (new File(inputPath).isFile()) {
 			length = 1;
 		}
-		
-		else
-		{
+		else {
 			length = directoryReader.getFileList().length;
 		}
-		
-		progressBar.setMaximum(length);
 
-		for (File i: directoryReader.getFileList())
-		{
+		for (File i: directoryReader.getFileList()) {
 			String searchUrl = APIControl.getSearchTitle(directoryReader.cleanMovieName(i).getTitle());
 			wParser = new WebParser(searchUrl);
 			Movie retrievedMovie = directoryReader.cleanMovieName(i);
 			
-			if(wParser.isValidFetch())
-			{
+			if(wParser.isValidFetch()) {
 				base.add(wParser.getWebMovieByTitle(retrievedMovie));
 				goodCount++;
-				String successfulOutput = (goodCount + badCount) + ". " + "Successfully Read: " + retrievedMovie.getTitle() + "\n"; 
-				progressBox.append(successfulOutput);
+				String successfulOutput = (goodCount + badCount) + ". " + "Successfully Read: " + retrievedMovie.getTitle() + "\n";
+				progressView.setProgressText(successfulOutput);
 			}
 			
-			else 
-			{
+			else {
 				moviesNotFound.add(retrievedMovie);
 				badCount++;
 				String badOutput = (goodCount + badCount) + ". " + "Could not get info for " + retrievedMovie.getTitle() +"\n";
-				progressBox.append(badOutput);
+				progressView.setProgressText(badOutput);
 			}
+
+			progressView.setProgressValues(goodCount + badCount, length);
 			
-			progressBar.setValue(goodCount + badCount);
-			progressLabel.setText((goodCount + badCount) + " of " + length);
-			
-			
-			
-			if (stop)
-			{
+			if (stop) {
 				JOptionPane.showMessageDialog(new JPanel(), "Import was Aborted!");
 				break;
 			}
 			
 			//limit testing runs to a low amount for debugging
-			if (goodCount + badCount == -1)
-			{
+			if (goodCount + badCount == -1) {
 				break;
 			}
 			
 		}
 		
-		Logger.logMessage("Import Finished: " + "Successfully Imported " + goodCount + " movies. \n" + "Failed to import badCount," + " movies");
-		new ImportResults(goodCount, badCount);
+		Logger.logMessage("Import Finished: " + "Successfully Imported " + goodCount + " movies. \n" + "Failed to import " + badCount + " movies");
+		//new ImportResults(goodCount, badCount);
 
 	}
 	
-	public void writeResultsToXml()
-	{
+	public void writeResultsToXml() {
 		XMLWriter writer = new XMLWriter();
 		
 		File output = new File(outputPath);
 		
-		if (!output.exists()) 
-		{
+		if (!output.exists()) {
 			writer.makeBlankXMLFile(outputPath);
 		}
 		
 		LocalParser lParser = new LocalParser();
 		Document xmlImportDoc = lParser.getXMLDoc();
 		
-		for (Movie i : base)
-		{
-			if (!lParser.isAlreadyInFileByTitle(i.getTitle()))
-			{
+		for (Movie i : base) {
+			if (!lParser.isAlreadyInFileByTitle(i.getTitle())) {
 				writer.addMovie(xmlImportDoc, i);
 			}
 		}
@@ -143,13 +138,11 @@ public class ImportMovies
 		writer.outputXML(xmlImportDoc, outputPath);
 	}
 	
-	public ArrayList<Movie> getMoviesNotFound()
-	{
+	public ArrayList<Movie> getMoviesNotFound() {
 		return moviesNotFound;
 	}
 	
-	public void stop()
-	{
+	public void stop() {
 		stop = true;
 	}
 	
