@@ -20,7 +20,7 @@ public class ImageSaver
 		
 		if (imageLink.equals("N/A"))
 		{
-			return ApplicationMain.pwd + ApplicationMain.slash + "resources" + ApplicationMain.slash + "image_not_found.jpg";
+			return "-";
 		}
 		
 		String extension = imageLink.substring(imageLink.lastIndexOf("."), imageLink.length());

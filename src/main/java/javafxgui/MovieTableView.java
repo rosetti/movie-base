@@ -4,8 +4,12 @@ package javafxgui;
 
 import java.util.Iterator;
 
+
+import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.TableColumn;
 
@@ -17,7 +21,7 @@ import movieControl.MovieBase;
  * JavaFX pane to hold the main view, table of movies. 
  */
 
-public class MoviesView extends HBox {
+public class MovieTableView extends HBox {
     TableView<Movie> movieTable = new TableView<Movie>();
     //Table Columns
     TableColumn<Movie, String> colTitle;
@@ -28,12 +32,17 @@ public class MoviesView extends HBox {
     TableColumn<Movie, Boolean> colWatched;
     TableColumn<Movie, String> colFileType;
 
-    public MoviesView() {
+    public MovieTableView() {
         addMovies();
         makeColumns();
         movieTable.getColumns().addAll(colTitle, colYear, colRuntime, colWatched, colMetaScore, colImdbScore, colFileType);
         movieTable.setPrefWidth(2000);
         movieTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        //movieTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        //    System.out.println("You clicked: " + newSelection.getTitle());
+
+        //});
 
         getChildren().add(movieTable);
     }
@@ -45,11 +54,21 @@ public class MoviesView extends HBox {
         }
     }
 
+    public void setRowClickedAction(ChangeListener action) {
+        movieTable.getSelectionModel().selectedItemProperty().addListener(action);
+    }
+
+    public void setContextMenuAction(EventHandler handler) {
+        //table.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+    }
+
     private void makeColumns() {
         colTitle = new TableColumn<Movie, String>("Title");
+        colTitle.setPrefWidth(200);
         colTitle.setCellValueFactory(new PropertyValueFactory<Movie, String>("title"));
 
         colYear = new TableColumn<Movie, Integer>("Year");
+        colYear.setPrefWidth(50);
         colYear.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("year"));
 
         colImdbScore = new TableColumn<Movie, Float>("IMDb Score");

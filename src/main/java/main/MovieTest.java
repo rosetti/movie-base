@@ -30,7 +30,7 @@ public class MovieTest
 	public MovieTest()
 	{
 		//new ProgramLaunch();
-		Application.launch(MainWindowView.class);
+		//Application.launch(MainWindowView.class);
 
 
 		//javafxgui.MainWindowView.launch(MainWindowView.class, null);

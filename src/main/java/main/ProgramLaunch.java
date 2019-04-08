@@ -4,6 +4,7 @@ package main;
 import java.io.File;
 
 //local imports
+import javafxgui.MainWindowController;
 import movieControl.*;
 import parsers.LocalParser;
 import gui.*;
@@ -40,10 +41,12 @@ public class ProgramLaunch {
      * Method initialises JavaFX Based GUI
      */
     private void startJavaFXGui() {
-        Application.launch(MainWindowView.class);
+        Application.launch(MainWindowController.class);
+        //Application.launch(MainWindowView.class);
     }
 
     public static void loadLibrary() {
+        System.out.println("Loading library");
         lParser = new LocalParser(ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml");
         lParser.readMovies();
         lParser = null;

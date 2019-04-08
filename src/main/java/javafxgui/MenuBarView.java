@@ -26,8 +26,8 @@ public class MenuBarView extends MenuBar {
         makeLibraryMenu();
         makeViewMenu();
         makeAboutMenu();
-
         addMenus();
+
     }
 
     private void addMenus() {
