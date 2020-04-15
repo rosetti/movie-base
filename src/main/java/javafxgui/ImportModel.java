@@ -6,7 +6,6 @@ package javafxgui;
 public class ImportModel {
 
     public ImportModel() {
-        
     }
 
     public void startImportProcess() {

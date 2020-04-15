@@ -4,12 +4,13 @@ package main;
 import java.io.File;
 
 //local imports
+import inputOutput.SQLiteDatabase;
+import javafxgui.MainUIController;
 import javafxgui.MainWindowController;
 import movieControl.*;
 import parsers.LocalParser;
 import gui.*;
 import javafx.application.Application;
-import javafxgui.MainWindowView;
 
 /**
  *
@@ -20,9 +21,11 @@ public class ProgramLaunch {
     public ProgramLaunch() {
 
         if (isExistingLibrary()) {
-            loadLibrary();
+            //loadLibrary();
         }
-
+        if (isExistingSQLiteDB()) {
+            loadLibraryFromDb();
+         }
         //initialiseMainWindow();
         startJavaFXGui();
     }
@@ -41,8 +44,9 @@ public class ProgramLaunch {
      * Method initialises JavaFX Based GUI
      */
     private void startJavaFXGui() {
-        Application.launch(MainWindowController.class);
+        //Application.launch(MainWindowController.class);
         //Application.launch(MainWindowView.class);
+        Application.launch(MainUIController.class);
     }
 
     public static void loadLibrary() {
@@ -57,4 +61,13 @@ public class ProgramLaunch {
         return library.exists();
     }
 
+    private boolean isExistingSQLiteDB() {
+        File library = new File(ApplicationMain.pwd + ApplicationMain.slash + "movieData.db");
+        return library.exists();
+    }
+
+    private void loadLibraryFromDb(){
+        SQLiteDatabase db = SQLiteDatabase.getInstance();
+        db.loadAllMovies();
+    }
 }

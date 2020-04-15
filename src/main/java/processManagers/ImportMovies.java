@@ -5,7 +5,9 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import inputOutput.SQLiteDatabase;
 import interfaces.ImportProgressInterface;
+import javafx.concurrent.Task;
 import org.w3c.dom.Document;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
@@ -26,12 +28,13 @@ import resources.Logger;
 import gui.ImportResults;
 
 
-public class ImportMovies implements Runnable {
+public class ImportMovies extends Task implements Runnable {
 
-	private String inputPath, outputPath;
+	private String inputPath, outputPath, outputSQLPath;
 	private int goodCount, badCount;
 	ArrayList<Movie> moviesNotFound;
 	ArrayList<Movie> base;
+	boolean rescan;
 	//JTextArea progressBox;
 	//JProgressBar progressBar;
 	//JLabel progressLabel;
@@ -42,6 +45,7 @@ public class ImportMovies implements Runnable {
 	public ImportMovies(String inputPath, JTextArea progressBox, JProgressBar progressBar, JLabel progressLabel) {
 		this.inputPath = inputPath;
 		outputPath = ApplicationMain.pwd + ApplicationMain.slash + "movieData.xml";
+		outputSQLPath = ApplicationMain.pwd + ApplicationMain.slash + "movieData.db";
 		base = new ArrayList<Movie>();
 		goodCount = 0;
 		badCount = 0;
@@ -62,6 +66,7 @@ public class ImportMovies implements Runnable {
 		System.out.println("Run Import");
 		readMoviesFromOmdb();
 		writeResultsToXml();
+		writeResultsToDB();
 	}
 
 	public void readMoviesFromOmdb() {
@@ -80,6 +85,13 @@ public class ImportMovies implements Runnable {
 		}
 
 		for (File i: directoryReader.getFileList()) {
+
+			if (!rescan) {
+				if (SQLiteDatabase.getInstance().movieExistsInDB(i.getAbsolutePath())) {
+					continue;
+				}
+			}
+
 			String searchUrl = APIControl.getSearchTitle(directoryReader.cleanMovieName(i).getTitle());
 			wParser = new WebParser(searchUrl);
 			Movie retrievedMovie = directoryReader.cleanMovieName(i);
@@ -89,24 +101,22 @@ public class ImportMovies implements Runnable {
 				goodCount++;
 				String successfulOutput = (goodCount + badCount) + ". " + "Successfully Read: " + retrievedMovie.getTitle() + "\n";
 				progressView.setProgressText(successfulOutput);
-			}
-			
-			else {
+			} else {
 				moviesNotFound.add(retrievedMovie);
 				badCount++;
 				String badOutput = (goodCount + badCount) + ". " + "Could not get info for " + retrievedMovie.getTitle() +"\n";
 				progressView.setProgressText(badOutput);
 			}
-
 			progressView.setProgressValues(goodCount + badCount, length);
-			
+
+
 			if (stop) {
 				JOptionPane.showMessageDialog(new JPanel(), "Import was Aborted!");
 				break;
 			}
 			
 			//limit testing runs to a low amount for debugging
-			if (goodCount + badCount == -1) {
+			if (goodCount + badCount == 200) {
 				break;
 			}
 			
@@ -137,7 +147,14 @@ public class ImportMovies implements Runnable {
 		
 		writer.outputXML(xmlImportDoc, outputPath);
 	}
-	
+
+	public void writeResultsToDB() {
+		SQLiteDatabase db = SQLiteDatabase.getInstance();
+		for (Movie i : base) {
+			db.addMovie(i);
+		}
+	}
+
 	public ArrayList<Movie> getMoviesNotFound() {
 		return moviesNotFound;
 	}
@@ -145,5 +162,13 @@ public class ImportMovies implements Runnable {
 	public void stop() {
 		stop = true;
 	}
-	
+
+	@Override
+	protected Object call() throws Exception {
+		System.out.println("Run Import");
+		readMoviesFromOmdb();
+		writeResultsToXml();
+		writeResultsToDB();
+		return null;
+	}
 }

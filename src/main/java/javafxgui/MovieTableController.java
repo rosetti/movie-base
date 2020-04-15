@@ -5,4 +5,20 @@ package javafxgui;
  */
 public class MovieTableController {
 
+    MovieTableModel model;
+    MovieTableView view;
+
+    public MovieTableController(MovieTableModel model, MovieTableView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+    public void addMovies() {
+        view.loadMoviesFromMovieBase();
+    }
+
+    public void loadMovies() {
+        view.loadMoviesFromMovieBase();
+    }
+
 }

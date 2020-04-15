@@ -1,6 +1,7 @@
 package javafxgui;
 
 import interfaces.ImportProgressInterface;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -130,7 +131,6 @@ public class ImportView implements ImportProgressInterface{
         progressBar = new ProgressBar();
         progressBar.setMinWidth(200);
         progressBar.setMinHeight(50);
-        progressBar.setProgress(80);
 
         VBox progressBarPane = new VBox();
         //progressBarPane.setStyle("-fx-background-color: #00af1a");
@@ -141,13 +141,14 @@ public class ImportView implements ImportProgressInterface{
     }
 
     private VBox getProgressLabel() {
-        progressLabel = new Label("354 of 417 Movies Imported");
+        progressLabel = new Label("0 of 0 Movies Imported");
 
         VBox currentlyScanningPane = new VBox();
         currentlyScanningPane.setAlignment(Pos.CENTER);
         currentlyScanningPane.getChildren().add(progressLabel);
         return currentlyScanningPane;
     }
+
     private void btnFileChooser() {
         pathText = getFilePathFromChooser();
         pathField.setText(pathText);
@@ -155,11 +156,17 @@ public class ImportView implements ImportProgressInterface{
 
     @Override
     public void setProgressValues(int count, int total) {
-        //Set progress bar
-        progressBar.setProgress(count/total);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                //Set progress bar
+                progressBar.setProgress(count/total);
 
-        //Set x of y
-        progressLabel.setText(count + " of " + total);
+                //Set x of y
+                progressLabel.setText(count + " of " + total);
+            }
+        });
+
     }
 
     @Override
@@ -167,6 +174,10 @@ public class ImportView implements ImportProgressInterface{
         progressBox.appendText(text);
     }
 
+    @Override
+    public void setProgressBar(int count, int total) {
+
+    }
     public String getInputPath() {
         return pathField.getText();
     }

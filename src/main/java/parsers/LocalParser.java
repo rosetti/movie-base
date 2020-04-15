@@ -89,7 +89,7 @@ public class LocalParser extends XMLparser
 
 	public void readMovies()
 	{
-		MovieBase.getInstance().addMovies(getMovies());
+		//MovieBase.getInstance().addMovies(getMovies());
 	}
 
 }

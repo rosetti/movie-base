@@ -20,4 +20,6 @@ public interface ImportProgressInterface
 	 * @param text
 	 */
 	public void setProgressText(String text);
+
+	public void setProgressBar(int count, int total);
 }

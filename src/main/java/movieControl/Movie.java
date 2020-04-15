@@ -28,6 +28,7 @@ public class Movie
 	String imdbId = "";
 	
 	boolean watched = false;
+	String watchedString;
 	String fileLocation = "";
 	String fileType = "";
 	
@@ -125,6 +126,11 @@ public class Movie
 
 	public void setWatched(boolean watched) {
 		this.watched = watched;
+		if (watched){
+			watchedString = "Watched";//"✔";
+		} else {
+			watchedString = "✘";
+		}
 	}
 	
 	public String getTitle() 
@@ -182,7 +188,7 @@ public class Movie
 		return director;
 	}
 
-	public void setDirector(ArrayList<String> director) 
+	public void setDirector(ArrayList<String> director)
 	{
 		this.director = director;
 	}
@@ -192,7 +198,7 @@ public class Movie
 		return writer;
 	}
 
-	public void setWriter(ArrayList<String> writer) 
+	public void setWriter(ArrayList<String> writer)
 	{
 		this.writer = writer;
 	}
@@ -202,7 +208,7 @@ public class Movie
 		return actor;
 	}
 
-	public void setActor(ArrayList<String> actor) 
+	public void setActor(ArrayList<String> actor)
 	{
 		this.actor = actor;
 	}
@@ -222,7 +228,7 @@ public class Movie
 		return country;
 	}
 
-	public void setCountry(ArrayList<String> country) 
+	public void setCountry(ArrayList<String> country)
 	{
 		this.country = country;
 	}

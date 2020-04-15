@@ -100,13 +100,11 @@ public class MovieBase
 		return null;
 	}
 	
-	public Iterator<Movie> getIterator()
-	{
-		if (iterator == null)
-		{
-			iterator = movieBase.iterator();
-		}
-		
-		return iterator;
+	public Iterator<Movie> getIterator() {
+		return movieBase.iterator();
+	}
+
+	public void clearMovieBase(){
+		movieBase.clear();
 	}
 }

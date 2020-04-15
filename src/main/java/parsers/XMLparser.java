@@ -74,7 +74,6 @@ public abstract class XMLparser
 	public void getParsedDoc(String filePath) throws SAXException,IOException
 	{
 		xmlDoc = getBuilder(dbFactory).parse(filePath);
-		System.out.println("xmldoc?");
 	}
 	
 	//method to check if a valid movie was returned 

@@ -48,7 +48,6 @@ public class ImageSaver
 		
 		try 
 		{
-			System.out.println("Output Path:" + outputPath);
 			if (imageIsValid)
 			{
 				ImageIO.write(downloadedImage, "jpeg", new File(outputPath));	

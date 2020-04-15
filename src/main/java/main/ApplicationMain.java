@@ -3,9 +3,13 @@ package main;
 //java imports
 
 import java.io.*;
+import java.sql.SQLInput;
 import java.util.Properties;
 
 import gui.InitialiseSwing;
+import inputOutput.SQLiteDatabase;
+import movieControl.Movie;
+import resources.StaticTestObjects;
 
 //import main.java.gui.InitialiseSwing;
 
@@ -15,8 +19,26 @@ public class ApplicationMain {
     public static String slash;
     public static boolean mediaInfoAvailable;
     public static Properties properties;
+    public static String dbName = "movieData3.db";
 
     public static void main(String[] args) {
+        setUserDirectory(args);
+        setSlash();
+        initialise();
+        setMediaInfoAvailable();
+        getProperties();
+        SQLiteDatabase db = SQLiteDatabase.getInstance();
+        db.createNewDatabase();
+        logVariables();
+        Movie movie = StaticTestObjects.getTestMovie2();
+        db.addMovie(movie);
+
+        new ProgramLaunch();
+
+        //new MovieTest();
+    }
+
+    public static void setUserDirectory(String[] args){
         if (args.length == 0) {
             pwd = System.getProperty("user.dir");
         } else {
@@ -26,13 +48,10 @@ public class ApplicationMain {
                 pwd = args[0];
             }
         }
-        setSlash();
-        initialise();
-        setMediaInfoAvailable();
-        getProperties();
+    }
 
-        new ProgramLaunch();
-        //new MovieTest();
+    private static void logVariables(){
+        System.out.println("ApplicationMain.pwd: " + pwd);
     }
 
     /**

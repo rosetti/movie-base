@@ -1,6 +1,11 @@
 package javafxgui;
 
+import javafx.application.Platform;
+import org.apache.log4j.helpers.SyslogQuietWriter;
 import processManagers.ImportMovies;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Vin on 29/11/2017.
@@ -24,9 +29,15 @@ public class ImportController {
     private void setImportAction() {
         view.setImportAction(e -> {
             System.out.println("Starting Import Process");
+            //if (view.)
             ImportMovies importProcess = new ImportMovies(view, view.getInputPath());
-            Thread importThread = new Thread(importProcess);
-            importThread.run();
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+            executorService.execute(importProcess);
+            executorService.shutdown();
+            //Platform.runLater(importProcess);
+            //Thread importThread = new Thread(importProcess);
+            //importThread.run();
+            System.out.println("Helloooo!");
         });
     }
 }

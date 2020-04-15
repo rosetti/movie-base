@@ -156,4 +156,9 @@ public class ImportProgress implements ImportProgressInterface, Runnable//TODO:W
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setProgressBar(int count, int total) {
+
+	}
 }
