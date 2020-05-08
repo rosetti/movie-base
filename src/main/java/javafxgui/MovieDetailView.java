@@ -21,13 +21,15 @@ public class MovieDetailView extends VBox {
     TextField textField;
     TableView<Movie> movieDetails;
     VBox vSpacer;
-    int padding;
+    Color bgColor = Color.rgb(220, 255, 255);
+    Color textColor = Color.rgb(21, 41, 36);
+    Insets insetPadding = new Insets(4, 20,4,10);
 
     public MovieDetailView() {
         //setStyle("-fx-background-color: #00af1a");
         setMinWidth(300);
         setMaxWidth(300);
-        padding = 20;
+        //padding = 20;
         //getChildren().add(new Label("Hello World!"));
         setAlignment(Pos.TOP_CENTER);
         setVisible(true);
@@ -77,11 +79,11 @@ public class MovieDetailView extends VBox {
         imageView = new ImageView(image);
         imageView.setFitWidth(300);
         imageView.setFitHeight(height / resizeFactor);
-        setBackground(new Background(new BackgroundFill(Color.rgb(20, 20, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
         getChildren().add(imageView);
 
-        movieDetails = new TableView<>();
-        TableRow<Movie> titleRow = new TableRow<Movie>();
+        //movieDetails = new TableView<>();
+        //TableRow<Movie> titleRow = new TableRow<Movie>();
 
 
         Label title = new Label(movie.getTitle());
@@ -89,38 +91,37 @@ public class MovieDetailView extends VBox {
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18");
         title.setWrapText(true);
         title.setMaxWidth(300);
-        title.setTextFill(Color.WHITE);
-        title.setPadding(new Insets(padding));
+        title.setTextFill(textColor);
+        title.setPadding(insetPadding);
+        title.setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        //Label plot = new Label(movie.getPlot());
         Label plot = new Label(movie.getPlot());
 
         plot.setWrapText(true);
         plot.setTextAlignment(TextAlignment.JUSTIFY);
-        plot.setTextFill(Color.WHITE);
-        //plot.setMinHeight(1000);
+        plot.setTextFill(textColor);
         plot.setMaxWidth(300);
-        //plot.setBackground(new Background(new BackgroundFill(Color.rgb(100,10,200), CornerRadii.EMPTY, Insets.EMPTY)));
-        plot.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        plot.setPadding(new Insets(padding));
+        plot.setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
+        plot.setPadding(insetPadding);
 
 
         VBox fourBox = new VBox();
+        fourBox.setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
 
         HBox rowOne = new HBox();
         Label directorLabel = new Label(movie.getListAsString(movie.getDirector()));
         directorLabel.setWrapText(true);
-        directorLabel.setTextFill(Color.WHITE);
+        directorLabel.setTextFill(textColor);
         directorLabel.setMinWidth(150);
         directorLabel.setMaxWidth(150);
-        directorLabel.setPadding(new Insets(padding));
+        directorLabel.setPadding(insetPadding);
 
         Label writerLabel = new Label(movie.getListAsString(movie.getWriter()));
         writerLabel.setWrapText(true);
-        writerLabel.setTextFill(Color.WHITE);
+        writerLabel.setTextFill(textColor);
         writerLabel.setMinWidth(150);
         writerLabel.setMaxWidth(150);
-        writerLabel.setPadding(new Insets(padding));
+        writerLabel.setPadding(insetPadding);
 
         rowOne.getChildren().addAll(directorLabel, writerLabel);
 
@@ -128,17 +129,17 @@ public class MovieDetailView extends VBox {
         Label actorLabel = new Label(movie.getListAsString(movie.getActor()));
         //actorLabel.setBackground(new Background(new BackgroundFill(Color.rgb(10,10,200), CornerRadii.EMPTY, Insets.EMPTY)));
         actorLabel.setWrapText(true);
-        actorLabel.setTextFill(Color.WHITE);
+        actorLabel.setTextFill(textColor);
         actorLabel.setMinWidth(150);
         actorLabel.setMaxWidth(150);
-        actorLabel.setPadding(new Insets(padding));
+        actorLabel.setPadding(insetPadding);
 
         Label genreLabel = new Label(movie.getListAsString(movie.getGenre()));
         genreLabel.setWrapText(true);
-        genreLabel.setTextFill(Color.WHITE);
+        genreLabel.setTextFill(textColor);
         genreLabel.setMinWidth(150);
         genreLabel.setMaxWidth(150);
-        genreLabel.setPadding(new Insets(padding));
+        genreLabel.setPadding(insetPadding);
 
         rowTwo.getChildren().addAll(actorLabel, genreLabel);
 

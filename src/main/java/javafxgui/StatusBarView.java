@@ -6,15 +6,15 @@ import javafx.scene.layout.HBox;
 
 public class StatusBarView extends HBox {
 
-    Label statsLabel;
+    Label statusLabel;
 
     public StatusBarView() {
-        statsLabel = new Label("X movies added");
-        getChildren().addAll(statsLabel);
+        statusLabel = new Label("X movies added");
+        getChildren().addAll(statusLabel);
         setAlignment(Pos.CENTER_RIGHT);
     }
 
-    public void setStatsLabel(String text) {
-        statsLabel.setText(text);
+    public void setStatusText(String text) {
+        statusLabel.setText(text);
     }
 }

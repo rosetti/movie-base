@@ -10,7 +10,8 @@ public class StatusBarController {
         this.view = view;
     }
 
-    public void setLabelText(String text) {
-        view.setStatsLabel(text);
+    public void setStatusBarText(String text) {
+        view.setStatusText(text);
     }
+
 }

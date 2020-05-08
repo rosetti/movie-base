@@ -5,6 +5,7 @@ package javafxgui;
 import java.util.Iterator;
 
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
@@ -39,19 +40,21 @@ public class MovieTableView extends HBox {
     ContextMenu contextMenu;
     MenuItem menuItemYoutube;
     MenuItem menuItemPlay;
-    MenuItem menuItemMarkWatched;
+    MenuItem menuItemToggleWatched;
     MenuItem menuItemOpenExplorer;
-    MenuItem menuItemOpenEdit;
+    MenuItem menuItemEdit;
+    MenuItem menuItemDelete;
+
+    private int loadedMovieCount;
 
     public MovieTableView() {
-        loadMoviesFromMovieBase();
         makeColumns();
         createContextMenu();
         movieTable.getColumns().addAll(colTitle, colYear, colRuntime, colWatched, colMetaScore, colImdbScore, colFileType);
         movieTable.setStyle("-fx-focus-color: transparent;");
         movieTable.setPrefWidth(2000);
         movieTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        //loadMoviesFromMovieBase();
         getChildren().add(movieTable);
     }
 
@@ -59,8 +62,10 @@ public class MovieTableView extends HBox {
         boolean removed = getChildren().removeAll(movieTable);
         movieTable.getItems().clear();
         Iterator<Movie> i = MovieBase.getInstance().getIterator();
+        loadedMovieCount = 0;
         while (i.hasNext()) {
             movieTable.getItems().add(i.next());
+            loadedMovieCount++;
         }
         if (removed) {
             movieTable.getColumns().clear();
@@ -76,12 +81,12 @@ public class MovieTableView extends HBox {
         contextMenu = new ContextMenu();
         menuItemPlay = new MenuItem("Play");
         menuItemYoutube = new MenuItem("Watch Trailer on Youtube");
-
-        menuItemMarkWatched = new MenuItem("Mark as Watched/Unwatched");
+        menuItemToggleWatched = new MenuItem("Toggle Watched/Unwatched");
         menuItemOpenExplorer = new MenuItem("Open In Explorer");
-        menuItemOpenEdit = new MenuItem("Edit Entry");
+        menuItemEdit = new MenuItem("Edit Entry");
+        menuItemDelete = new MenuItem("Remove from MovieBase");
 
-        contextMenu.getItems().addAll(menuItemPlay, menuItemYoutube, menuItemMarkWatched, menuItemOpenExplorer, menuItemOpenEdit);
+        contextMenu.getItems().addAll(menuItemPlay, menuItemYoutube, menuItemToggleWatched, menuItemOpenExplorer, menuItemEdit, menuItemDelete);
 
     }
 
@@ -91,6 +96,14 @@ public class MovieTableView extends HBox {
 
     public void hideContextMenu() {
         contextMenu.hide();
+    }
+
+    public void setDeleteMovieAction(EventHandler handler) {
+        menuItemDelete.setOnAction(handler);
+    }
+
+    public void setToggleWatchedAction(EventHandler handler) {
+        menuItemToggleWatched.setOnAction(handler);
     }
 
     public void setYoutubeAction(EventHandler handler) {
@@ -107,6 +120,10 @@ public class MovieTableView extends HBox {
 
     public void setRowClickedAction(ChangeListener action) {
         movieTable.getSelectionModel().selectedItemProperty().addListener(action);
+    }
+
+    public void setEditAction(EventHandler handler) {
+        menuItemEdit.setOnAction(handler);
     }
 
     public void setContextMenuAction(EventHandler handler) {
@@ -131,18 +148,42 @@ public class MovieTableView extends HBox {
         colImdbScore.setMaxWidth(70);
         colImdbScore.setMinWidth(70);
         colImdbScore.setCellValueFactory(new PropertyValueFactory<Movie, Float>("imdbScore"));
+        colImdbScore.setCellValueFactory(cellData -> {
+            float imdbScore = cellData.getValue().getImdbScore();
+
+            if (imdbScore < 0) {
+                return null;
+            } else {
+                return new ReadOnlyObjectWrapper<>(imdbScore);
+            }
+        });
 
         colRuntime = new TableColumn<Movie, Integer>("Runtime");
         colRuntime.setStyle("-fx-alignment: CENTER;");
         colRuntime.setMaxWidth(60);
         colRuntime.setMinWidth(60);
-        colRuntime.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("runtime"));
+        colRuntime.setCellValueFactory(cellData -> { ;
+            int runtime = cellData.getValue().getRuntime();
+            if ( runtime > 1) {
+                return new ReadOnlyObjectWrapper<>(runtime);
+            } else {
+                return null;
+            }
+        });
 
         colMetaScore = new TableColumn<Movie, Integer>("Metascore");
         colMetaScore.setStyle("-fx-alignment: CENTER;");
         colMetaScore.setMaxWidth(70);
         colMetaScore.setMinWidth(70);
-        colMetaScore.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("metaScore"));
+        colMetaScore.setCellValueFactory(cellData -> {
+            int metaScore = cellData.getValue().getMetaScore();
+
+            if (metaScore < 0) {
+                return null;
+            } else {
+                return new ReadOnlyObjectWrapper<>(metaScore);
+            }
+        });
 
         colWatched = new TableColumn<Movie, String>("Watched?");
         colWatched.setStyle("-fx-alignment: CENTER;");
@@ -166,5 +207,9 @@ public class MovieTableView extends HBox {
         colFileType.setMaxWidth(60);
         colFileType.setMinWidth(60);
 
+    }
+
+    public int getLoadedMovieCount() {
+        return loadedMovieCount;
     }
 }

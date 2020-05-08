@@ -1,5 +1,6 @@
 package javafxgui;
 
+import gui.MainWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -25,10 +26,9 @@ public class AdvancedSearchView {
     TextField writerField;
     ListView<String> genreList;
 
-    public AdvancedSearchView(double x, double y) {
+    public AdvancedSearchView() {
         initialiseStage();
         addFields();
-        System.out.println(x + ", " + y);
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("Logo.png")));
     }
 
@@ -56,6 +56,10 @@ public class AdvancedSearchView {
     }
 
     public void show() {
+        double xAdd = (MainWindowView.width - 700)/2;
+        double yAdd = (MainWindowView.height - 400)/2;
+        stage.setX(MainWindowView.x + xAdd);
+        stage.setY(MainWindowView.y + yAdd);
         stage.show();
     }
 

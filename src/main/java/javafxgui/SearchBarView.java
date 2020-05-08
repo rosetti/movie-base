@@ -1,5 +1,6 @@
 package javafxgui;
 
+import gui.MainWindow;
 import inputOutput.SQLiteDatabase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,33 +32,24 @@ public class SearchBarView  extends HBox{
         searchField = new TextField();
         searchField.setMinHeight(5);
         addCheckboxes();
-        addAdvancedSearchButton();
+        makeAdvancedSearchButton();
         makeClearFiltersButton();
         setSpacing(20);
         setAlignment(Pos.CENTER);
         getChildren().addAll(searchField, watchedCheckBox, unwatchedCheckBox, advancedSearchButton, clearFiltersButton);
 
-        searchField.setOnAction(e -> {
-            search();
-        });
     }
 
-    private void getParenthmm() {
-        //getParent()
-    }
-
-    private void addAdvancedSearchButton() {
+    private void makeAdvancedSearchButton() {
         advancedSearchButton = new Button("Advanced Search");
-        advancedSearchButton.setOnAction(e -> {
-            System.out.println("Advanced Search!");
-            searchField.setText("");
-            if (advSearchView == null || advSearchView == null || advSearchController == null) {
-                advSearchView = new AdvancedSearchView(getLayoutX(), getLayoutY());
-                advSearchModel = new AdvancedSearchModel();
-                advSearchController = new AdvancedSearchController(advSearchView, advSearchModel, movieTableController);
-            }
-            advSearchController.show();
-        });
+    }
+
+    public void setAdvancedSearchButtonAction(EventHandler handler) {
+        advancedSearchButton.setOnAction(handler);
+    }
+
+    public void setSearchFieldText(String str) {
+        searchField.setText(str);
     }
 
     private void makeClearFiltersButton() {
@@ -77,20 +69,17 @@ public class SearchBarView  extends HBox{
     private void addCheckboxes() {
         watchedCheckBox = new CheckBox("Watched");
         watchedCheckBox.setAlignment(Pos.CENTER_RIGHT);
-        watchedCheckBox.setOnAction(e -> {
-            search();
-        });
 
         unwatchedCheckBox = new CheckBox("Unwatched");
         unwatchedCheckBox.setAlignment(Pos.CENTER_RIGHT);
-        unwatchedCheckBox.setOnAction(e -> {
-            //
-            search();
-        });
     }
 
     public void setWatchedCheckBoxAction(EventHandler handler) {
+        watchedCheckBox.setOnAction(handler);
+    }
 
+    public void setUnwatchedCheckBoxAction(EventHandler handler) {
+        unwatchedCheckBox.setOnAction(handler);
     }
 
     private void search(){
@@ -106,4 +95,15 @@ public class SearchBarView  extends HBox{
         searchField.setOnAction(handler);
     }
 
+    public String getSearchText() {
+        return searchField.getText();
+    }
+
+    public boolean isWatchedCheckBoxSelected() {
+        return watchedCheckBox.isSelected();
+    }
+
+    public boolean isUnwatchedCheckBoxSelected() {
+        return unwatchedCheckBox.isSelected();
+    }
 }

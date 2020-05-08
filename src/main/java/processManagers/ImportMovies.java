@@ -65,7 +65,7 @@ public class ImportMovies extends Task implements Runnable {
 	public void run() {
 		System.out.println("Run Import");
 		readMoviesFromOmdb();
-		writeResultsToXml();
+		//writeResultsToXml();
 		writeResultsToDB();
 	}
 
@@ -87,15 +87,20 @@ public class ImportMovies extends Task implements Runnable {
 		for (File i: directoryReader.getFileList()) {
 
 			if (!rescan) {
+				if (i.getAbsolutePath().toLowerCase().contains("hot tub")) {
+					int debug = 0;
+				}
 				if (SQLiteDatabase.getInstance().movieExistsInDB(i.getAbsolutePath())) {
+
 					continue;
 				}
 			}
 
 			String searchUrl = APIControl.getSearchTitle(directoryReader.cleanMovieName(i).getTitle());
 			wParser = new WebParser(searchUrl);
+			wParser.getParsedDoc(searchUrl);
 			Movie retrievedMovie = directoryReader.cleanMovieName(i);
-			
+
 			if(wParser.isValidFetch()) {
 				base.add(wParser.getWebMovieByTitle(retrievedMovie));
 				goodCount++;
@@ -116,9 +121,9 @@ public class ImportMovies extends Task implements Runnable {
 			}
 			
 			//limit testing runs to a low amount for debugging
-			if (goodCount + badCount == 200) {
-				break;
-			}
+//			if (goodCount + badCount == 200) {
+////				break;
+////			}
 			
 		}
 		
@@ -167,7 +172,7 @@ public class ImportMovies extends Task implements Runnable {
 	protected Object call() throws Exception {
 		System.out.println("Run Import");
 		readMoviesFromOmdb();
-		writeResultsToXml();
+		//writeResultsToXml();
 		writeResultsToDB();
 		return null;
 	}

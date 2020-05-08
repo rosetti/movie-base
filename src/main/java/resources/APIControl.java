@@ -9,7 +9,8 @@ import java.util.Properties;
 
 public class APIControl {
 	static final String baseLink = "http://www.omdbapi.com/?" + "apikey=" +
-			ApplicationMain.properties.getProperty("api-key") + "&";
+			ApplicationMain.properties.getProperty("api-key") + "&" +
+			"plot=full" + "&";
 
 	/**
 	 * Method will replace spaces in a string with "%20" to conform to

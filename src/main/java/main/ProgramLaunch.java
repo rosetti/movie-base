@@ -5,8 +5,6 @@ import java.io.File;
 
 //local imports
 import inputOutput.SQLiteDatabase;
-import javafxgui.MainUIController;
-import javafxgui.MainWindowController;
 import movieControl.*;
 import parsers.LocalParser;
 import gui.*;

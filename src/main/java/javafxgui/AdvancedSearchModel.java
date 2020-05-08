@@ -21,7 +21,8 @@ public class AdvancedSearchModel {
     public void search() {
         System.out.println("Advanced Search Baby!");
         SQLiteDatabase db = SQLiteDatabase.getInstance();
-        db.loadFilteredMovies(titleSearchText, watched, unwatched, actorSearchText, directorSearchText, writerSearchText, genreSearchList);
+        db.loadFilteredMovies(titleSearchText, watched, unwatched, actorSearchText, directorSearchText,
+                writerSearchText, genreSearchList);
     }
 
     public void setWatched(boolean watched) {

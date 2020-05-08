@@ -174,15 +174,8 @@ public class MovieTest
 	{
 		XMLWriter writer = new XMLWriter();
 		LocalParser lParser = new LocalParser();
-		try {
-			lParser.getParsedDoc("Y:\\Development\\SinSoftMovieApplication\\bin\\main\\movieData.xml");
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		lParser.getParsedDoc("Y:\\Development\\SinSoftMovieApplication\\bin\\main\\movieData.xml");
+
 		Movie movie = lParser.getMovies().get(0);
 		Document doc = lParser.getXMLDoc();
 		writer.addMovie(doc,movie);

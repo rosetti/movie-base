@@ -20,15 +20,8 @@ public class PopulateMovieBaseFromLocal {
 		MovieBase base = mock(MovieBase.class, RETURNS_DEEP_STUBS);
 		when(base.getMovie(0).getTitle()).thenReturn("Code 11-14");
 		LocalParser parser = new LocalParser();
-		try {
-			parser.getParsedDoc("C:\\Program Files\\VKLX\\Movie Base" + "\\movieData.xml");
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		parser.getParsedDoc("C:\\Program Files\\VKLX\\Movie Base" + "\\movieData.xml");
+
 		//base.addMovies(parser.getMovies());
 
 		String movieOne = base.getMovie(0).getTitle();

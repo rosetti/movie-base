@@ -54,6 +54,10 @@ public class ImportView implements ImportProgressInterface{
     }
 
     public void show() {
+        double xAdd = (MainWindowView.width - 500)/2;
+        double yAdd = (MainWindowView.height - 400)/2;
+        stage.setX(MainWindowView.x + xAdd);
+        stage.setY(MainWindowView.y + yAdd);
         stage.show();
     }
 
