@@ -1,4 +1,4 @@
-package javafxgui;
+package inputOutput;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,14 +12,14 @@ import java.util.List;
 public class DBSearchQuery {
 
     private static DBSearchQuery dbSearchQuery;
-    private String titleSearchText;
-    private boolean watched;
-    private boolean unwatched;
-    private String actorSearchText;
-    private String directorSearchText;
-    private String writerSearchText;
-    private List<String> genreSearchList;
-    private List<String> fileTypeSearchList;
+    private String titleSearchText = "%";
+    private boolean watched = false;
+    private boolean unwatched = false;
+    private String actorSearchText = "%";
+    private String directorSearchText = "%";
+    private String writerSearchText = "%";
+    private List<String> genreSearchList = new ArrayList<String>();
+    private List<String> fileTypeSearchList = new ArrayList<String>();
 
     public static DBSearchQuery getInstance() {
         if (dbSearchQuery == null) {
@@ -29,18 +29,30 @@ public class DBSearchQuery {
     }
 
     public void resetQuery() {
-        titleSearchText = "";
-        boolean watched = false;
-        boolean unwatched = false;
-        String actorSearchText = "";
-        String directorSearchText = "";
-        String writerSearchText = "";
-        List<String> genreSearchList = new ArrayList<String>();
-        List<String> fileTypeSearchList = new ArrayList<String>();
+        titleSearchText = "%";
+        watched = false;
+        unwatched = false;
+        actorSearchText = "%";
+        directorSearchText = "%";
+        writerSearchText = "%";
+        genreSearchList = new ArrayList<String>();
+        fileTypeSearchList = new ArrayList<String>();
     }
 
-    public PreparedStatement getPreparedStatement(Connection connection) throws SQLException {
+    private void printParameters() {
+        System.out.println("titleSearchText: " + titleSearchText);
+        System.out.println("watched: " + watched);
+        System.out.println("unwatched: " + unwatched);
+    }
 
+    /**
+     * Returns PreparedStatement for advanced search
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
+    public PreparedStatement getPreparedStatementAdvanced(Connection connection) throws SQLException {
+        printParameters();
         int parNum = 1;
 
         if (genreSearchList == null) {
@@ -81,6 +93,44 @@ public class DBSearchQuery {
         for (String i: fileTypeSearchList) {
             statement.setString(parNum++, "%" + i + "%");
         }
+
+        System.out.println("Advanced SQL: " + sql);
+        return statement;
+    }
+
+    /**
+     * Returns PreparedStatement for use in in search bar
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
+    public PreparedStatement getPreparedStatementGeneral(Connection connection) throws SQLException {
+        printParameters();
+        int parNum = 1;
+
+        if (genreSearchList == null) {
+            genreSearchList = new ArrayList<>();
+        }
+
+        if (fileTypeSearchList == null) {
+            fileTypeSearchList = new ArrayList<>();
+        }
+
+        String sql = "SELECT * FROM MOVIES WHERE";
+        sql += " (WATCHED = ? or WATCHED != ?) AND (";
+        sql += "LOWER(TITLE) LIKE ?";
+        sql += " OR LOWER(ACTOR) LIKE ?";
+        sql += " OR LOWER(DIRECTOR) LIKE ?";
+        sql += " OR LOWER(WRITER) LIKE ?)";
+
+        System.out.println(sql);
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setBoolean(parNum++, watched);
+        statement.setBoolean(parNum++, unwatched);
+        statement.setString(parNum++, "%" + titleSearchText + "%");
+        statement.setString(parNum++, "%" + actorSearchText + "%");
+        statement.setString(parNum++, "%" + directorSearchText + "%");
+        statement.setString(parNum++, "%" + writerSearchText + "%");
 
         System.out.println(sql);
         return statement;

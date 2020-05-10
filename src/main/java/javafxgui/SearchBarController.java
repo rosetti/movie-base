@@ -1,7 +1,7 @@
 package javafxgui;
 
+import inputOutput.DBSearchQuery;
 import inputOutput.SQLiteDatabase;
-import org.sqlite.core.DB;
 
 /**
  * Created by Vin on 10/12/2017.
@@ -34,6 +34,7 @@ public class SearchBarController {
     private void setClearFilterAction() {
         view.setClearFiltersAction( e-> {
             view.clearSearchFields();
+            DBSearchQuery.getInstance().resetQuery();
             SQLiteDatabase db = SQLiteDatabase.getInstance();
             db.loadAllMovies();
             movieTableController.loadMovies();
@@ -49,33 +50,45 @@ public class SearchBarController {
 
     private void setSearchBoxAction() {
         view.setSearchBoxAction(e -> {
+            DBSearchQuery.getInstance().resetQuery();
             dbSearchQuery.setActorSearchText(view.getSearchText());
             dbSearchQuery.setDirectorSearchText(view.getSearchText());
             dbSearchQuery.setTitleSearchText(view.getSearchText());
-            search();
+            searchGeneric();
         });
     }
 
     private void setWatchedCheckBoxAction() {
         view.setWatchedCheckBoxAction(e -> {
             dbSearchQuery.setWatched(view.isWatchedCheckBoxSelected());
-            search();
+            if (view.getSearchText().equals("")) {
+                searchAdvanced();
+            } else {
+                searchGeneric();
+            }
         });
     }
 
     private void setUnwatchedCheckBoxAction() {
         view.setUnwatchedCheckBoxAction(e -> {
             dbSearchQuery.setUnwatched(view.isUnwatchedCheckBoxSelected());
-            search();
+            if (view.getSearchText().equals("")) {
+                searchAdvanced();
+            } else {
+                searchGeneric();
+            }
         });
     }
 
-    private void search() {
+    private void searchGeneric() {
         SQLiteDatabase db = SQLiteDatabase.getInstance();
-
-        //db.loadFilteredMovies(view.getSearchText(), view.isWatchedCheckBoxSelected(), view.isUnwatchedCheckBoxSelected(), "", "", "", null);
-        db.loadFilteredMovies();
+        db.loadGeneralFilteredMovies();
         movieTableController.loadMovies();
     }
 
+    private void searchAdvanced() {
+        SQLiteDatabase db = SQLiteDatabase.getInstance();
+        db.loadAdvancedFilteredMovies();
+        movieTableController.loadMovies();
+    }
 }

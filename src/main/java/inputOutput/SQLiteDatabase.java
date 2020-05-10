@@ -2,19 +2,15 @@ package inputOutput;
 
 //Local Imports
 
-import javafxgui.DBSearchQuery;
 import main.ApplicationMain;
 import movieControl.Movie;
 import movieControl.MovieBase;
-import org.apache.log4j.helpers.SyslogQuietWriter;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 //Java Imports
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class SQLiteDatabase {
@@ -270,26 +266,6 @@ public class SQLiteDatabase {
         return count > 0;
     }
 
-    public boolean movieExistsInDBByImdb(String imdbId) {
-        int count = 0;
-        String sql = "SELECT COUNT(*) COUNT FROM MOVIES WHERE LOWER(IMDB_ID) LIKE ?";
-        try {
-            Connection conn = DriverManager.getConnection(url);
-            pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, imdbId.toLowerCase());
-            results = pStmt.executeQuery();
-            while (results.next()) {
-                count = results.getInt("COUNT");
-            }
-
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        return count > 0;
-    }
-
     public void loadAllMovies() {
         MovieBase movieBase = MovieBase.getInstance();
         movieBase.clearMovieBase();
@@ -299,29 +275,7 @@ public class SQLiteDatabase {
             Connection conn = DriverManager.getConnection(url);
             pStmt = conn.prepareStatement(sql);
             results = pStmt.executeQuery();
-            while (results.next()) {
-                movie = new Movie();
-                movie.setTitle(results.getString("TITLE"));
-                movie.setYear(results.getInt("YEAR"));
-                movie.setRating(results.getString("RATING"));
-                movie.setRuntime(results.getInt("RUNTIME"));
-                movie.setPlot(results.getString("PLOT"));
-                movie.setPoster(results.getString("POSTER"));
-                movie.setMetaScore(results.getInt("META_SCORE"));
-                movie.setImdbScore(results.getFloat("IMDB_SCORE"));
-                movie.setImdbId(results.getString("IMDB_ID"));
-                movie.setWatched(results.getBoolean("WATCHED"));
-                movie.setFileLocation(results.getString("FILE_LOCATION"));
-                movie.setFileType(results.getString("FILE_TYPE"));
-
-                movie.setActor(new ArrayList<String>(Arrays.asList(results.getString("ACTOR").split("\\s*,\\s*"))));
-                movie.setDirector(new ArrayList<String>(Arrays.asList(results.getString("DIRECTOR").split("\\s*,\\s*"))));
-                movie.setGenre(new ArrayList<String>(Arrays.asList(results.getString("GENRE").split("\\s*,\\s*"))));
-                movie.setWriter(new ArrayList<String>(Arrays.asList(results.getString("WRITER").split("\\s*,\\s*"))));
-
-                movieBase.addMovie(movie);
-            }
-
+            loadMovieBase(results);
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -330,46 +284,43 @@ public class SQLiteDatabase {
 
     }
 
-    public void loadFilteredMovies(String titleSearchText, boolean watched, boolean unwatched, String actorSearchText,
-                                   String directorSearchText, String writerSearchText, List genreSearchList) {
-        System.out.println(titleSearchText);
+    private void loadMovieBase(ResultSet results) throws SQLException{
         MovieBase movieBase = MovieBase.getInstance();
         movieBase.clearMovieBase();
 
-        Movie movie;
+        while (results.next()) {
+            Movie movie = new Movie();
+            movie.setTitle(results.getString("TITLE"));
+            movie.setYear(results.getInt("YEAR"));
+            movie.setRating(results.getString("RATING"));
+            movie.setRuntime(results.getInt("RUNTIME"));
+            movie.setPlot(results.getString("PLOT"));
+            movie.setPoster(results.getString("POSTER"));
+            movie.setMetaScore(results.getInt("META_SCORE"));
+            movie.setImdbScore(results.getFloat("IMDB_SCORE"));
+            movie.setImdbId(results.getString("IMDB_ID"));
+            movie.setWatched(results.getBoolean("WATCHED"));
+            movie.setFileLocation(results.getString("FILE_LOCATION"));
+            movie.setFileType(results.getString("FILE_TYPE"));
+
+            movie.setActor(new ArrayList<String>(Arrays.asList(results.getString("ACTOR").split("\\s*,\\s*"))));
+            movie.setDirector(new ArrayList<String>(Arrays.asList(results.getString("DIRECTOR").split("\\s*,\\s*"))));
+            movie.setGenre(new ArrayList<String>(Arrays.asList(results.getString("GENRE").split("\\s*,\\s*"))));
+            movie.setWriter(new ArrayList<String>(Arrays.asList(results.getString("WRITER").split("\\s*,\\s*"))));
+
+            movieBase.addMovie(movie);
+        }
+    }
+
+    public void loadAdvancedFilteredMovies() {
 
         try {
             Connection conn = DriverManager.getConnection(url);
 
-            PreparedStatement pStatement = getPreparedStatement(conn, watched, unwatched, titleSearchText, actorSearchText, directorSearchText, writerSearchText, genreSearchList);
+            //PreparedStatement pStatement = getPreparedStatement(conn, watched, unwatched, titleSearchText, actorSearchText, directorSearchText, writerSearchText, genreSearchList);
+            PreparedStatement pStatement = DBSearchQuery.getInstance().getPreparedStatementAdvanced(conn);
             results = pStatement.executeQuery();
-
-            int count = 0;
-            while (results.next()) {
-                movie = new Movie();
-                movie.setTitle(results.getString("TITLE"));
-                movie.setYear(results.getInt("YEAR"));
-                movie.setRating(results.getString("RATING"));
-                movie.setRuntime(results.getInt("RUNTIME"));
-                movie.setPlot(results.getString("PLOT"));
-                movie.setPoster(results.getString("POSTER"));
-                movie.setMetaScore(results.getInt("META_SCORE"));
-                movie.setImdbScore(results.getFloat("IMDB_SCORE"));
-                movie.setImdbId(results.getString("IMDB_ID"));
-                movie.setWatched(results.getBoolean("WATCHED"));
-                movie.setFileLocation(results.getString("FILE_LOCATION"));
-                movie.setFileType(results.getString("FILE_TYPE"));
-
-                movie.setActor(new ArrayList<String>(Arrays.asList(results.getString("ACTOR").split("\\s*,\\s*"))));
-                movie.setDirector(new ArrayList<String>(Arrays.asList(results.getString("DIRECTOR").split("\\s*,\\s*"))));
-                movie.setGenre(new ArrayList<String>(Arrays.asList(results.getString("GENRE").split("\\s*,\\s*"))));
-                movie.setWriter(new ArrayList<String>(Arrays.asList(results.getString("WRITER").split("\\s*,\\s*"))));
-
-                movieBase.addMovie(movie);
-                count++;
-            }
-
-            System.out.println(count + " Movies added to MovieBase");
+            loadMovieBase(results);
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -377,44 +328,13 @@ public class SQLiteDatabase {
         }
     }
 
-    public void loadFilteredMovies() {
-        MovieBase movieBase = MovieBase.getInstance();
-        movieBase.clearMovieBase();
-
-        Movie movie;
-
+    public void loadGeneralFilteredMovies() {
         try {
             Connection conn = DriverManager.getConnection(url);
 
-            PreparedStatement pStatement = DBSearchQuery.getInstance().getPreparedStatement(conn);
+            PreparedStatement pStatement = DBSearchQuery.getInstance().getPreparedStatementGeneral(conn);
             results = pStatement.executeQuery();
-
-            int count = 0;
-            while (results.next()) {
-                movie = new Movie();
-                movie.setTitle(results.getString("TITLE"));
-                movie.setYear(results.getInt("YEAR"));
-                movie.setRating(results.getString("RATING"));
-                movie.setRuntime(results.getInt("RUNTIME"));
-                movie.setPlot(results.getString("PLOT"));
-                movie.setPoster(results.getString("POSTER"));
-                movie.setMetaScore(results.getInt("META_SCORE"));
-                movie.setImdbScore(results.getFloat("IMDB_SCORE"));
-                movie.setImdbId(results.getString("IMDB_ID"));
-                movie.setWatched(results.getBoolean("WATCHED"));
-                movie.setFileLocation(results.getString("FILE_LOCATION"));
-                movie.setFileType(results.getString("FILE_TYPE"));
-
-                movie.setActor(new ArrayList<String>(Arrays.asList(results.getString("ACTOR").split("\\s*,\\s*"))));
-                movie.setDirector(new ArrayList<String>(Arrays.asList(results.getString("DIRECTOR").split("\\s*,\\s*"))));
-                movie.setGenre(new ArrayList<String>(Arrays.asList(results.getString("GENRE").split("\\s*,\\s*"))));
-                movie.setWriter(new ArrayList<String>(Arrays.asList(results.getString("WRITER").split("\\s*,\\s*"))));
-
-                movieBase.addMovie(movie);
-                count++;
-            }
-
-            System.out.println(count + " Movies added to MovieBase");
+            loadMovieBase(results);
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

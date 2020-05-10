@@ -1,6 +1,5 @@
 package javafxgui;
 
-import gui.MainWindow;
 import inputOutput.SQLiteDatabase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -81,16 +80,16 @@ public class SearchBarView  extends HBox{
     public void setUnwatchedCheckBoxAction(EventHandler handler) {
         unwatchedCheckBox.setOnAction(handler);
     }
-
+/*
     private void search(){
         if (advSearchController != null) {
             advSearchController.setWatchedUnwatched(watchedCheckBox.isSelected(), unwatchedCheckBox.isSelected());
         }
         SQLiteDatabase db = SQLiteDatabase.getInstance();
-        db.loadFilteredMovies(searchField.getText(), watchedCheckBox.isSelected(), unwatchedCheckBox.isSelected(), "", "", "", null);
+        db.loadAdvancedFilteredMovies(searchField.getText(), watchedCheckBox.isSelected(), unwatchedCheckBox.isSelected(), "", "", "", null);
         tableView.loadMoviesFromMovieBase();
     }
-
+*/
     public void setSearchBoxAction(EventHandler<ActionEvent> handler) {
         searchField.setOnAction(handler);
     }

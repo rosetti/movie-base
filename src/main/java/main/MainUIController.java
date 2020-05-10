@@ -1,6 +1,7 @@
 package main;
 
 
+import inputOutput.SQLiteDatabase;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafxgui.*;
@@ -81,7 +82,9 @@ public class MainUIController extends Application {
         mainWindowView = new MainWindowView(movieTableView, movieDetailView, menuBarView, statusBarView, searchBarView);
 
         mainWindowController = new MainWindowController(primaryStage, mainWindowView, movieTableView, movieDetailView, menuBarView, movieTableController);
-
+        SQLiteDatabase db = SQLiteDatabase.getInstance();
+        db.loadAllMovies();
+        movieTableController.loadMovies();
     }
 
 }

@@ -21,6 +21,11 @@ public class APIControl {
 		if (text.contains(" ")) {
 			text = text.replace(" ", "%20");
 		}
+
+		if (text.contains("(") || text.contains(")")) {
+			text = text.replace("(", "%20");
+			text = text.replace(")", "%20");
+		}
 		return text;
 	}
 

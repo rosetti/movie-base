@@ -1,5 +1,8 @@
 package javafxgui;
 
+import inputOutput.DBSearchQuery;
+import org.sqlite.core.DB;
+
 public class AdvancedSearchController {
 
     AdvancedSearchView view;
@@ -31,11 +34,22 @@ public class AdvancedSearchController {
     }
 
     public void setSearchParameters() {
+        DBSearchQuery dbSearchQuery = DBSearchQuery.getInstance();
+
         model.titleSearchText = view.getTitleSearchText();
+        dbSearchQuery.setTitleSearchText(view.getTitleSearchText());
+
         model.actorSearchText = view.getActorSearchText();
+        dbSearchQuery.setActorSearchText(view.getActorSearchText());
+
         model.directorSearchText = view.getDirectorSearchText();
+        dbSearchQuery.setDirectorSearchText(view.getDirectorSearchText());
+
         model.writerSearchText = view.getWriterSearchText();
+        dbSearchQuery.setWriterSearchText(view.getWriterSearchText());
+
         model.setGenreSearchList(view.getGenreSearchList());
+        dbSearchQuery.setGenreSearchList(view.getGenreSearchList());
     }
 
     private void setSearchAction() {

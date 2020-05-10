@@ -67,5 +67,6 @@ public class ProgramLaunch {
     private void loadLibraryFromDb(){
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.loadAllMovies();
+        System.out.println();
     }
 }

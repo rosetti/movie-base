@@ -54,7 +54,7 @@ public class MovieTableView extends HBox {
         movieTable.setStyle("-fx-focus-color: transparent;");
         movieTable.setPrefWidth(2000);
         movieTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        //loadMoviesFromMovieBase();
+        loadMoviesFromMovieBase();
         getChildren().add(movieTable);
     }
 

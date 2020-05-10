@@ -67,17 +67,15 @@ public class MainWindowView {
     private void addHeightWidthListeners() {
         mainStage.widthProperty().addListener((Obs, oldVal, newVal) -> {
             width = newVal.doubleValue();
-            System.out.println("Width: " + width);
         });
 
         mainStage.heightProperty().addListener((Obs, oldVal, newVal) -> {
             height = newVal.doubleValue();
-            System.out.println("Height: " + height);
         });
     }
 
     private void prepDimensions() {
-        mainStage.setHeight(1000);
+        mainStage.setHeight(700);
         mainStage.setMinHeight(300);
         mainStage.setWidth(1200);
         mainStage.setMaxWidth(2000);
