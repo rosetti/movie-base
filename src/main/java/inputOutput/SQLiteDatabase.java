@@ -270,7 +270,7 @@ public class SQLiteDatabase {
         MovieBase movieBase = MovieBase.getInstance();
         movieBase.clearMovieBase();
         Movie movie = new Movie();
-        String sql = "SELECT * FROM MOVIES";
+        String sql = "SELECT * FROM MOVIES ORDER BY TITLE";
         try {
             Connection conn = DriverManager.getConnection(url);
             pStmt = conn.prepareStatement(sql);
@@ -284,6 +284,11 @@ public class SQLiteDatabase {
 
     }
 
+    /**
+     * Populates MovieBase with the results of a query
+     * @param results
+     * @throws SQLException
+     */
     private void loadMovieBase(ResultSet results) throws SQLException{
         MovieBase movieBase = MovieBase.getInstance();
         movieBase.clearMovieBase();
@@ -316,8 +321,6 @@ public class SQLiteDatabase {
 
         try {
             Connection conn = DriverManager.getConnection(url);
-
-            //PreparedStatement pStatement = getPreparedStatement(conn, watched, unwatched, titleSearchText, actorSearchText, directorSearchText, writerSearchText, genreSearchList);
             PreparedStatement pStatement = DBSearchQuery.getInstance().getPreparedStatementAdvanced(conn);
             results = pStatement.executeQuery();
             loadMovieBase(results);

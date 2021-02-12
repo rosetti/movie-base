@@ -67,9 +67,9 @@ public class MainUIController extends Application {
         movieTableView = new MovieTableView();
         movieTableController = new MovieTableController(movieTableModel, movieTableView, movieDetailController, statusBarController, movieEditController);
 
-        //menuBarModel = new MenuBarModel();
+        MenuBarModel menuBarModel = new MenuBarModel();
         menuBarView = new MenuBarView();
-        //menuBarController = new MenuBarController(menuBarModel, menuBarView);
+        MenuBarController menuBarController = new MenuBarController(menuBarModel, menuBarView, movieEditController);
 
         advancedSearchView = new AdvancedSearchView();
         advancedSearchModel = new AdvancedSearchModel();

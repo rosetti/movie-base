@@ -33,16 +33,13 @@ public class SearchBarController {
 
     private void setClearFilterAction() {
         view.setClearFiltersAction( e-> {
-            view.clearSearchFields();
-            DBSearchQuery.getInstance().resetQuery();
-            SQLiteDatabase db = SQLiteDatabase.getInstance();
-            db.loadAllMovies();
-            movieTableController.loadMovies();
+            resetTable();
         });
     }
 
     private void setAdvancedSearchButtonAction() {
         view.setAdvancedSearchButtonAction(e -> {
+            resetTable();
             view.setSearchFieldText("");
             advancedSearchController.show();
         });
@@ -50,10 +47,12 @@ public class SearchBarController {
 
     private void setSearchBoxAction() {
         view.setSearchBoxAction(e -> {
+            System.out.println("setSearchBoxAction");
             DBSearchQuery.getInstance().resetQuery();
             dbSearchQuery.setActorSearchText(view.getSearchText());
             dbSearchQuery.setDirectorSearchText(view.getSearchText());
             dbSearchQuery.setTitleSearchText(view.getSearchText());
+            dbSearchQuery.setWriterSearchText(view.getSearchText());
             searchGeneric();
         });
     }
@@ -89,6 +88,14 @@ public class SearchBarController {
     private void searchAdvanced() {
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.loadAdvancedFilteredMovies();
+        movieTableController.loadMovies();
+    }
+
+    private void resetTable() {
+        view.clearSearchFields();
+        DBSearchQuery.getInstance().resetQuery();
+        SQLiteDatabase db = SQLiteDatabase.getInstance();
+        db.loadAllMovies();
         movieTableController.loadMovies();
     }
 }

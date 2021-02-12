@@ -13,7 +13,7 @@ import movieControl.MovieBase;
 import parsers.LocalParser;
 
 public class PopulateMovieBaseFromLocal {
-
+/*
 	@Test
 	public void test() {
 		//MovieBase base = MovieBase.getInstance();
@@ -33,5 +33,5 @@ public class PopulateMovieBaseFromLocal {
 		//Assert.assertEquals(movieTwo, "12 Angry Men");
 		//Assert.assertEquals(movieThree, "12 Monkeys");
 	}
-
+*/
 }

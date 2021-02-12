@@ -99,15 +99,11 @@ public class MovieCheckView {
         try {
             input = new FileInputStream(movie.getPoster());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (input == null) {
-
-            String file = getClass().getClassLoader().getResource("image_not_found.jpg").getFile();
 
             try {
+                String file = getClass().getClassLoader().getResource("image_not_found.jpg").getFile();
                 input = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e1) {
                 e.printStackTrace();
             }
         }

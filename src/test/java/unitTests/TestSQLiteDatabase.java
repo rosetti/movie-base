@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class TestSQLiteDatabase {
 
-    @Test
+    //@Test
     public void movieExistsInDBTest3() {
         String[] args = {};
         ApplicationMain.setUserDirectory(args);
@@ -30,7 +30,7 @@ public class TestSQLiteDatabase {
         Assert.assertEquals(false, db.movieExistsInDB(movie));
     }
 
-    @Test
+    //@Test
     public void movieExistsInDBTest() {
         String[] args = {};
         ApplicationMain.setUserDirectory(args);
@@ -44,7 +44,7 @@ public class TestSQLiteDatabase {
         Assert.assertEquals(false, db.movieExistsInDB(movie));
     }
 
-    @Test
+    //@Test
     public void addMovieTest() {
         String[] args = {};
         ApplicationMain.setUserDirectory(args);

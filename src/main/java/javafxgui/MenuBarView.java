@@ -22,6 +22,7 @@ public class MenuBarView extends MenuBar implements Confirmable{
         if (this.mainMenuBar == null) {
             mainMenuBar = new MenuBarView();
         }
+
         return mainMenuBar;
     }
 
@@ -32,7 +33,6 @@ public class MenuBarView extends MenuBar implements Confirmable{
         makeAboutMenu();
         addMenus();
         setStyle("-fx-background-color:f4f4f4");
-
     }
 
     private void addMenus() {

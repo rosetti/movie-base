@@ -21,16 +21,17 @@ public class MovieDetailView extends VBox {
     TextField textField;
     TableView<Movie> movieDetails;
     VBox vSpacer;
-    Color bgColor = Color.rgb(220, 255, 255);
+    Color bgColor = Color.rgb(222, 208, 227);
+    Color darkBgColor = Color.rgb(42, 42, 53);
     Color textColor = Color.rgb(21, 41, 36);
+
     Insets insetPadding = new Insets(4, 20,4,10);
+    int paneWidth = 300;
+    int imageWidth = 175;
 
     public MovieDetailView() {
-        //setStyle("-fx-background-color: #00af1a");
-        setMinWidth(300);
-        setMaxWidth(300);
-        //padding = 20;
-        //getChildren().add(new Label("Hello World!"));
+        setMinWidth(paneWidth);
+        setMaxWidth(paneWidth);
         setAlignment(Pos.TOP_CENTER);
         setVisible(true);
         vSpacer = new VBox();
@@ -73,13 +74,14 @@ public class MovieDetailView extends VBox {
         double height = image.getHeight();
         double width = image.getWidth();
 
-        double resizeFactor = width / 300;
+        double resizeFactor = width / imageWidth;
 
 
         imageView = new ImageView(image);
-        imageView.setFitWidth(300);
+        imageView.setFitWidth(imageWidth);
         imageView.setFitHeight(height / resizeFactor);
         setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
+        //setBackground(new Background(new BackgroundFill(darkBgColor, CornerRadii.EMPTY, Insets.EMPTY)));
         getChildren().add(imageView);
 
         //movieDetails = new TableView<>();
@@ -90,7 +92,7 @@ public class MovieDetailView extends VBox {
         //title.setFont(new Font(18));
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18");
         title.setWrapText(true);
-        title.setMaxWidth(300);
+        title.setMaxWidth(paneWidth);
         title.setTextFill(textColor);
         title.setPadding(insetPadding);
         title.setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -100,7 +102,7 @@ public class MovieDetailView extends VBox {
         plot.setWrapText(true);
         plot.setTextAlignment(TextAlignment.JUSTIFY);
         plot.setTextFill(textColor);
-        plot.setMaxWidth(300);
+        plot.setMaxWidth(paneWidth);
         plot.setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
         plot.setPadding(insetPadding);
 
@@ -150,7 +152,7 @@ public class MovieDetailView extends VBox {
         VBox box = new VBox();
         //box.setBackground(new Background (new BackgroundFill(Color.rgb(0,200,0), CornerRadii.EMPTY, Insets.EMPTY)));
         box.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
-        box.setMaxWidth(300);
+        box.setMaxWidth(paneWidth);
         box.getChildren().addAll(title, fourBox, plot);
 
         ScrollPane textDetails = new ScrollPane();
@@ -159,7 +161,7 @@ public class MovieDetailView extends VBox {
         //textDetails.setMinHeight(300);
         //textDetails.setMaxHeight(200);
         //textDetails.setFitToHeight(true);
-        textDetails.setMaxWidth(300);
+        textDetails.setMaxWidth(paneWidth);
         textDetails.setContent(box);
         textDetails.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -172,7 +174,8 @@ public class MovieDetailView extends VBox {
         StackPane metaCriticPane = new StackPane();
         metaCriticPane.setAlignment(Pos.CENTER);
         metaCriticPane.setMinWidth(150);
-        String file = getClass().getClassLoader().getResource("metascore-square-small.png").getFile();
+        //String file = getClass().getClassLoader().getResource("metascore-square-small.png").getFile();
+        //System.out.println("Filepath: " + file);
         FileInputStream input = null;
         Image image;
         ImageView imageView;
@@ -180,32 +183,24 @@ public class MovieDetailView extends VBox {
         metaScoreLabel.setFont(new Font(18));
         metaScoreLabel.setStyle("-fx-font-weight: bold;");
 
-        try {
-            input = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            //Logger.getLogger().lo
-        }
-        if (input != null) {
-            image = new Image(input);
+
+
+            image = new Image(getClass().getClassLoader().getResourceAsStream("metascore-square-small.png"));
             imageView = new ImageView(image);
             metaCriticPane.getChildren().addAll(imageView, metaScoreLabel);
-        }
+
 
         //IMDB Star
         HBox imdbBox = new HBox();
         imdbBox.setAlignment(Pos.CENTER);
         imdbBox.setMinWidth(150);
-        file = getClass().getClassLoader().getResource("imdb-star-small.png").getFile();
-        try {
-            input = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (input != null) {
-            image = new Image(input);
+        //file = getClass().getClassLoader().getResource("imdb-star-small.png").getFile();
+
+
+            image = new Image(getClass().getClassLoader().getResourceAsStream("imdb-star-small.png"));
             imageView = new ImageView(image);
             imdbBox.getChildren().add(imageView);
-        }
+
 
         Label imdbScore = new Label(String.valueOf(movie.getImdbScore()));
         imdbScore.setMinWidth(40);
@@ -218,7 +213,7 @@ public class MovieDetailView extends VBox {
 
         //Score Box
         HBox scoreBox = new HBox();
-        scoreBox.setBackground(new Background(new BackgroundFill(Color.rgb(42, 42, 53), CornerRadii.EMPTY, Insets.EMPTY)));
+        scoreBox.setBackground(new Background(new BackgroundFill(darkBgColor, CornerRadii.EMPTY, Insets.EMPTY)));
         scoreBox.setMinHeight(50);
         scoreBox.setMaxHeight(50);
         scoreBox.setMaxWidth(300);

@@ -42,7 +42,7 @@ public class ImageSaver
 		catch(Exception e)
 		{
 			System.out.println("Unable to connect to external image location");
-			outputPath = ApplicationMain.pwd + ApplicationMain.slash + "resources" + ApplicationMain.slash + "image_not_found.jpg";
+			outputPath = "";
 			imageIsValid = false;
 		}
 		

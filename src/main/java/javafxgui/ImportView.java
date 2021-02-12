@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
@@ -40,6 +41,7 @@ public class ImportView implements ImportProgressInterface{
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Import Movies");
+        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("Logo.png")));
 
         stage.setMinWidth(500);
         stage.setMaxWidth(500);

@@ -11,11 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import movieControl.Movie;
 
-import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -33,6 +33,7 @@ public class MovieEditView {
     TextField metaScoreField;
     TextField imdbScoreField;
     TextField fileLocationField;
+    Button fileChooseButton;
     TextField actorField;
     TextField directorField;
     TextField writerField;
@@ -45,7 +46,7 @@ public class MovieEditView {
     int height = 595;
     int width = 700;
 
-    Insets insetPadding = new Insets(4, 20,4,10);
+    Insets insetPadding = new Insets(4, 20, 4, 10);
 
     int spacing = 5;
     int labelMinWidth = 70;
@@ -54,6 +55,8 @@ public class MovieEditView {
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Edit View");
+        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("Logo.png")));
+        stage.setOnCloseRequest(e -> clearForm());
 
         stage.setMinWidth(width);
         stage.setMaxWidth(width);
@@ -71,7 +74,7 @@ public class MovieEditView {
         Label titleLabel = new Label("Title");
         titleLabel.setMinWidth(labelMinWidth);
         Label yearLabel = new Label("Year");
-        rowOne.getChildren().addAll(new HBox(), titleLabel,titleField, yearLabel, yearField);
+        rowOne.getChildren().addAll(new HBox(), titleLabel, titleField, yearLabel, yearField);
 
         //Row Two
         runtimeField = new TextField();
@@ -79,7 +82,7 @@ public class MovieEditView {
         rowTwo.setAlignment(Pos.CENTER_LEFT);
         Label runtimeLabel = new Label("Runtime");
         runtimeLabel.setMinWidth(labelMinWidth);
-        rowTwo.getChildren().addAll(new HBox(),runtimeLabel, runtimeField);
+        rowTwo.getChildren().addAll(new HBox(), runtimeLabel, runtimeField);
 
         //Row Three
         plotField = new TextArea();
@@ -101,12 +104,13 @@ public class MovieEditView {
 
         //Row Five
         fileLocationField = new TextField();
-        fileLocationField.setMinWidth(275);
+        fileLocationField.setMinWidth(248);
+        fileChooseButton = new Button("...");
         HBox rowFive = new HBox(5);
         rowFive.setAlignment(Pos.CENTER_LEFT);
         Label fileLocationLabel = new Label("File Location");
         fileLocationLabel.setMinWidth(labelMinWidth);
-        rowFive.getChildren().addAll(new HBox(), fileLocationLabel, fileLocationField);
+        rowFive.getChildren().addAll(new HBox(), fileLocationLabel, fileChooseButton, fileLocationField);
 
         //Row Six
         actorField = new TextField();
@@ -191,13 +195,32 @@ public class MovieEditView {
 
     public void show(Movie movie) {
         loadMovie(movie);
-        double xAdd = (MainWindowView.width - 700)/2;
-        double yAdd = (MainWindowView.height - 400)/2;
+        double xAdd = (MainWindowView.width - 700) / 2;
+        double yAdd = (MainWindowView.height - 400) / 2;
         stage.setX(MainWindowView.x + xAdd);
         stage.setY(MainWindowView.y + yAdd);
         stage.show();
     }
 
+    public void showBlank() {
+        double xAdd = (MainWindowView.width - 700) / 2;
+        double yAdd = (MainWindowView.height - 400) / 2;
+        stage.setX(MainWindowView.x + xAdd);
+        stage.setY(MainWindowView.y + yAdd);
+        stage.show();
+    }
+
+    public void setFileChooserButton(EventHandler eventHandler) {
+        fileChooseButton.setOnAction(eventHandler);
+    }
+
+    public void setFileLocationText(String text) {
+        fileLocationField.setText(text);
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
     public void setSaveButtonAction(EventHandler handler) {
         saveButton.setOnAction(handler);
     }
@@ -218,6 +241,22 @@ public class MovieEditView {
         stage.hide();
     }
 
+    public void clearForm() {
+        titleField.setText("");
+        yearField.setText("");
+        runtimeField.setText("");
+        plotField.setText("");
+        metaScoreField.setText("");
+        imdbScoreField.setText("");
+        fileLocationField.setText("");
+        actorField.setText("");
+        directorField.setText("");
+        writerField.setText("");
+        genreField.setText("");
+        imdbSearchField.setText("");
+        imagePane.getChildren().clear();
+    }
+
     private void loadMovie(Movie movie) {
         titleField.setText(movie.getTitle());
         yearField.setText(String.valueOf(movie.getYear()));
@@ -230,6 +269,7 @@ public class MovieEditView {
         directorField.setText(movie.getListAsString(movie.getDirector()));
         writerField.setText(movie.getListAsString(movie.getWriter()));
         genreField.setText(movie.getListAsString(movie.getGenre()));
+        imdbSearchField.setText("");
 
         imagePane.getChildren().clear();
         imagePane.getChildren().add(getImageView(movie));
@@ -239,19 +279,15 @@ public class MovieEditView {
         FileInputStream input = null;
         Image image;
 
-        if (movie.getPoster().equals("-")) {
 
-            String file = getClass().getClassLoader().getResource("image_not_found.jpg").getFile();
+        try {
+            input = new FileInputStream(movie.getPoster());
+        } catch (FileNotFoundException e) {
 
             try {
+                String file = getClass().getClassLoader().getResource("image_not_found.jpg").getFile();
                 input = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                input = new FileInputStream(movie.getPoster());
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e1) {
                 e.printStackTrace();
             }
         }
@@ -267,6 +303,10 @@ public class MovieEditView {
         posterImageView.setFitWidth(300);
         posterImageView.setFitHeight(height / resizeFactor);
         return posterImageView;
+    }
+
+    public void setOnCloseAction(EventHandler handler) {
+        stage.setOnCloseRequest(handler);
     }
 
     public String getTitleText() {

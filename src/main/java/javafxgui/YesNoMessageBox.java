@@ -1,6 +1,7 @@
 package javafxgui;
 
 import javafx.application.*;
+import javafx.scene.image.Image;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -71,6 +72,7 @@ public class YesNoMessageBox {
         stage.setTitle(title);
         stage.setMinWidth(450);
         stage.setMinHeight(80);
+        stage.getIcons().add(new Image(YesNoMessageBox.class.getClassLoader().getResourceAsStream("Logo.png")));
 
         Label lbl = new Label();
         lbl.setTextAlignment(TextAlignment.CENTER);

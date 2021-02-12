@@ -18,6 +18,7 @@ public class ProgramLaunch {
 
     public ProgramLaunch() {
 
+        //todo: this check and code related to xml library to be removed
         if (isExistingLibrary()) {
             //loadLibrary();
         }

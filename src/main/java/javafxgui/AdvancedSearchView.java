@@ -25,6 +25,8 @@ public class AdvancedSearchView {
     TextField directorField;
     TextField writerField;
     ListView<String> genreList;
+    TextField imdbLowerBoundBox;
+    TextField imdbUpperBoundBox;
 
     public AdvancedSearchView() {
         initialiseStage();
@@ -155,6 +157,7 @@ public class AdvancedSearchView {
         fileTypeSearch.setAlignment(Pos.CENTER);
         Label fileTypeLabel = new Label("File Type");
         ListView<String> fileTypeList = new ListView<>();
+        fileTypeList.getItems().addAll(getFileTypeOptions());
         fileTypeSearch.getChildren().addAll(fileTypeLabel, fileTypeList);
 
         rowThree.getChildren().addAll(genreSearch, spacer1, fileTypeSearch);
@@ -168,9 +171,13 @@ public class AdvancedSearchView {
         Label imdbScoreLabel = new Label("IMDB Score");
 
         HBox imdbScoreDropDowns = new HBox();
-        ComboBox<Integer> imdbLowerBoundBox = new ComboBox<>();
-        ComboBox<Integer> imdbUpperBoundBox = new ComboBox<>();
-        imdbScoreDropDowns.getChildren().addAll(imdbLowerBoundBox, imdbUpperBoundBox);
+        imdbLowerBoundBox = new TextField();
+        imdbLowerBoundBox.setMinWidth(30);
+        imdbLowerBoundBox.setMaxWidth(30);
+        imdbUpperBoundBox = new TextField();
+        imdbUpperBoundBox.setMinWidth(30);
+        imdbUpperBoundBox.setMaxWidth(30);
+        imdbScoreDropDowns.getChildren().addAll(imdbLowerBoundBox,new Label(" - "), imdbUpperBoundBox);
 
         imdbScoreBox.getChildren().addAll(imdbScoreLabel, imdbScoreDropDowns);
 
@@ -236,5 +243,26 @@ public class AdvancedSearchView {
     private ObservableList getGenreOptions() {
         String[] genres = {"Action", "Crime", "Drama", "Mystery", "Thriller", "Sci-Fi", "Biography", "History", "Adventure", "Comedy", "Romance", "Horror", "Documentary", "Music", "Animation", "Family", "Fantasy", "Short", "War", "Sport", "Musical", "News", "Western", "Reality-TV", "Film-Noir"};
         return FXCollections.observableArrayList(genres);
+    }
+
+    private ObservableList getFileTypeOptions() {
+        String[] fileTypes = {".avi", ".mp4", "folder", ".mkv",".divx", ".AVI",""};
+        return FXCollections.observableArrayList(fileTypes);
+    }
+
+    public float getImdbLowerBound() {
+        if (imdbLowerBoundBox.getText().equals("")) {
+            return 0;
+        } else {
+            return Float.valueOf(imdbLowerBoundBox.getText());
+        }
+    }
+
+    public float getImdbUpperBound() {
+        if (imdbUpperBoundBox.getText().equals("")) {
+            return 10;
+        } else {
+            return Float.valueOf(imdbUpperBoundBox.getText());
+        }
     }
 }

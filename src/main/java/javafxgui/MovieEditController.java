@@ -2,8 +2,11 @@ package javafxgui;
 
 import inputOutput.SQLiteDatabase;
 import javafx.scene.control.ContextMenu;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import movieControl.Movie;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,6 +30,7 @@ public class MovieEditController implements Confirmable {
         setCancelButtonAction();
         setSearchByTitleButtonAction();
         setSearchByImdbIdButtonAction();
+        setFileChooserButton();
     }
 
     public void show(Movie movie) {
@@ -34,16 +38,24 @@ public class MovieEditController implements Confirmable {
         model.setCurrentMovie(movie);
     }
 
+    public void showBlank() {
+        view.showBlank();
+    }
+
     public void setSaveButtonAction() {
         view.setSaveButtonAction(e-> {
-            if (model.getRetrievedMovie() != null) {
-                YesNoMessageBox.show("Are you sure you wish to overwrite movie:\n" + model.getCurrentMovie().getTitle()
+            if (model.getRetrievedMovie() != null && model.getOriginalMovie() != null) {
+                YesNoMessageBox.show("Are you sure you wish to overwrite movie:\n" + model.getOriginalMovie().getTitle()
                 + " with:\n" +
                         model.getRetrievedMovie().getTitle(), "Are you sure?");
                 if (YesNoMessageBox.getResponse()) {
                     SQLiteDatabase db = SQLiteDatabase.getInstance();
-                    db.deleteMovie(model.getCurrentMovie());
+                    db.deleteMovie(model.getOriginalMovie());
                     model.setCurrentMovie(model.getRetrievedMovie());
+                    view.clearForm();
+                    view.hide();
+                } else {
+                    return;
                 }
             }
 
@@ -52,7 +64,7 @@ public class MovieEditController implements Confirmable {
             model.getCurrentMovie().setYear(Integer.valueOf(view.getYearText()));
             model.getCurrentMovie().setPlot(view.getPlotText());
             model.getCurrentMovie().setMetaScore(Integer.valueOf(view.getMetaScoreText()));
-            model.getCurrentMovie().setImdbScore(Float.valueOf(view.getMetaScoreText()));
+            model.getCurrentMovie().setImdbScore(Float.valueOf(view.getImdbScoreText()));
             model.getCurrentMovie().setFileLocation(view.getFileLocationText());
             model.getCurrentMovie().setActor(new ArrayList<String>(Arrays.asList(view.getActorText().split("\\s*,\\s*"))));
             model.getCurrentMovie().setDirector(new ArrayList<String>(Arrays.asList(view.getDirectorText().split("\\s*,\\s*"))));
@@ -61,6 +73,8 @@ public class MovieEditController implements Confirmable {
 
             SQLiteDatabase db = SQLiteDatabase.getInstance();
             db.addMovie(model.getCurrentMovie());
+            view.clearForm();
+            view.hide();
         });
     }
 
@@ -92,10 +106,22 @@ public class MovieEditController implements Confirmable {
                 movieCheckController.show(model.getRetrievedMovie());
                 if (movieCheckController.getMovieToPersist() != null) {
                     SQLiteDatabase db = SQLiteDatabase.getInstance();
+                    model.setOriginalMovie(model.getCurrentMovie());
+                    model.getRetrievedMovie().setFileLocation(model.getCurrentMovie().getFileLocation());
                     show(model.getRetrievedMovie());
                 }
             } else {
                 MessageBox.show("No movies found in IMDb!", "No movies found!");
+            }
+        });
+    }
+
+    public void setFileChooserButton() {
+        view.setFileChooserButton(e -> {
+            FileChooser chooser = new FileChooser();
+            File file = chooser.showOpenDialog(view.getStage());
+            if (file != null) {
+                view.setFileLocationText(file.getAbsolutePath());
             }
         });
     }

@@ -50,6 +50,12 @@ public class AdvancedSearchController {
 
         model.setGenreSearchList(view.getGenreSearchList());
         dbSearchQuery.setGenreSearchList(view.getGenreSearchList());
+
+        dbSearchQuery.setImdbLowerBound(view.getImdbLowerBound());
+
+        dbSearchQuery.setImdbUpperBound(view.getImdbUpperBound());
+
+
     }
 
     private void setSearchAction() {

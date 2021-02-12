@@ -87,11 +87,7 @@ public class ImportMovies extends Task implements Runnable {
 		for (File i: directoryReader.getFileList()) {
 
 			if (!rescan) {
-				if (i.getAbsolutePath().toLowerCase().contains("hot tub")) {
-					int debug = 0;
-				}
 				if (SQLiteDatabase.getInstance().movieExistsInDB(i.getAbsolutePath())) {
-
 					continue;
 				}
 			}

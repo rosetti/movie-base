@@ -30,8 +30,8 @@ public class ApplicationMain {
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.createNewDatabase();
         logVariables();
-        Movie movie = StaticTestObjects.getTestMovie2();
-        db.addMovie(movie);
+        //Movie movie = StaticTestObjects.getTestMovie2();
+        //db.addMovie(movie);
 
         new ProgramLaunch();
 

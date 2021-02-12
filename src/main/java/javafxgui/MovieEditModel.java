@@ -10,6 +10,7 @@ public class MovieEditModel {
     Movie currentMovie;
     WebParser webParser;
     Movie retrievedMovie;
+    Movie originalMovie;
 
     public MovieEditModel() {
 
@@ -41,6 +42,14 @@ public class MovieEditModel {
             retrievedMovie = new Movie();
             retrievedMovie = webParser.getWebMovieByTitle(retrievedMovie);
         };
+    }
+
+    public void setOriginalMovie(Movie originalMovie) {
+        this.originalMovie = originalMovie;
+    }
+
+    public Movie getOriginalMovie() {
+        return originalMovie;
     }
 
     public Movie getRetrievedMovie() {

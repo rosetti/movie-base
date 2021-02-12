@@ -50,6 +50,7 @@ public class MainWindowView {
         mainStage = primaryStage;
         mainStage.setTitle("VKLX MovieBase");
         prepDimensions();
+        getClass().getClassLoader().getResource("imdb-star-small.png").getFile();
         mainStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("Logo.png")));
         mainStage.setScene(mainScene);
     }
@@ -90,7 +91,7 @@ public class MainWindowView {
         HBox topBar = new HBox();
         topBar.setMinHeight(32);
         HBox spacer = new HBox();
-        spacer.setMinWidth(81);
+        spacer.setMinWidth(100);
         spacer.setMaxHeight(10);
         spacer.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
 

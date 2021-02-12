@@ -20,6 +20,12 @@ public class DBSearchQuery {
     private String writerSearchText = "%";
     private List<String> genreSearchList = new ArrayList<String>();
     private List<String> fileTypeSearchList = new ArrayList<String>();
+    private float imdbLowerBound = 0;
+    private float imdbUpperBound = 10;
+
+
+
+
 
     public static DBSearchQuery getInstance() {
         if (dbSearchQuery == null) {
@@ -64,11 +70,13 @@ public class DBSearchQuery {
         }
 
         String sql = "SELECT * FROM MOVIES WHERE";
-        sql += " (WATCHED = ? or WATCHED != ?)";
-        sql += " AND LOWER(TITLE) LIKE ?";
-        sql += " AND LOWER(ACTOR) LIKE ?";
-        sql += " AND LOWER(DIRECTOR) LIKE ?";
-        sql += " AND LOWER(WRITER) LIKE ?";
+        sql += " (WATCHED = ? or WATCHED != ?)"; //par 1, par 2
+        sql += " AND LOWER(TITLE) LIKE ?"; //par 3
+        sql += " AND LOWER(ACTOR) LIKE ?"; //par 4
+        sql += " AND LOWER(DIRECTOR) LIKE ?"; //par 5
+        sql += " AND LOWER(WRITER) LIKE ?"; //par 6
+        //sql += " AND IMDB_SCORE > ?"; //par 7
+        //sql += " AND IMDB_SCORE < ?"; //par 8
 
         for (String i: genreSearchList) {
             sql += " AND LOWER(GENRE) LIKE ?";
@@ -85,6 +93,8 @@ public class DBSearchQuery {
         statement.setString(parNum++, "%" + actorSearchText + "%");
         statement.setString(parNum++, "%" + directorSearchText + "%");
         statement.setString(parNum++, "%" + writerSearchText + "%");
+        //statement.setFloat(parNum++, imdbLowerBound);
+        //statement.setFloat(parNum++, imdbUpperBound);
 
         for (String i: genreSearchList) {
             statement.setString(parNum++, "%" + i + "%");
@@ -104,8 +114,8 @@ public class DBSearchQuery {
      * @return
      * @throws SQLException
      */
+
     public PreparedStatement getPreparedStatementGeneral(Connection connection) throws SQLException {
-        printParameters();
         int parNum = 1;
 
         if (genreSearchList == null) {
@@ -121,9 +131,9 @@ public class DBSearchQuery {
         sql += "LOWER(TITLE) LIKE ?";
         sql += " OR LOWER(ACTOR) LIKE ?";
         sql += " OR LOWER(DIRECTOR) LIKE ?";
-        sql += " OR LOWER(WRITER) LIKE ?)";
+        sql += " OR LOWER(WRITER) LIKE ?";
+        sql += ")";
 
-        System.out.println(sql);
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setBoolean(parNum++, watched);
         statement.setBoolean(parNum++, unwatched);
@@ -132,7 +142,6 @@ public class DBSearchQuery {
         statement.setString(parNum++, "%" + directorSearchText + "%");
         statement.setString(parNum++, "%" + writerSearchText + "%");
 
-        System.out.println(sql);
         return statement;
     }
 
@@ -190,5 +199,21 @@ public class DBSearchQuery {
 
     public void setGenreSearchList(List genreSearchList) {
         this.genreSearchList = genreSearchList;
+    }
+
+    public float getImdbLowerBound() {
+        return imdbLowerBound;
+    }
+
+    public void setImdbLowerBound(float imdbLowerBound) {
+        this.imdbLowerBound = imdbLowerBound;
+    }
+
+    public float getImdbUpperBound() {
+        return imdbUpperBound;
+    }
+
+    public void setImdbUpperBound(float imdbUpperBound) {
+        this.imdbUpperBound = imdbUpperBound;
     }
 }
