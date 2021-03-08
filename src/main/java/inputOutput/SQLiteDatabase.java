@@ -160,12 +160,44 @@ public class SQLiteDatabase {
 
     }
 
+    /**
+     * Add's a movie to database with only minimal info - title + filepath
+     * @param movie
+     */
+    public void addPartialMovie(Movie movie) {
+        if (movieExistsInDB(movie)) {
+            updateMovie(movie);
+            return;
+        }
+
+        String sql = "INSERT INTO MOVIES (\n" +
+                "                       TITLE,\n" +
+                "                       FILE_LOCATION" +
+                "                   )\n" +
+                "                   VALUES (\n" +
+                "                       ?,\n" +
+                "                       ?\n" +
+                "                   );\n";
+        System.out.println(sql);
+        try {
+            Connection conn = DriverManager.getConnection(url);
+            pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, movie.getTitle());
+            pStmt.setString(2, movie.getFileLocation());
+            pStmt.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public void deleteMovie(Movie movie) {
-        String sql = "DELETE FROM MOVIES WHERE IMDB_ID = ?";
+        String sql = "DELETE FROM MOVIES WHERE IMDB_ID = ? and LOWER(FILE_LOCATION) = ?";
         try {
             Connection conn = DriverManager.getConnection(url);
             pStmt = conn.prepareStatement(sql);
             pStmt.setString(1, movie.getImdbId());
+            pStmt.setString(2, movie.getFileLocation().toLowerCase());
             pStmt.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -227,12 +259,13 @@ public class SQLiteDatabase {
      */
     public boolean movieExistsInDB(Movie movie) {
         int count = 0;
-        String sql = "SELECT COUNT(*) COUNT FROM MOVIES WHERE IMDB_ID LIKE ?";
+        String sql = "SELECT COUNT(*) COUNT FROM MOVIES WHERE LOWER(FILE_LOCATION) LIKE ? AND LOWER(IMDB_ID) LIKE ?";
         //get a connection
         try {
             Connection conn = DriverManager.getConnection(url);
             pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, movie.getImdbId());
+            pStmt.setString(1, movie.getFileLocation().toLowerCase());
+            pStmt.setString(2, movie.getImdbId().toLowerCase());
             results = pStmt.executeQuery();
             while (results.next()) {
                 count = results.getInt("COUNT");
@@ -295,6 +328,10 @@ public class SQLiteDatabase {
 
         while (results.next()) {
             Movie movie = new Movie();
+
+
+
+
             movie.setTitle(results.getString("TITLE"));
             movie.setYear(results.getInt("YEAR"));
             movie.setRating(results.getString("RATING"));
@@ -308,10 +345,12 @@ public class SQLiteDatabase {
             movie.setFileLocation(results.getString("FILE_LOCATION"));
             movie.setFileType(results.getString("FILE_TYPE"));
 
-            movie.setActor(new ArrayList<String>(Arrays.asList(results.getString("ACTOR").split("\\s*,\\s*"))));
-            movie.setDirector(new ArrayList<String>(Arrays.asList(results.getString("DIRECTOR").split("\\s*,\\s*"))));
-            movie.setGenre(new ArrayList<String>(Arrays.asList(results.getString("GENRE").split("\\s*,\\s*"))));
-            movie.setWriter(new ArrayList<String>(Arrays.asList(results.getString("WRITER").split("\\s*,\\s*"))));
+            if (results.getInt("YEAR") != 0) {
+                movie.setActor(new ArrayList<String>(Arrays.asList(results.getString("ACTOR").split("\\s*,\\s*"))));
+                movie.setDirector(new ArrayList<String>(Arrays.asList(results.getString("DIRECTOR").split("\\s*,\\s*"))));
+                movie.setGenre(new ArrayList<String>(Arrays.asList(results.getString("GENRE").split("\\s*,\\s*"))));
+                movie.setWriter(new ArrayList<String>(Arrays.asList(results.getString("WRITER").split("\\s*,\\s*"))));
+            }
 
             movieBase.addMovie(movie);
         }

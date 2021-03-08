@@ -7,7 +7,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Created by Vin on 09/12/2017.
@@ -20,10 +26,10 @@ public class SearchBarView  extends HBox{
     MovieTableView tableView;
     MovieTableController movieTableController;
     Button advancedSearchButton;
-    AdvancedSearchView advSearchView;
-    AdvancedSearchModel advSearchModel;
-    AdvancedSearchController advSearchController;
     Button clearFiltersButton;
+    Button changeViewButton;
+    Image posterGridImage, movieTableGridImage;
+    ImageView changeViewImageView;
 
     public SearchBarView(MovieTableView tableView, MovieTableController movieTableController) {
         this.tableView = tableView;
@@ -33,9 +39,10 @@ public class SearchBarView  extends HBox{
         addCheckboxes();
         makeAdvancedSearchButton();
         makeClearFiltersButton();
+        makeChangeViewButton();
         setSpacing(20);
         setAlignment(Pos.CENTER);
-        getChildren().addAll(searchField, watchedCheckBox, unwatchedCheckBox, advancedSearchButton, clearFiltersButton);
+        getChildren().addAll(searchField, watchedCheckBox, unwatchedCheckBox, advancedSearchButton, clearFiltersButton, changeViewButton);
 
     }
 
@@ -53,6 +60,22 @@ public class SearchBarView  extends HBox{
 
     private void makeClearFiltersButton() {
         clearFiltersButton = new Button("Clear Filters");
+    }
+
+    private void makeChangeViewButton() {
+
+        changeViewButton = new Button();
+
+        InputStream input;
+
+        input = getClass().getClassLoader().getResourceAsStream("poster-grid-icon.png");
+        posterGridImage = new Image(input);
+        changeViewImageView = new ImageView(posterGridImage);
+
+        input = getClass().getClassLoader().getResourceAsStream("movie-table-icon.png");
+        movieTableGridImage = new Image(input);
+
+        changeViewButton.setGraphic(changeViewImageView);
     }
 
     public void clearSearchFields() {
@@ -80,16 +103,7 @@ public class SearchBarView  extends HBox{
     public void setUnwatchedCheckBoxAction(EventHandler handler) {
         unwatchedCheckBox.setOnAction(handler);
     }
-/*
-    private void search(){
-        if (advSearchController != null) {
-            advSearchController.setWatchedUnwatched(watchedCheckBox.isSelected(), unwatchedCheckBox.isSelected());
-        }
-        SQLiteDatabase db = SQLiteDatabase.getInstance();
-        db.loadAdvancedFilteredMovies(searchField.getText(), watchedCheckBox.isSelected(), unwatchedCheckBox.isSelected(), "", "", "", null);
-        tableView.loadMoviesFromMovieBase();
-    }
-*/
+
     public void setSearchBoxAction(EventHandler<ActionEvent> handler) {
         searchField.setOnAction(handler);
     }
@@ -104,5 +118,19 @@ public class SearchBarView  extends HBox{
 
     public boolean isUnwatchedCheckBoxSelected() {
         return unwatchedCheckBox.isSelected();
+    }
+
+    public void setChangeViewButtonAction(EventHandler handler) {
+        changeViewButton.setOnAction(handler);
+    }
+
+    public void changeViewButtonIconToPoster() {
+        changeViewImageView = new ImageView(posterGridImage);
+        changeViewButton.setGraphic(changeViewImageView);
+    }
+
+    public void changeViewButtonIconToTable() {
+        changeViewImageView = new ImageView(movieTableGridImage);
+        changeViewButton.setGraphic(changeViewImageView);
     }
 }

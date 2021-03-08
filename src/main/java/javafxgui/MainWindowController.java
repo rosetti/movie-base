@@ -19,13 +19,24 @@ import java.net.URISyntaxException;
 public class MainWindowController{
 
     MainWindowView mainWindowView;
+    MenuBarController menuBarController;
 
-    public MainWindowController(Stage primaryStage, MainWindowView mainWindowView, MovieTableView movieTableView, MovieDetailView movieDetailView, MenuBarView menuBarView, MovieTableController movieTableController) {
+    public MainWindowController(Stage primaryStage, MainWindowView mainWindowView, MovieTableView movieTableView, MovieDetailView movieDetailView, MenuBarView menuBarView, MovieTableController movieTableController, MenuBarController menuBarController) {
+        this.menuBarController = menuBarController;
+        this.mainWindowView = mainWindowView;
         mainWindowView.start(primaryStage);
+        setPosterViewAction();
+
     }
 
     public double getStageX() { return mainWindowView.x; }
 
     public double getStageY() { return mainWindowView.y; }
+
+    private void setPosterViewAction() {
+        menuBarController.setPosterMenuAction(e-> {
+            mainWindowView.changeView();
+        });
+    }
 
 }

@@ -19,7 +19,7 @@ public class ApplicationMain {
     public static String slash;
     public static boolean mediaInfoAvailable;
     public static Properties properties;
-    public static String dbName = "movieData3.db";
+    public static String dbName = "moviedata.db";
 
     public static void main(String[] args) {
         setUserDirectory(args);

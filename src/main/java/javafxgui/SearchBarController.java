@@ -11,15 +11,19 @@ public class SearchBarController {
     SearchBarView view;
     SearchBarModel model;
     MovieTableController movieTableController;
+    PosterGridController posterGridController;
     AdvancedSearchController advancedSearchController;
     DBSearchQuery dbSearchQuery;
+    MovieDisplayPane movieDisplayPane;
 
-    public SearchBarController(SearchBarModel model, SearchBarView view, MovieTableController movieTableController, AdvancedSearchController advancedSearchController) {
+    public SearchBarController(SearchBarModel model, SearchBarView view, MovieTableController movieTableController, AdvancedSearchController advancedSearchController, PosterGridController posterGridController, MovieDisplayPane movieDisplayPane) {
         //Initialise Variables
         this.model = model;
         this.view = view;
         this.movieTableController = movieTableController;
         this.advancedSearchController = advancedSearchController;
+        this.posterGridController = posterGridController;
+        this.movieDisplayPane = movieDisplayPane;
 
         //Initialising Methods
         setClearFilterAction();
@@ -27,19 +31,19 @@ public class SearchBarController {
         setSearchBoxAction();
         setWatchedCheckBoxAction();
         setUnwatchedCheckBoxAction();
+        setChangeViewButtonAction();
         dbSearchQuery = DBSearchQuery.getInstance();
-        String x = "";
     }
 
     private void setClearFilterAction() {
         view.setClearFiltersAction( e-> {
+            advancedSearchController.clearView();
             resetTable();
         });
     }
 
     private void setAdvancedSearchButtonAction() {
         view.setAdvancedSearchButtonAction(e -> {
-            resetTable();
             view.setSearchFieldText("");
             advancedSearchController.show();
         });
@@ -47,7 +51,6 @@ public class SearchBarController {
 
     private void setSearchBoxAction() {
         view.setSearchBoxAction(e -> {
-            System.out.println("setSearchBoxAction");
             DBSearchQuery.getInstance().resetQuery();
             dbSearchQuery.setActorSearchText(view.getSearchText());
             dbSearchQuery.setDirectorSearchText(view.getSearchText());
@@ -83,12 +86,14 @@ public class SearchBarController {
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.loadGeneralFilteredMovies();
         movieTableController.loadMovies();
+        posterGridController.loadMovies();
     }
 
     private void searchAdvanced() {
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.loadAdvancedFilteredMovies();
         movieTableController.loadMovies();
+        posterGridController.loadMovies();
     }
 
     private void resetTable() {
@@ -97,5 +102,17 @@ public class SearchBarController {
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.loadAllMovies();
         movieTableController.loadMovies();
+        posterGridController.loadMovies();
+    }
+
+    private void setChangeViewButtonAction() {
+        view.setChangeViewButtonAction(e-> {
+            if (movieDisplayPane.currentViewType == MovieDisplayPane.viewType.POSTER) {
+                view.changeViewButtonIconToPoster();
+            } else {
+                view.changeViewButtonIconToTable();
+            }
+            movieDisplayPane.switchView();
+        });
     }
 }

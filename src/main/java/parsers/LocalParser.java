@@ -24,7 +24,7 @@ public class LocalParser extends XMLparser {
 
         //get content for
         String title = movieElement.getElementsByTagName("title").item(0).getTextContent();
-        int year = Integer.valueOf(movieElement.getElementsByTagName("year").item(0).getTextContent());
+        int year = Integer.parseInt(movieElement.getElementsByTagName("year").item(0).getTextContent());
         String rating = movieElement.getElementsByTagName("rating").item(0).getTextContent();
         int runTime = Integer.valueOf(movieElement.getElementsByTagName("runtime").item(0).getTextContent());
 

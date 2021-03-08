@@ -40,6 +40,9 @@ public class MainUIController extends Application {
     SearchBarView searchBarView;
     SearchBarController searchBarController;
 
+    ImageFetchView imageFetchView;
+    ImageFetchViewController imageFetchViewController;
+
     public MainUIController() {
 
     }
@@ -59,13 +62,21 @@ public class MainUIController extends Application {
         MovieCheckView movieCheckView = new MovieCheckView();
         MovieCheckController movieCheckController = new MovieCheckController(movieCheckModel, movieCheckView);
 
+        imageFetchView = new ImageFetchView();
+        imageFetchViewController = new ImageFetchViewController(imageFetchView);
+
         movieEditModel = new MovieEditModel();
         movieEditView = new MovieEditView();
-        movieEditController = new MovieEditController(movieEditModel, movieEditView, movieCheckController);
+        movieEditController = new MovieEditController(movieEditModel, movieEditView, movieCheckController, imageFetchViewController);
+
+        MovieContextMenu movieContextMenu = new MovieContextMenu(movieEditController);
 
         movieTableModel = new MovieTableModel();
         movieTableView = new MovieTableView();
         movieTableController = new MovieTableController(movieTableModel, movieTableView, movieDetailController, statusBarController, movieEditController);
+
+        PosterGridView posterGridView = new PosterGridView(movieContextMenu, movieDetailController);
+        PosterGridController posterGridController = new PosterGridController(posterGridView);
 
         MenuBarModel menuBarModel = new MenuBarModel();
         menuBarView = new MenuBarView();
@@ -73,18 +84,22 @@ public class MainUIController extends Application {
 
         advancedSearchView = new AdvancedSearchView();
         advancedSearchModel = new AdvancedSearchModel();
-        advancedSearchController = new AdvancedSearchController(advancedSearchView, advancedSearchModel, movieTableController);
+        advancedSearchController = new AdvancedSearchController(advancedSearchView, advancedSearchModel, movieTableController, posterGridController);
+
+        MovieDisplayPane movieDisplayPane = new MovieDisplayPane(posterGridView, movieTableView);
+
 
         searchBarView = new SearchBarView(movieTableView, movieTableController);
         searchBarModel = new SearchBarModel();
-        searchBarController = new SearchBarController(searchBarModel, searchBarView, movieTableController, advancedSearchController);
+        searchBarController = new SearchBarController(searchBarModel, searchBarView, movieTableController, advancedSearchController, posterGridController, movieDisplayPane);
 
-        mainWindowView = new MainWindowView(movieTableView, movieDetailView, menuBarView, statusBarView, searchBarView);
+        mainWindowView = new MainWindowView(movieTableView, movieDetailView, menuBarView, statusBarView, searchBarView, movieDisplayPane, posterGridView);
 
-        mainWindowController = new MainWindowController(primaryStage, mainWindowView, movieTableView, movieDetailView, menuBarView, movieTableController);
+        mainWindowController = new MainWindowController(primaryStage, mainWindowView, movieTableView, movieDetailView, menuBarView, movieTableController, menuBarController);
         SQLiteDatabase db = SQLiteDatabase.getInstance();
         db.loadAllMovies();
         movieTableController.loadMovies();
+        posterGridController.loadMovies();
     }
 
 }

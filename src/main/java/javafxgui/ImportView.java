@@ -137,7 +137,7 @@ public class ImportView implements ImportProgressInterface{
         progressBar = new ProgressBar();
         progressBar.setMinWidth(200);
         progressBar.setMinHeight(50);
-
+        progressBar.setProgress(0.5);
         VBox progressBarPane = new VBox();
         //progressBarPane.setStyle("-fx-background-color: #00af1a");
         progressBarPane.setMaxHeight(15);

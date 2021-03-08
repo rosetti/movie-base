@@ -1,18 +1,18 @@
 package javafxgui;
 
-import javafx.application.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.geometry.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-
-public class YesNoMessageBox {
-
-    private static boolean response;
+public class ErrorPopUp {
 
     public static void show(String message, String title)
     {
@@ -32,30 +32,16 @@ public class YesNoMessageBox {
         lbl.setPadding(new Insets(5));
         lbl.setText(message);
 
-        Button btnYes = new Button();
-        btnYes.setText("Yes");
+        Button okBtn = new Button();
+        okBtn.setText("Ok");
 
-        Button btnNo = new Button();
-        btnNo.setText("No");
-
-        btnYes.setOnAction(e -> {
-            response = true;
-            stage.close();
-        });
-
-        btnNo.setOnAction(e -> {
-            response = false;
-            stage.close();
-        });
-
-        stage.setOnCloseRequest(e -> {
-            response = false;
+        okBtn.setOnAction(e -> {
             stage.close();
         });
 
         VBox pane = new VBox(20);
         HBox yesNoOptionsBox = new HBox(20);
-        yesNoOptionsBox.getChildren().addAll(btnYes, btnNo);
+        yesNoOptionsBox.getChildren().addAll(okBtn);
         yesNoOptionsBox.setAlignment(Pos.CENTER);
         pane.getChildren().addAll(lbl, yesNoOptionsBox, new VBox());
         pane.setAlignment(Pos.CENTER);
@@ -64,7 +50,4 @@ public class YesNoMessageBox {
         stage.showAndWait();
     }
 
-    public static boolean getResponse() {
-        return response;
-    }
 }

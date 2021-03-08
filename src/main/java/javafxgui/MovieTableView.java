@@ -53,9 +53,11 @@ public class MovieTableView extends HBox {
         movieTable.getColumns().addAll(colTitle, colYear, colRuntime, colWatched, colMetaScore, colImdbScore, colFileType);
         movieTable.setStyle("-fx-focus-color: transparent;");
         movieTable.setPrefWidth(2000);
+        movieTable.setPrefHeight(2000);
         movieTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         loadMoviesFromMovieBase();
         getChildren().add(movieTable);
+        setStyle("-fx-focus-color: transparent;");
     }
 
     public void loadMoviesFromMovieBase() {
@@ -141,7 +143,16 @@ public class MovieTableView extends HBox {
         colYear.setStyle("-fx-alignment: CENTER;");
         colYear.setMaxWidth(60);
         colYear.setMinWidth(60);
-        colYear.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("year"));
+        //colYear.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("year"));
+        colYear.setCellValueFactory(cellData -> {
+            int year = cellData.getValue().getYear();
+
+            if (year <= 0) {
+                return null;
+            } else {
+                return new ReadOnlyObjectWrapper<>(year);
+            }
+        });
 
         colImdbScore = new TableColumn<Movie, Float>("IMDb Score");
         colImdbScore.setStyle("-fx-alignment: CENTER;");
@@ -151,7 +162,7 @@ public class MovieTableView extends HBox {
         colImdbScore.setCellValueFactory(cellData -> {
             float imdbScore = cellData.getValue().getImdbScore();
 
-            if (imdbScore < 0) {
+            if (imdbScore <= 0) {
                 return null;
             } else {
                 return new ReadOnlyObjectWrapper<>(imdbScore);
@@ -178,7 +189,7 @@ public class MovieTableView extends HBox {
         colMetaScore.setCellValueFactory(cellData -> {
             int metaScore = cellData.getValue().getMetaScore();
 
-            if (metaScore < 0) {
+            if (metaScore <= 0) {
                 return null;
             } else {
                 return new ReadOnlyObjectWrapper<>(metaScore);
@@ -192,10 +203,14 @@ public class MovieTableView extends HBox {
 
         colWatched.setCellValueFactory(cellData -> {
             String tickCross;
-            if (cellData.getValue().isWatched()) {
-                tickCross = "✔";
+            if (cellData.getValue().getYear() <= 0) {
+                tickCross = "";
             } else {
-                tickCross = "✘";
+                if (cellData.getValue().isWatched()) {
+                    tickCross = "Y";
+                } else {
+                    tickCross = "N";
+                }
             }
 
             return new ReadOnlyStringWrapper(tickCross);

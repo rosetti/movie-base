@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import inputOutput.SQLiteDatabase;
 import interfaces.ImportProgressInterface;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafxgui.YesNoMessageBox;
 import org.w3c.dom.Document;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
@@ -35,9 +37,6 @@ public class ImportMovies extends Task implements Runnable {
 	ArrayList<Movie> moviesNotFound;
 	ArrayList<Movie> base;
 	boolean rescan;
-	//JTextArea progressBox;
-	//JProgressBar progressBar;
-	//JLabel progressLabel;
 	ImportProgressInterface progressView;
 	public volatile boolean stop = false;
 	
@@ -65,7 +64,6 @@ public class ImportMovies extends Task implements Runnable {
 	public void run() {
 		System.out.println("Run Import");
 		readMoviesFromOmdb();
-		//writeResultsToXml();
 		writeResultsToDB();
 	}
 
@@ -108,7 +106,6 @@ public class ImportMovies extends Task implements Runnable {
 				String badOutput = (goodCount + badCount) + ". " + "Could not get info for " + retrievedMovie.getTitle() +"\n";
 				progressView.setProgressText(badOutput);
 			}
-			progressView.setProgressValues(goodCount + badCount, length);
 
 
 			if (stop) {
@@ -116,15 +113,30 @@ public class ImportMovies extends Task implements Runnable {
 				break;
 			}
 			
-			//limit testing runs to a low amount for debugging
-//			if (goodCount + badCount == 200) {
-////				break;
-////			}
-			
+			/**
+			 * limit testing runs to a low amount for debugging
+			if (goodCount + badCount == 200) {
+				break;
+			}
+			*/
 		}
 		
 		Logger.logMessage("Import Finished: " + "Successfully Imported " + goodCount + " movies. \n" + "Failed to import " + badCount + " movies");
-		//new ImportResults(goodCount, badCount);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				YesNoMessageBox.show("Imported Successfully: " + goodCount + "\nFailed to Import: " + badCount + "\nWould you like to add the failed movies to the DataBase anyway?","Import Finished");
+				if (YesNoMessageBox.getResponse()) {
+					System.out.println("Failed movies to add");
+					for (Movie i : moviesNotFound) {
+						SQLiteDatabase db = SQLiteDatabase.getInstance();
+						System.out.println("Adding Movie: " + i.getTitle());
+						db.addMovie(i);
+					}
+				}
+			}
+		});
+
 
 	}
 	

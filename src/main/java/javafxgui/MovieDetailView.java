@@ -10,11 +10,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import movieControl.Movie;
+import resources.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.logging.Logger;
+import java.io.InputStream;
 
 public class MovieDetailView extends VBox {
 
@@ -27,7 +28,7 @@ public class MovieDetailView extends VBox {
 
     Insets insetPadding = new Insets(4, 20,4,10);
     int paneWidth = 300;
-    int imageWidth = 175;
+    int imageWidth = 250;
 
     public MovieDetailView() {
         setMinWidth(paneWidth);
@@ -50,24 +51,14 @@ public class MovieDetailView extends VBox {
      */
     public void loadMovieDetail(Movie movie) {
         getChildren().clear();
-
-        FileInputStream input = null;
         Image image;
         ImageView imageView;
+        InputStream input = null;
+
         try {
             input = new FileInputStream(movie.getPoster());
         } catch (FileNotFoundException e) {
-            //e.printStackTrace();
-        }
-        if (input == null) {
-
-            String file = getClass().getClassLoader().getResource("image_not_found.jpg").getFile();
-
-            try {
-                input = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                //e.printStackTrace();
-            }
+            input = getClass().getClassLoader().getResourceAsStream("image_not_found.jpg");
         }
 
         image = new Image(input);
@@ -81,15 +72,9 @@ public class MovieDetailView extends VBox {
         imageView.setFitWidth(imageWidth);
         imageView.setFitHeight(height / resizeFactor);
         setBackground(new Background(new BackgroundFill(bgColor, CornerRadii.EMPTY, Insets.EMPTY)));
-        //setBackground(new Background(new BackgroundFill(darkBgColor, CornerRadii.EMPTY, Insets.EMPTY)));
         getChildren().add(imageView);
 
-        //movieDetails = new TableView<>();
-        //TableRow<Movie> titleRow = new TableRow<Movie>();
-
-
         Label title = new Label(movie.getTitle());
-        //title.setFont(new Font(18));
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18");
         title.setWrapText(true);
         title.setMaxWidth(paneWidth);
@@ -147,10 +132,7 @@ public class MovieDetailView extends VBox {
 
         fourBox.getChildren().addAll(rowOne, rowTwo);
 
-        //imdbScore.setFont(new Font(18 ));
-        //imdbScore.setStyle("-fx-font-weight: bold;");
         VBox box = new VBox();
-        //box.setBackground(new Background (new BackgroundFill(Color.rgb(0,200,0), CornerRadii.EMPTY, Insets.EMPTY)));
         box.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
         box.setMaxWidth(paneWidth);
         box.getChildren().addAll(title, fourBox, plot);
@@ -158,9 +140,6 @@ public class MovieDetailView extends VBox {
         ScrollPane textDetails = new ScrollPane();
         textDetails.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         textDetails.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        //textDetails.setMinHeight(300);
-        //textDetails.setMaxHeight(200);
-        //textDetails.setFitToHeight(true);
         textDetails.setMaxWidth(paneWidth);
         textDetails.setContent(box);
         textDetails.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -179,27 +158,22 @@ public class MovieDetailView extends VBox {
         FileInputStream input = null;
         Image image;
         ImageView imageView;
-        Label metaScoreLabel = new Label(String.valueOf(movie.getMetaScore()));
+        Label metaScoreLabel = new Label(movie.getMetaScore() > 0 ? String.valueOf(movie.getMetaScore()) : "N/A");
         metaScoreLabel.setFont(new Font(18));
         metaScoreLabel.setStyle("-fx-font-weight: bold;");
 
-
-
-            image = new Image(getClass().getClassLoader().getResourceAsStream("metascore-square-small.png"));
-            imageView = new ImageView(image);
-            metaCriticPane.getChildren().addAll(imageView, metaScoreLabel);
+        image = new Image(getClass().getClassLoader().getResourceAsStream("metascore-square-small.png"));
+        imageView = new ImageView(image);
+        metaCriticPane.getChildren().addAll(imageView, metaScoreLabel);
 
 
         //IMDB Star
         HBox imdbBox = new HBox();
         imdbBox.setAlignment(Pos.CENTER);
         imdbBox.setMinWidth(150);
-        //file = getClass().getClassLoader().getResource("imdb-star-small.png").getFile();
-
-
-            image = new Image(getClass().getClassLoader().getResourceAsStream("imdb-star-small.png"));
-            imageView = new ImageView(image);
-            imdbBox.getChildren().add(imageView);
+        image = new Image(getClass().getClassLoader().getResourceAsStream("imdb-star-small.png"));
+        imageView = new ImageView(image);
+        imdbBox.getChildren().add(imageView);
 
 
         Label imdbScore = new Label(String.valueOf(movie.getImdbScore()));

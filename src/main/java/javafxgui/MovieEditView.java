@@ -4,20 +4,17 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import movieControl.Movie;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class MovieEditView {
 
@@ -33,7 +30,7 @@ public class MovieEditView {
     TextField metaScoreField;
     TextField imdbScoreField;
     TextField fileLocationField;
-    Button fileChooseButton;
+    Button fileLocationChooserButton;
     TextField actorField;
     TextField directorField;
     TextField writerField;
@@ -43,6 +40,9 @@ public class MovieEditView {
     Button cancelButton;
     Button imdbSearchByTitleButton;
     Button imdbSearchByIdButton;
+    Button posterChooserButton;
+    Button fetchPosterButton;
+    TextField posterField;
     int height = 595;
     int width = 700;
 
@@ -105,12 +105,12 @@ public class MovieEditView {
         //Row Five
         fileLocationField = new TextField();
         fileLocationField.setMinWidth(248);
-        fileChooseButton = new Button("...");
+        fileLocationChooserButton = new Button("...");
         HBox rowFive = new HBox(5);
         rowFive.setAlignment(Pos.CENTER_LEFT);
         Label fileLocationLabel = new Label("File Location");
         fileLocationLabel.setMinWidth(labelMinWidth);
-        rowFive.getChildren().addAll(new HBox(), fileLocationLabel, fileChooseButton, fileLocationField);
+        rowFive.getChildren().addAll(new HBox(), fileLocationLabel, fileLocationChooserButton, fileLocationField);
 
         //Row Six
         actorField = new TextField();
@@ -149,11 +149,23 @@ public class MovieEditView {
         rowNine.getChildren().addAll(new HBox(), genreLabel, genreField);
 
         //Row Ten
+        posterField = new TextField();
+        posterField.setMinWidth(215);
+        posterChooserButton = new Button("...");
+        fetchPosterButton = new Button("\uD83C\uDF10");
+        fetchPosterButton.setTooltip(new Tooltip("Download image from URL"));
+        Label posterLabel = new Label("Poster");
+        HBox rowTen = new HBox(5);
+        rowTen.setAlignment(Pos.CENTER_LEFT);
+        posterLabel.setMinWidth(labelMinWidth);
+        rowTen.getChildren().addAll(new HBox(), posterLabel, fetchPosterButton, posterChooserButton, posterField);
+
+        //Row Eleven
         saveButton = new Button("Save");
         cancelButton = new Button("Cancel");
-        HBox rowTen = new HBox(5);
-        rowTen.setAlignment(Pos.CENTER);
-        rowTen.getChildren().addAll(new HBox(), saveButton, cancelButton);
+        HBox rowEleven = new HBox(5);
+        rowEleven.setAlignment(Pos.CENTER);
+        rowEleven.getChildren().addAll(new HBox(), saveButton, cancelButton);
 
         //ImagePane
         imagePane = new VBox();
@@ -163,7 +175,7 @@ public class MovieEditView {
         imagePane.getChildren().add(posterImageView);
 
         detailsPane = new VBox(10);
-        detailsPane.getChildren().addAll(new HBox(), rowOne, rowTwo, rowThree, rowFour, rowFive, rowSix, rowSeven, rowEight, rowNine, rowTen);
+        detailsPane.getChildren().addAll(new HBox(), rowOne, rowTwo, rowThree, rowFour, rowFive, rowSix, rowSeven, rowEight, rowNine, rowTen, rowEleven);
 
 
         moviePane = new HBox(spacing);
@@ -195,8 +207,8 @@ public class MovieEditView {
 
     public void show(Movie movie) {
         loadMovie(movie);
-        double xAdd = (MainWindowView.width - 700) / 2;
-        double yAdd = (MainWindowView.height - 400) / 2;
+        double xAdd = (MainWindowView.width - width) / 2;
+        double yAdd = (MainWindowView.height - height) / 2;
         stage.setX(MainWindowView.x + xAdd);
         stage.setY(MainWindowView.y + yAdd);
         stage.show();
@@ -207,11 +219,24 @@ public class MovieEditView {
         double yAdd = (MainWindowView.height - 400) / 2;
         stage.setX(MainWindowView.x + xAdd);
         stage.setY(MainWindowView.y + yAdd);
+        imagePane.getChildren().add(getImageView(""));
         stage.show();
     }
 
-    public void setFileChooserButton(EventHandler eventHandler) {
-        fileChooseButton.setOnAction(eventHandler);
+    public void setPosterChooserButton(EventHandler eventHandler) {
+        posterChooserButton.setOnAction(eventHandler);
+    }
+
+    public void setPosterFieldText(String text) {
+        posterField.setText(text);
+    }
+
+    public void setFetchPosterButton(EventHandler eventHandler) {
+        fetchPosterButton.setOnAction(eventHandler);
+    }
+
+    public void setFileLocationChooserButton(EventHandler eventHandler) {
+        fileLocationChooserButton.setOnAction(eventHandler);
     }
 
     public void setFileLocationText(String text) {
@@ -241,6 +266,10 @@ public class MovieEditView {
         stage.hide();
     }
 
+    public String getPosterFieldText() {
+        return posterField.getText();
+    }
+
     public void clearForm() {
         titleField.setText("");
         yearField.setText("");
@@ -254,6 +283,7 @@ public class MovieEditView {
         writerField.setText("");
         genreField.setText("");
         imdbSearchField.setText("");
+        posterField.setText("");
         imagePane.getChildren().clear();
     }
 
@@ -269,27 +299,21 @@ public class MovieEditView {
         directorField.setText(movie.getListAsString(movie.getDirector()));
         writerField.setText(movie.getListAsString(movie.getWriter()));
         genreField.setText(movie.getListAsString(movie.getGenre()));
+        posterField.setText(movie.getPoster());
         imdbSearchField.setText("");
 
         imagePane.getChildren().clear();
-        imagePane.getChildren().add(getImageView(movie));
+        imagePane.getChildren().add(getImageView(movie.getPoster()));
     }
 
-    private ImageView getImageView(Movie movie) {
-        FileInputStream input = null;
+    private ImageView getImageView(String moviePosterPath) {
+        InputStream input = null;
         Image image;
 
-
         try {
-            input = new FileInputStream(movie.getPoster());
+            input = new FileInputStream(moviePosterPath);
         } catch (FileNotFoundException e) {
-
-            try {
-                String file = getClass().getClassLoader().getResource("image_not_found.jpg").getFile();
-                input = new FileInputStream(file);
-            } catch (FileNotFoundException e1) {
-                e.printStackTrace();
-            }
+            input = getClass().getClassLoader().getResourceAsStream("image_not_found.jpg");
         }
 
         image = new Image(input);
@@ -355,5 +379,10 @@ public class MovieEditView {
 
     public String getImdbSearchText() {
         return imdbSearchField.getText();
+    }
+
+    public void refreshPosterImage() {
+        imagePane.getChildren().clear();
+        imagePane.getChildren().add(getImageView(posterField.getText()));
     }
 }

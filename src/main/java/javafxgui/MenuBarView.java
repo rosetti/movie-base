@@ -15,6 +15,7 @@ public class MenuBarView extends MenuBar implements Confirmable{
     Menu viewMenu;
     Menu aboutMenu;
     String menuFx = "";//"-fx-background-color:f4f4f4";
+    MenuItem posterView;
 
     boolean continueAction;
 
@@ -33,6 +34,7 @@ public class MenuBarView extends MenuBar implements Confirmable{
         makeAboutMenu();
         addMenus();
         setStyle("-fx-background-color:f4f4f4");
+        setMaxWidth(200);
     }
 
     private void addMenus() {
@@ -77,13 +79,17 @@ public class MenuBarView extends MenuBar implements Confirmable{
         addMovie.setOnAction(handler);
     }
 
+    public void setPosterViewAction(EventHandler handler) {posterView.setOnAction(handler);}
+
     private void makeViewMenu() {
         viewMenu = new Menu("_View");
         viewMenu.setStyle(menuFx);
+        posterView = new MenuItem("Poster View");
+
+        viewMenu.getItems().addAll(posterView);
     }
 
     private void showImportWindow() {
-
         ImportView view = new ImportView();
         ImportModel model = new ImportModel();
 

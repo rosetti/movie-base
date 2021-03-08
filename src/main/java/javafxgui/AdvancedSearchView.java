@@ -1,6 +1,5 @@
 package javafxgui;
 
-import gui.MainWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -18,15 +17,11 @@ public class AdvancedSearchView {
 
     Stage stage;
     VBox mainPane;
-    Button searchButton;
+    Button searchButton, clearFieldsButton;
 
-    TextField titleField;
-    TextField actorField;
-    TextField directorField;
-    TextField writerField;
-    ListView<String> genreList;
-    TextField imdbLowerBoundBox;
-    TextField imdbUpperBoundBox;
+    TextField titleField, actorField, directorField, writerField, imdbLowerBoundField, imdbUpperBoundField;
+    TextField metaCriticLowerBoundField, metaCriticUpperBoundField, yearLowerBoundField, yearUpperBoundField, runtimeLowerBoundField, runtimeUpperBoundField;
+    ListView<String> genreList, fileTypeList;
 
     public AdvancedSearchView() {
         initialiseStage();
@@ -81,8 +76,19 @@ public class AdvancedSearchView {
 
     public ObservableList<String> getGenreSearchList() { return genreList.getSelectionModel().getSelectedItems(); }
 
+    public ObservableList<String> getFileTypeSearchList() { return fileTypeList.getSelectionModel().getSelectedItems(); }
+
     public void clearFields() {
-        System.out.println("Clear fields on Advanced Search View");
+        titleField.setText("");
+        actorField.setText("");
+        directorField.setText("");
+        writerField.setText("");
+        imdbLowerBoundField.setText("");
+        imdbUpperBoundField.setText("");
+        runtimeLowerBoundField.setText("");
+        runtimeUpperBoundField.setText("");
+        genreList.getSelectionModel().clearSelection();
+        fileTypeList.getSelectionModel().clearSelection();
     }
 
     private void addFields() {
@@ -95,7 +101,6 @@ public class AdvancedSearchView {
         spacer3.setMinWidth(15);
         VBox spacer4 = new VBox();
         spacer4.setMinWidth(15);
-        //V Spacers
         VBox spacer5 = new VBox();
         spacer5.setMinHeight(5);
         VBox spacer6 = new VBox();
@@ -156,7 +161,7 @@ public class AdvancedSearchView {
         fileTypeSearch.setMaxWidth(300);
         fileTypeSearch.setAlignment(Pos.CENTER);
         Label fileTypeLabel = new Label("File Type");
-        ListView<String> fileTypeList = new ListView<>();
+        fileTypeList = new ListView<>();
         fileTypeList.getItems().addAll(getFileTypeOptions());
         fileTypeSearch.getChildren().addAll(fileTypeLabel, fileTypeList);
 
@@ -171,13 +176,14 @@ public class AdvancedSearchView {
         Label imdbScoreLabel = new Label("IMDB Score");
 
         HBox imdbScoreDropDowns = new HBox();
-        imdbLowerBoundBox = new TextField();
-        imdbLowerBoundBox.setMinWidth(30);
-        imdbLowerBoundBox.setMaxWidth(30);
-        imdbUpperBoundBox = new TextField();
-        imdbUpperBoundBox.setMinWidth(30);
-        imdbUpperBoundBox.setMaxWidth(30);
-        imdbScoreDropDowns.getChildren().addAll(imdbLowerBoundBox,new Label(" - "), imdbUpperBoundBox);
+        imdbLowerBoundField = new TextField();
+        int scoreWidth = 45;
+        imdbLowerBoundField.setMinWidth(scoreWidth);
+        imdbLowerBoundField.setMaxWidth(scoreWidth);
+        imdbUpperBoundField = new TextField();
+        imdbUpperBoundField.setMinWidth(scoreWidth);
+        imdbUpperBoundField.setMaxWidth(scoreWidth);
+        imdbScoreDropDowns.getChildren().addAll(imdbLowerBoundField, new Label(" - "), imdbUpperBoundField);
 
         imdbScoreBox.getChildren().addAll(imdbScoreLabel, imdbScoreDropDowns);
 
@@ -186,11 +192,15 @@ public class AdvancedSearchView {
         Label metaCriticScoreLabel = new Label("Metacritic Score");
 
         HBox metaCriticScoreDropDowns = new HBox();
-        ComboBox<Integer> metaCriticLowerBoundBox = new ComboBox<>();
-        ComboBox<Integer> metaCriticUpperBoundBox = new ComboBox<>();
-        metaCriticLowerBoundBox.setItems(getMetacriticOptions());
-        metaCriticUpperBoundBox.setItems(getMetacriticOptions());
-        metaCriticScoreDropDowns.getChildren().addAll(metaCriticLowerBoundBox, metaCriticUpperBoundBox);
+        metaCriticLowerBoundField = new TextField();
+        metaCriticLowerBoundField.setMinWidth(scoreWidth);
+        metaCriticLowerBoundField.setMaxWidth(scoreWidth);
+
+        metaCriticUpperBoundField = new TextField();
+        metaCriticUpperBoundField.setMinWidth(scoreWidth);
+        metaCriticUpperBoundField.setMaxWidth(scoreWidth);
+
+        metaCriticScoreDropDowns.getChildren().addAll(metaCriticLowerBoundField, new Label(" - "), metaCriticUpperBoundField);
 
         metaCriticScoreBox.getChildren().addAll(metaCriticScoreLabel, metaCriticScoreDropDowns);
 
@@ -205,9 +215,15 @@ public class AdvancedSearchView {
         Label yearLabel = new Label("Year");
 
         HBox yearDropDowns = new HBox();
-        ComboBox<Integer> yearLowerBoundBox = new ComboBox<>();
-        ComboBox<Integer> yearUpperBoundBox = new ComboBox<>();
-        yearDropDowns.getChildren().addAll(yearLowerBoundBox, yearUpperBoundBox);
+        yearLowerBoundField = new TextField();
+        yearLowerBoundField.setMinWidth(scoreWidth);
+        yearLowerBoundField.setMaxWidth(scoreWidth);
+
+        yearUpperBoundField = new TextField();
+        yearUpperBoundField.setMinWidth(scoreWidth);
+        yearUpperBoundField.setMaxWidth(scoreWidth);
+
+        yearDropDowns.getChildren().addAll(yearLowerBoundField, new Label(" - "),  yearUpperBoundField);
 
         yearBox.getChildren().addAll(yearLabel, yearDropDowns);
 
@@ -216,18 +232,28 @@ public class AdvancedSearchView {
         Label runtimeLabel = new Label("Runtime");
 
         HBox runtimeDropDowns = new HBox();
-        ComboBox<Integer> runtimeLowerBoundBox = new ComboBox<>();
-        ComboBox<Integer> runtimeUpperBoundBox = new ComboBox<>();
-        runtimeDropDowns.getChildren().addAll(runtimeLowerBoundBox, runtimeUpperBoundBox);
+
+        runtimeLowerBoundField = new TextField();
+        runtimeLowerBoundField.setMinWidth(scoreWidth);
+        runtimeLowerBoundField.setMaxWidth(scoreWidth);
+
+        runtimeUpperBoundField = new TextField();
+        runtimeUpperBoundField.setMinWidth(scoreWidth);
+        runtimeUpperBoundField.setMaxWidth(scoreWidth);
+
+        runtimeDropDowns.getChildren().addAll(runtimeLowerBoundField, new Label(" - "), runtimeUpperBoundField);
 
         runtimeBox.getChildren().addAll(runtimeLabel, runtimeDropDowns);
 
         rowFive.getChildren().addAll(yearBox, spacer3, runtimeBox);
 
-
         searchButton = new Button("Search");
+        clearFieldsButton = new Button("Clear");
 
-        mainPane.getChildren().addAll(new VBox(), rowOne, rowThree, rowFour, rowFive, searchButton, new VBox());
+        HBox buttonBox = new HBox(5);
+        buttonBox.getChildren().addAll(searchButton, clearFieldsButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        mainPane.getChildren().addAll(new VBox(), rowOne, rowThree, rowFour, rowFive, buttonBox, new VBox());
 
     }
 
@@ -250,19 +276,39 @@ public class AdvancedSearchView {
         return FXCollections.observableArrayList(fileTypes);
     }
 
-    public float getImdbLowerBound() {
-        if (imdbLowerBoundBox.getText().equals("")) {
-            return 0;
-        } else {
-            return Float.valueOf(imdbLowerBoundBox.getText());
-        }
+    public String getImdbLowerBoundText() {
+        return imdbLowerBoundField.getText();
     }
 
-    public float getImdbUpperBound() {
-        if (imdbUpperBoundBox.getText().equals("")) {
-            return 10;
-        } else {
-            return Float.valueOf(imdbUpperBoundBox.getText());
-        }
+    public String getImdbUpperBoundText() {
+        return imdbUpperBoundField.getText();
+    }
+
+    public String getMetaScoreLowerBoundText() {
+        return metaCriticLowerBoundField.getText();
+    }
+
+    public String getMetaScoreUpperBoundText() {
+        return metaCriticUpperBoundField.getText();
+    }
+
+    public void setClearFieldsButtonAction(EventHandler handler) {
+        clearFieldsButton.setOnAction(handler);
+    }
+
+    public String getYearLowerBoundText() {
+        return yearLowerBoundField.getText();
+    }
+
+    public String getYearUpperBoundText() {
+        return yearUpperBoundField.getText();
+    }
+
+    public String getRuntimeLowerBoundText() {
+        return runtimeLowerBoundField.getText();
+    }
+
+    public String getRuntimeUpperBoundText() {
+        return runtimeUpperBoundField.getText();
     }
 }

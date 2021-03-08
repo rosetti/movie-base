@@ -22,10 +22,7 @@ public class DBSearchQuery {
     private List<String> fileTypeSearchList = new ArrayList<String>();
     private float imdbLowerBound = 0;
     private float imdbUpperBound = 10;
-
-
-
-
+    private int metaScoreLowerBound, metaScoreUpperBound, yearLowerBound, yearUpperBound, runtimeLowerBound, runtimeUpperBound;
 
     public static DBSearchQuery getInstance() {
         if (dbSearchQuery == null) {
@@ -43,6 +40,14 @@ public class DBSearchQuery {
         writerSearchText = "%";
         genreSearchList = new ArrayList<String>();
         fileTypeSearchList = new ArrayList<String>();
+        imdbLowerBound = 0;
+        imdbUpperBound = 10;
+        metaScoreLowerBound = 0;
+        metaScoreUpperBound = 100;
+        yearLowerBound = 0;
+        yearUpperBound = 3000;
+        runtimeLowerBound = 0;
+        runtimeUpperBound = 3000;
     }
 
     private void printParameters() {
@@ -75,8 +80,14 @@ public class DBSearchQuery {
         sql += " AND LOWER(ACTOR) LIKE ?"; //par 4
         sql += " AND LOWER(DIRECTOR) LIKE ?"; //par 5
         sql += " AND LOWER(WRITER) LIKE ?"; //par 6
-        //sql += " AND IMDB_SCORE > ?"; //par 7
-        //sql += " AND IMDB_SCORE < ?"; //par 8
+        sql += " AND IMDB_SCORE > ?"; //par 7
+        sql += " AND IMDB_SCORE < ?"; //par 8
+        sql += " AND META_SCORE > ?"; //par 9
+        sql += " AND META_SCORE < ?"; //par 10
+        sql += " AND YEAR > ?"; //par 11
+        sql += " AND YEAR < ?"; //par 12
+        sql += " AND RUNTIME > ?"; //par 13
+        sql += " AND RUNTIME < ?"; //par 14
 
         for (String i: genreSearchList) {
             sql += " AND LOWER(GENRE) LIKE ?";
@@ -87,14 +98,20 @@ public class DBSearchQuery {
         }
 
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setBoolean(parNum++, watched);
-        statement.setBoolean(parNum++, unwatched);
-        statement.setString(parNum++, "%" + titleSearchText + "%");
-        statement.setString(parNum++, "%" + actorSearchText + "%");
-        statement.setString(parNum++, "%" + directorSearchText + "%");
-        statement.setString(parNum++, "%" + writerSearchText + "%");
-        //statement.setFloat(parNum++, imdbLowerBound);
-        //statement.setFloat(parNum++, imdbUpperBound);
+        statement.setBoolean(parNum++, watched); //par 1
+        statement.setBoolean(parNum++, unwatched); //par 2
+        statement.setString(parNum++, "%" + titleSearchText + "%"); //par 3
+        statement.setString(parNum++, "%" + actorSearchText + "%"); //par 4
+        statement.setString(parNum++, "%" + directorSearchText + "%"); //par 5
+        statement.setString(parNum++, "%" + writerSearchText + "%"); //par 6
+        statement.setFloat(parNum++, imdbLowerBound); //par 7
+        statement.setFloat(parNum++, imdbUpperBound); //par 8
+        statement.setInt(parNum++, metaScoreLowerBound); //par 9
+        statement.setInt(parNum++, metaScoreUpperBound); //par 10
+        statement.setInt(parNum++, yearLowerBound); //par 11
+        statement.setInt(parNum++, yearUpperBound); //par 12
+        statement.setInt(parNum++, runtimeLowerBound); //par 13
+        statement.setInt(parNum++, runtimeUpperBound); //par 14
 
         for (String i: genreSearchList) {
             statement.setString(parNum++, "%" + i + "%");
@@ -215,5 +232,41 @@ public class DBSearchQuery {
 
     public void setImdbUpperBound(float imdbUpperBound) {
         this.imdbUpperBound = imdbUpperBound;
+    }
+
+    public void setMetaScoreLowerBound(int metaScoreLowerBound) {
+        this.metaScoreLowerBound = metaScoreLowerBound;
+    }
+
+    public void setMetaScoreUpperBound(int metaScoreLowerBound) {
+        this.metaScoreUpperBound = metaScoreLowerBound;
+    }
+
+    public int getYearLowerBound() {
+        return yearLowerBound;
+    }
+
+    public void setYearLowerBound(int yearLowerBound) {
+        this.yearLowerBound = yearLowerBound;
+    }
+
+    public int getYearUpperBound() {
+        return yearUpperBound;
+    }
+
+    public void setYearUpperBound(int yearUpperBound) {
+        this.yearUpperBound = yearUpperBound;
+    }
+
+    public void setFileTypeSearchList (List fileTypeSearchList) {
+        this.fileTypeSearchList = fileTypeSearchList;
+    }
+
+    public void setRuntimeLowerBound(int runtimeLowerBound) {
+        this.runtimeLowerBound = runtimeLowerBound;
+    }
+
+    public void setRuntimeUpperBound(int runtimeUpperBound) {
+        this.runtimeUpperBound = runtimeUpperBound;
     }
 }

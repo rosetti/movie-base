@@ -5,6 +5,7 @@ public class SearchBarModel {
     boolean watched;
     boolean unwatched;
 
+
     public SearchBarModel() {
 
     }

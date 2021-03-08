@@ -1,6 +1,9 @@
 package javafxgui;
 
+import javafx.event.EventHandler;
 import movieControl.Movie;
+
+
 
 public class MenuBarController {
 
@@ -19,5 +22,9 @@ public class MenuBarController {
         view.setAddMovieAction(e -> {
             movieEditController.showBlank();
         });
+    }
+
+    public void setPosterMenuAction(EventHandler handler) {
+        view.setPosterViewAction(handler);
     }
 }

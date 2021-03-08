@@ -50,7 +50,7 @@ public class ImportProgress implements ImportProgressInterface, Runnable//TODO:W
 		mainPanel.add(buttonPanel);
 		
 	}
-	
+
 	public void run()
 	{
 		while(runLoop)
@@ -62,7 +62,7 @@ public class ImportProgress implements ImportProgressInterface, Runnable//TODO:W
 			}
 		}
 	}
-	
+
 	public void setRunLoop(boolean value)
 	{
 		runLoop = value;
