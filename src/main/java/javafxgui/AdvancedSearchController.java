@@ -135,10 +135,4 @@ public class AdvancedSearchController {
     public void clearView() {
         view.clearFields();
     }
-
-    public void clearModel() {
-        model.resetParameters();
-    }
-
-
 }

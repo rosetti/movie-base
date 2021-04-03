@@ -162,10 +162,6 @@ public class DBSearchQuery {
         return statement;
     }
 
-    public String getTitleSearchText() {
-        return titleSearchText;
-    }
-
     public void setTitleSearchText(String titleSearchText) {
         this.titleSearchText = titleSearchText;
     }
@@ -178,56 +174,28 @@ public class DBSearchQuery {
         this.watched = watched;
     }
 
-    public boolean isUnwatched() {
-        return unwatched;
-    }
-
     public void setUnwatched(boolean unwatched) {
         this.unwatched = unwatched;
-    }
-
-    public String getActorSearchText() {
-        return actorSearchText;
     }
 
     public void setActorSearchText(String actorSearchText) {
         this.actorSearchText = actorSearchText;
     }
 
-    public String getDirectorSearchText() {
-        return directorSearchText;
-    }
-
     public void setDirectorSearchText(String directorSearchText) {
         this.directorSearchText = directorSearchText;
-    }
-
-    public String getWriterSearchText() {
-        return writerSearchText;
     }
 
     public void setWriterSearchText(String writerSearchText) {
         this.writerSearchText = writerSearchText;
     }
 
-    public List getGenreSearchList() {
-        return genreSearchList;
-    }
-
     public void setGenreSearchList(List genreSearchList) {
         this.genreSearchList = genreSearchList;
     }
 
-    public float getImdbLowerBound() {
-        return imdbLowerBound;
-    }
-
     public void setImdbLowerBound(float imdbLowerBound) {
         this.imdbLowerBound = imdbLowerBound;
-    }
-
-    public float getImdbUpperBound() {
-        return imdbUpperBound;
     }
 
     public void setImdbUpperBound(float imdbUpperBound) {
@@ -242,16 +210,8 @@ public class DBSearchQuery {
         this.metaScoreUpperBound = metaScoreLowerBound;
     }
 
-    public int getYearLowerBound() {
-        return yearLowerBound;
-    }
-
     public void setYearLowerBound(int yearLowerBound) {
         this.yearLowerBound = yearLowerBound;
-    }
-
-    public int getYearUpperBound() {
-        return yearUpperBound;
     }
 
     public void setYearUpperBound(int yearUpperBound) {
